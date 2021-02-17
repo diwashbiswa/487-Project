@@ -32,7 +32,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GUIButton button_exit = new GUIButton(new Vector2(340, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Exit");
             button_exit.Precidence = 100;
             // Resolution Button
-            GUIButton button_res = new GUIButton(new Vector2(660, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "1920 x 1080");
+            GUIButton button_res = new GUIButton(new Vector2(960, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "1920 x 1080");
             button_res.Precidence = 100;
             // Title screen
             GUIButton title = new GUIButton(new Vector2(0, 0), Content.Load<Texture2D>("Homescreen"), Content.Load<SpriteFont>("Font"), Color.Black, null);
