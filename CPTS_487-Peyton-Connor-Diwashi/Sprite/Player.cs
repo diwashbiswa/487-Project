@@ -28,10 +28,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         }
 
-        // Keyboard input.. or computer controlled input
-        public override void Move(GameTime gameTime)
-        {
-
-        }
+        // add new function for keyboard input, or use the update function probably
     }
 }
