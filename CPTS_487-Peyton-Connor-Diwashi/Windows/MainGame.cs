@@ -1,27 +1,50 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class MainGame : Game
     {
+        public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public Vector2 currentWindowResolution = new Vector2(1280, 720);
+        private List<Sprite> sprites = new List<Sprite>();
+
+        // scale each sprite by this.
+        private float scaleFactor;
 
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
+        }
+
+        /// <summary>
+        /// Add sprite to list of drawable, updatable sprites.
+        /// </summary>
+        /// <param name="s"></param>
+        protected void AddSprite(Sprite s)
+        {
+            s.Scale(this.scaleFactor);
+            this.sprites.Add(s);
         }
 
         protected override void Initialize()
         {
+            this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
+
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
+
+            // Example add Grunt1 enemy
+            this.AddSprite(new Grunt1(new Vector2(0, 0), Content.Load<Texture2D>("Grunt1")));
+
             base.Initialize();
         }
 
@@ -35,12 +58,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            // Update ALL sprites added with AddSprite
+            foreach(Sprite s in sprites)
+            {
+                s.Update(gameTime);
+            }
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // Draw ALL sprites added with AddSprite
+            _spriteBatch.Begin();
+            foreach (Sprite s in sprites)
+            {
+                s.Draw(gameTime, _spriteBatch);
+            }
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

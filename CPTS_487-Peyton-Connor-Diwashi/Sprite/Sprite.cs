@@ -13,20 +13,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public abstract class Sprite
     {
-        private int precidence = 0;
+        private int draw_order = 0;
 
         /// <summary>
-        /// Precidence for order in which items should be drawn. Lower is first.
+        /// Precidence for order in which items should be drawn. Lower is behind.
         /// </summary>
-        public int Precidence
+        public int DrawOrder
         {
             get
             {
-                return this.precidence;
+                return this.draw_order;
             }
             set
             {
-                this.precidence = value;
+                this.draw_order = value;
             }
         }
 
@@ -35,8 +35,5 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         public abstract void Update(GameTime gameTime);
-
-        // Keyboard input.. or computer controlled input
-        public abstract void Move(GameTime gameTime);
     }
 }
