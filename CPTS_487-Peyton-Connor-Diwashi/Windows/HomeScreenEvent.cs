@@ -13,7 +13,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public event EventHandler e_resolution;
 
         /// <summary>
-        /// On exitButton Click event, invoke 'exit' event from the home window. (Program.cs subscribes, exit all windows)
+        /// On exitButton Click event, invoke 'e_exit' event from the home window. (Program.cs subscribes, exit all windows)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -24,7 +24,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// On playButton Click event, invoke 'play' event from the home window.
+        /// On playButton Click event, invoke 'e_play' event from the home window.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
