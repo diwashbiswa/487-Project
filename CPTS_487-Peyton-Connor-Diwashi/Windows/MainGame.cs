@@ -12,7 +12,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Rectangle grunt1_bounds;
+        private Rectangle enemy_bounds;
         private List<Sprite> sprites = new List<Sprite>();
 
         // scale each sprite by this.
@@ -52,18 +52,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
-            this.grunt1_bounds = new Rectangle(50, 50, 1180, 350);
-            ScaleRectangle(ref grunt1_bounds, this.scaleFactor);
+            this.enemy_bounds = new Rectangle(50, 50, 1180, 350);
+            ScaleRectangle(ref enemy_bounds, this.scaleFactor);
 
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
-            // Example add Grunt1 enemys
-            for(int i = 0; i < 10; i++)
+
+
+            // ---------------------------------  Sprite Examples ------------------------------
+            this.AddSprite(new Boss1(new Vector2(250, 150), Content.Load<Texture2D>("Boss1"), ref enemy_bounds));
+            this.AddSprite(new Boss2(new Vector2(750, 150), Content.Load<Texture2D>("Boss2"), ref enemy_bounds));
+            for (int i = 0; i < 5; i++)
             {
-                this.AddSprite(new Grunt1(new Vector2(500, 150), Content.Load<Texture2D>("Grunt1"), ref grunt1_bounds));
+                this.AddSprite(new Grunt1(new Vector2(250, 150), Content.Load<Texture2D>("Grunt1"), ref enemy_bounds));
+                this.AddSprite(new Grunt2(new Vector2(750, 150), Content.Load<Texture2D>("Grunt2"), ref enemy_bounds));
             }
+            // ---------------------------------------------------------------------------------
+
+
 
             base.Initialize();
         }
@@ -89,7 +97,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGray);
 
             // Draw ALL sprites added with AddSprite
             _spriteBatch.Begin();

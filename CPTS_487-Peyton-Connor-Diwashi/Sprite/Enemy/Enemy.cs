@@ -25,6 +25,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Is the enemy bound to a target
         protected bool boundToTarget = false;
 
+        //To be invoked when the enemy is removed
+        public event EventHandler Dispose;
+
         // Texture to draw on the enemy
         private Texture2D tex;
 
@@ -85,7 +88,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <summary>
         /// Returns true if the enemy is bound to an attack target
         /// </summary>
-        public bool IsBountToTarget { get { return this.boundToTarget; } }
+        public bool IsBoundToTarget { get { return this.boundToTarget; } }
 
         /// <summary>
         /// Gets and sets the speed of the Enemy during transformations
@@ -215,26 +218,31 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             // super.Move()
             this.Move(gameTime);
+            // super.Disposed()
+            this.Disposed(gameTime, this.Dispose);
+            // super.Attack()
             if (this.boundToTarget)
-            {
-                //super.Attack()
                 this.Attack(gameTime, this.attackTarget);
-            }
-
-            // Update properties for ALL enemies.
         }
+
+        /// <summary>
+        /// Superclass Invokes when the enemy should be removed from the game
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="dispose"> Invoked when the Enemy should be destroyed </param>
+        protected abstract void Disposed(GameTime gameTime, EventHandler dispose);
 
         /// <summary>
         /// Move the enemy
         /// </summary>
         /// <param name="gameTime"></param>
-        public abstract void Move(GameTime gameTime);
+        protected abstract void Move(GameTime gameTime);
 
         /// <summary>
         /// Attack a target, use base.BindToTarget and base.UnbindFromTarget to trigger the attack in an update.
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="target"></param>
-        public abstract void Attack(GameTime gameTime, Rectangle target);
+        protected abstract void Attack(GameTime gameTime, Rectangle target);
     }
 }

@@ -12,13 +12,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// All Sprite objects extend from here
     /// </summary>
-    public class Grunt1 : Enemy
+    public class Boss1 : Enemy
     {
         private Enemy.Direction currentDirection;
 
         private Random rand;
 
-        public Grunt1(Vector2 position, Texture2D texture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        public Boss1(Vector2 position, Texture2D texture, ref Rectangle bounds) : base(position, texture, ref bounds)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
@@ -55,7 +55,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected override void Attack(GameTime gameTime, Rectangle target)
         {
             // TBI
-        } 
+        }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
         {
