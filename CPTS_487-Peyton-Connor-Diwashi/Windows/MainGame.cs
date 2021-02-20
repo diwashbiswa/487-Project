@@ -13,7 +13,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Rectangle enemy_bounds;
-        private List<Sprite> sprites = new List<Sprite>();
+        private List<Enemy> enemies = new List<Enemy>();
+
+
+
+
+        //-----test
+        private Boss2 boss2;
+        //---------
+
+
+
 
         // scale each sprite by this.
         private float scaleFactor;
@@ -28,23 +38,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Add sprite to list of drawable, updatable sprites.
         /// </summary>
         /// <param name="s"></param>
-        protected void AddSprite(Sprite s)
+        protected void AddEnemy(Enemy s)
         {
-            s.Scale(this.scaleFactor);
-            this.sprites.Add(s);
-        }
-
-        /// <summary>
-        /// Scale rectangle by factor of n
-        /// </summary>
-        /// <param name="r"> Rectangle </param>
-        /// <param name="n"> Scale Factor </param>
-        private void ScaleRectangle(ref Rectangle r, float n)
-        {
-            r.X = (int)((float)r.X * n);
-            r.Y = (int)((float)r.Y * n);
-            r.Width = (int)((float)r.Width * n);
-            r.Height = (int)((float)r.Height * n);
+            this.enemies.Add(s);
         }
 
         protected override void Initialize()
@@ -52,24 +48,35 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
-            this.enemy_bounds = new Rectangle(50, 50, 1180, 350);
-            ScaleRectangle(ref enemy_bounds, this.scaleFactor);
-
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
 
 
+
             // ---------------------------------  Sprite Examples ------------------------------
-            this.AddSprite(new Boss1(new Vector2(250, 150), Content.Load<Texture2D>("Boss1"), ref enemy_bounds));
-            this.AddSprite(new Boss2(new Vector2(750, 150), Content.Load<Texture2D>("Boss2"), ref enemy_bounds));
-            for (int i = 0; i < 5; i++)
+            this.enemy_bounds = new Rectangle(50, 50, 1180, 350);
+
+            Enemy a = new Boss1(new Vector2(250, 150), Content.Load<Texture2D>("Boss1"), Content.Load<Texture2D>("BossBullet"), ref enemy_bounds);
+            this.AddEnemy(a);
+            a.BindToTarget(new Vector2(1280, 720));
+
+            this.boss2 = new Boss2(new Vector2(750, 150), Content.Load<Texture2D>("Boss2"), Content.Load<Texture2D>("BossBullet"), ref enemy_bounds);
+            this.AddEnemy(this.boss2);
+            this.boss2.BindToTarget(new Vector2(0, 720));
+
+            for (int i = 0; i < 2; i++)
             {
-                this.AddSprite(new Grunt1(new Vector2(250, 150), Content.Load<Texture2D>("Grunt1"), ref enemy_bounds));
-                this.AddSprite(new Grunt2(new Vector2(750, 150), Content.Load<Texture2D>("Grunt2"), ref enemy_bounds));
+                a = new Grunt1(new Vector2(250, 150), Content.Load<Texture2D>("Grunt1"), Content.Load<Texture2D>("BulletGreen"), ref enemy_bounds);
+                this.AddEnemy(a);
+                a = new Grunt2(new Vector2(750, 150), Content.Load<Texture2D>("Grunt2"), Content.Load<Texture2D>("BulletPurple"), ref enemy_bounds);
+                a.BindToTarget(new Vector2(0, 0)); //they dont aim does not matter
+                this.AddEnemy(a);
             }
             // ---------------------------------------------------------------------------------
+
+
 
 
 
@@ -87,10 +94,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Exit();
 
             // Update ALL sprites added with AddSprite
-            foreach(Sprite s in sprites)
+            foreach(Sprite s in enemies)
             {
                 s.Update(gameTime);
-            }
+
+                // Make all the grunts fire at Boss2
+                if (s is Grunt1)
+                {
+                    Grunt1 g = (Grunt1)s;
+                    g.BindToTarget(this.boss2.Position);
+                }
+
+            } 
 
             base.Update(gameTime);
         }
@@ -100,8 +115,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GraphicsDevice.Clear(Color.DarkGray);
 
             // Draw ALL sprites added with AddSprite
-            _spriteBatch.Begin();
-            foreach (Sprite s in sprites)
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Matrix.CreateScale(this.scaleFactor));
+            foreach (Sprite s in enemies)
             {
                 s.Draw(gameTime, _spriteBatch);
             }
