@@ -9,23 +9,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class MainGame : Game
     {
+        //-----test
+        private Boss2 boss2;
+        //---------
+
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Rectangle enemy_bounds;
         private List<Enemy> enemies = new List<Enemy>();
-
-
-
-
-        //-----test
-        private Boss2 boss2;
-        //---------
-
-
-
-
-        // scale each sprite by this.
+        private List<Enemy> disposedEnemies = new List<Enemy>();
         private float scaleFactor;
 
         public MainGame()
@@ -41,6 +34,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected void AddEnemy(Enemy s)
         {
             this.enemies.Add(s);
+        }
+
+        /// <summary>
+        /// Sprite must subscibe to this event to be disposed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DisposeEnemyEvent(object sender, EventArgs e)
+        {
+            Enemy x = (Enemy)sender;
+            this.disposedEnemies.Add(x);
         }
 
         protected override void Initialize()
@@ -61,18 +65,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             Enemy a = new Boss1(new Vector2(250, 150), Content.Load<Texture2D>("Boss1"), Content.Load<Texture2D>("BossBullet"), ref enemy_bounds);
             this.AddEnemy(a);
             a.BindToTarget(new Vector2(1280, 720));
+            a.Dispose += this.DisposeEnemyEvent;
+            a.LifeSpan = 100;
 
             this.boss2 = new Boss2(new Vector2(750, 150), Content.Load<Texture2D>("Boss2"), Content.Load<Texture2D>("BossBullet"), ref enemy_bounds);
             this.AddEnemy(this.boss2);
             this.boss2.BindToTarget(new Vector2(0, 720));
+            this.boss2.Dispose += this.DisposeEnemyEvent;
 
             for (int i = 0; i < 2; i++)
             {
                 a = new Grunt1(new Vector2(250, 150), Content.Load<Texture2D>("Grunt1"), Content.Load<Texture2D>("BulletGreen"), ref enemy_bounds);
                 this.AddEnemy(a);
+                a.Dispose += this.DisposeEnemyEvent;
                 a = new Grunt2(new Vector2(750, 150), Content.Load<Texture2D>("Grunt2"), Content.Load<Texture2D>("BulletPurple"), ref enemy_bounds);
                 a.BindToTarget(new Vector2(0, 0)); //they dont aim does not matter
                 this.AddEnemy(a);
+                a.Dispose += this.DisposeEnemyEvent;
             }
             // ---------------------------------------------------------------------------------
 
@@ -93,6 +102,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            // Get rid of all disposed enemies
+            foreach(Enemy s in disposedEnemies)
+            {
+                if(this.enemies.Contains(s))
+                {
+                    this.enemies.Remove(s);
+                }
+            }
+            this.disposedEnemies.Clear();
+
+
             // Update ALL sprites added with AddSprite
             foreach(Sprite s in enemies)
             {
@@ -104,9 +124,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     Grunt1 g = (Grunt1)s;
                     g.BindToTarget(this.boss2.Position);
                 }
-
             } 
-
             base.Update(gameTime);
         }
 

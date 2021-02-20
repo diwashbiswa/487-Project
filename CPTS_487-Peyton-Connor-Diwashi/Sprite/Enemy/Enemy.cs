@@ -37,6 +37,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Speed of enemy
         private uint speed;
 
+        // Set a lifespan for this enemy
+        private int lifespanSeconds = 0;
+
+        // Lifespan timer when lifespan is set
+        private float lifespanTimer = 0;
+
         /// <summary>
         /// Enumerating direction for enemies
         /// </summary>
@@ -94,6 +100,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Gets and sets the speed of the Enemy during transformations
         /// </summary>
         public uint Speed { get { return this.speed; } set { this.speed = value; } }
+
+        /// <summary>
+        /// Set a lifespan in seconds for this enemy
+        /// </summary>
+        public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
 
         /// <summary>
         /// Gets a directional vector pointing towards this enemies attack target.
@@ -236,9 +247,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // super.Attack()
             if (this.boundToTarget)
                 this.Attack(gameTime, this.attackTarget);
+
+            // if the enemy has a lifespan keep track and invoke dispose event
+            if(this.lifespanSeconds != 0)
+            {
+                this.lifespanTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                // Trigger Dispose event to subscribers when timeer is done
+                if (this.lifespanTimer >= this.lifespanSeconds)
+                    this.Dispose.Invoke(this, new EventArgs());
+            }
+
         }
 
-        /// CONSIDER MOVING TO Spite.cs
+        /// CONSIDER MOVING TO Spite.cs CONSIDER MAKING virtual
         /// <summary>
         /// Superclass Invokes when the enemy should be removed from the game
         /// </summary>

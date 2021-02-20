@@ -102,8 +102,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             foreach (Bullet b in this.disposedBullets)
             {
                 if (this.bullets.Contains(b))
+                {
                     this.bullets.Remove(b);
+                }
             }
+            this.disposedBullets.Clear();
 
             // Update all bullets
             foreach (Bullet b in this.bullets)
