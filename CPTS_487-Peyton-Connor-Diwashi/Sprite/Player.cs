@@ -65,9 +65,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         public uint Speed { get { return this.speed; } set { this.speed = value; } }
 
-        //public static System.Windows.Input.KeyStates GetKeyStates(System.Windows.Input.Key key);
-
-
         /// <summary>
         /// Player constructor
         /// </summary>
@@ -98,14 +95,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
-            this.handleKeyboardInput();
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.LeftShift) || state.IsKeyDown(Keys.RightShift))
+            {
+                this.speed = 5;
+                this.handleKeyboardInput(state);
+            }
+            else
+            {
+                this.speed = 10;
+                this.handleKeyboardInput(state);
+            }
+            
         }
         // add new function for keyboard input, or use the update function probably
 
         // Handle Keyboard input for player
-        public void handleKeyboardInput()
+        public void handleKeyboardInput(KeyboardState state)
         {
-            KeyboardState state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Right))
             {
