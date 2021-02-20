@@ -9,42 +9,63 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class MainGame : Game
     {
+        // This will be changed by Program.cs as needed
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Sprite> sprites = new List<Sprite>();
-
-        // scale each sprite by this.
+        private EnemyFactory ef;
+        private List<Enemy> enemies = new List<Enemy>();
+        private List<Enemy> disposedEnemies = new List<Enemy>();
         private float scaleFactor;
+        private float timer = 0.0f;
+        private long frames = 0;
+
+        //TEMP
+        Vector2 target = new Vector2(0, 0);
 
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            //IsMouseVisible = true;
+            IsMouseVisible = true;
         }
 
         /// <summary>
         /// Add sprite to list of drawable, updatable sprites.
         /// </summary>
         /// <param name="s"></param>
-        protected void AddSprite(Sprite s)
+        protected void AddEnemy(Enemy s)
         {
-            s.Scale(this.scaleFactor);
-            this.sprites.Add(s);
+            this.enemies.Add(s);
+        }
+
+        /// <summary>
+        /// Sprite must subscibe to this event to be disposed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DisposeEnemyEvent(object sender, EventArgs e)
+        {
+            Enemy x = (Enemy)sender;
+            this.disposedEnemies.Add(x);
         }
 
         protected override void Initialize()
         {
+            // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
-            // Example add Grunt1 enemy
-            this.AddSprite(new Grunt1(new Vector2(0, 0), Content.Load<Texture2D>("Grunt1")));
-
+            // Create new EnemyFactory
+            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 350), Content);
+            // Set Event to Invoke when an enemies Lifespan is Up
+            this.ef.DisposeMethod = DisposeEnemyEvent;
+            // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
+            this.ef.LifeSpanSeconds = 15;
+           
             base.Initialize();
         }
 
@@ -55,25 +76,55 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            frames++;
+
+            if (timer > 1 && timer < 1.1)
+                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1));
+
+            if (timer > 30 && timer < 30.1)
+                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2));
+
+            if (frames == 15*60)
+                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Boss1));
+
+            if (frames == 45 * 60)
+                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Boss2));
+
+
+            //----
+
+
+            // Get rid of all disposed enemies
+            foreach (Enemy s in disposedEnemies)
+            {
+                if(this.enemies.Contains(s))
+                {
+                    this.enemies.Remove(s);
+                }
+            }
+            this.disposedEnemies.Clear();
+
+            // Set the target for the enemies as the mouse position
+            this.target.X = Mouse.GetState().X;
+            this.target.Y = Mouse.GetState().Y;
 
             // Update ALL sprites added with AddSprite
-            foreach(Sprite s in sprites)
+            foreach(Enemy s in enemies)
             {
+                s.BindToTarget(this.target);
                 s.Update(gameTime);
-            }
-
+            } 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGray);
 
             // Draw ALL sprites added with AddSprite
-            _spriteBatch.Begin();
-            foreach (Sprite s in sprites)
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Matrix.CreateScale(this.scaleFactor));
+            foreach (Sprite s in enemies)
             {
                 s.Draw(gameTime, _spriteBatch);
             }

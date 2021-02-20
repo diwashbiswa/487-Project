@@ -9,8 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-
-    public class Grunt1 : Enemy
+    public class Grunt2 : Enemy
     {
         private Enemy.Direction currentDirection;
 
@@ -24,16 +23,21 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private TimeSpan previousFire = TimeSpan.Zero;
 
-        private double fireRateSeconds = 1.5;
+        private TimeSpan timePrev_ChangeDirection = TimeSpan.Zero;
 
-        public Grunt1(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        private double fireRateSeconds = .6f;
+
+        private int secondsBetweenDirectionChange;
+
+        public Grunt2(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
-            this.Speed = 1;
+            this.secondsBetweenDirectionChange = rand.Next(1, 5);
+            this.Speed = (uint)rand.Next(2, 4);
+            this.bulletTexture = bulletTexture;
             this.bullets = new List<Bullet>();
             this.disposedBullets = new List<Bullet>();
-            this.bulletTexture = bulletTexture;
         }
 
         /// <summary>
@@ -42,12 +46,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <returns></returns>
         private Enemy.Direction getRandomDirection()
         {
-            if (rand.Next() % 2 == 0)
-            {
-                return (Enemy.Direction)rand.Next(4, 8);
-            }
+            Enemy.Direction[] direc = { Direction.Left, Direction.Right, Direction.DownLeft, Direction.DownRight, Direction.UpLeft, Direction.UpRight };
 
-            return (Enemy.Direction)rand.Next(8);
+            return direc[rand.Next(6)];
         }
 
         /// <summary>
@@ -62,12 +63,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Move the enemy in a random sequence of directions
+        /// Move the enemy
         /// </summary>
         /// <param name="gameTime"></param>
         protected override void Move(GameTime gameTime)
         {
-            // If the sprite will be in bounds for his next move then move it, otherwise switch directions
+            // Randomly change the direction somtimes without hitting a boundary
+            if (gameTime.TotalGameTime.TotalSeconds - this.timePrev_ChangeDirection.TotalSeconds > this.secondsBetweenDirectionChange)
+            {
+                this.currentDirection = this.getRandomDirection();
+                this.timePrev_ChangeDirection = gameTime.TotalGameTime;
+            }
+
             if (this.WillIntersectBounds(this.currentDirection))
                 this.Transform(this.currentDirection);
             else
@@ -92,9 +99,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Fire new bullet
             if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
             {
-                Bullet b = new Bullet(this.Position, this.bulletTexture, 9.0f, 3.0f);
+                Bullet b = new Bullet(this.Position, this.bulletTexture, 6.0f, 3.0f);
                 b.Dispose += this.DisposeBulletEvent;
-                b.Direction = this.DirectonTowardsTarget;
+                b.Direction = new Vector2(0, 1);
                 this.bullets.Add(b);
                 this.previousFire = gameTime.TotalGameTime;
             }

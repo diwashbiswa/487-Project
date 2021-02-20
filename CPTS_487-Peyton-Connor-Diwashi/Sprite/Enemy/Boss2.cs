@@ -9,8 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-
-    public class Grunt1 : Enemy
+    public class Boss2 : Enemy
     {
         private Enemy.Direction currentDirection;
 
@@ -26,7 +25,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private double fireRateSeconds = 1.5;
 
-        public Grunt1(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        public Boss2(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
