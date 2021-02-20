@@ -30,9 +30,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Normal speed of player
         private uint speed;
 
-        // Slow speed of player
-        private uint slowSpeed;
-
         /// <summary>
         /// Enumerating direction for player
         /// </summary>
@@ -117,46 +114,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             if (state.IsKeyDown(Keys.Right))
             {
-                this.body.X += 10;
+                this.T_Right();
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                this.body.X -= 10;
+                this.T_Left();
             }
             if (state.IsKeyDown(Keys.Up))
             {
-                this.body.Y -= 10;
+                this.T_Up();
             }
             if (state.IsKeyDown(Keys.Down))
             {
-                this.body.Y += 10;
+                this.T_Down();
             }
-            // move upright - diagonal
-            if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Up))
-            {
-                this.body.X += 10;
-                this.body.Y -= 10;
-            }
-            // move upleft - diagonal
-            if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Up))
-            {
-                this.body.X -= 10;
-                this.body.Y -= 10;
-            }
-            // move downright - diagonal
-            if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Down))
-            {
-                this.body.X += 10;
-                this.body.Y += 10;
-            }
-            // move downleft - diagonal
-            if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Down))
-            {
-                this.body.X -= 10;
-                this.body.Y += 10;
-            }
-        }
 
+        }
         
     }
 }

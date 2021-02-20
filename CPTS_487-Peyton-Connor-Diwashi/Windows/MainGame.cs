@@ -54,7 +54,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
-            this.player_bounds = new Rectangle(10, 10, 1180, 350);
+            this.player_bounds = new Rectangle(50, 50, 1180, 350);
             ScaleRectangle(ref player_bounds, this.scaleFactor);
 
             this.grunt1_bounds = new Rectangle(50, 50, 1180, 350);
