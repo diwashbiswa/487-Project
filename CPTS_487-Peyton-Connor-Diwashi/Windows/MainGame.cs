@@ -53,7 +53,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
-            this.player_bounds = new Rectangle(50, 50, 1180, 350);
+            this.player_bounds = new Rectangle(10, 10, 10, 10);
             ScaleRectangle(ref player_bounds, this.scaleFactor);
 
             this.grunt1_bounds = new Rectangle(50, 50, 1180, 350);
@@ -64,7 +64,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.ApplyChanges();
 
             // Add Player
-            this.AddSprite(new Player(new Vector2(500, 500), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
+            this.AddSprite(new Player(new Vector2(20, 20), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
 
             // Example add Grunt1 enemys
             for(int i = 0; i < 10; i++)
