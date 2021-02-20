@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
@@ -63,6 +65,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         public uint Speed { get { return this.speed; } set { this.speed = value; } }
 
+        //public static System.Windows.Input.KeyStates GetKeyStates(System.Windows.Input.Key key);
+
+
         /// <summary>
         /// Player constructor
         /// </summary>
@@ -93,10 +98,57 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
+            this.handleKeyboardInput();
+        }
+        // add new function for keyboard input, or use the update function probably
 
+        // Handle Keyboard input for player
+        public void handleKeyboardInput()
+        {
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Right))
+            {
+                this.body.X += 10;
+            }
+            if (state.IsKeyDown(Keys.Left))
+            {
+                this.body.X -= 10;
+            }
+            if (state.IsKeyDown(Keys.Up))
+            {
+                this.body.Y -= 10;
+            }
+            if (state.IsKeyDown(Keys.Down))
+            {
+                this.body.Y += 10;
+            }
+            // move upright - diagonal
+            if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Up))
+            {
+                this.body.X += 10;
+                this.body.Y -= 10;
+            }
+            // move upleft - diagonal
+            if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Up))
+            {
+                this.body.X -= 10;
+                this.body.Y -= 10;
+            }
+            // move downright - diagonal
+            if (state.IsKeyDown(Keys.Right) && state.IsKeyDown(Keys.Down))
+            {
+                this.body.X += 10;
+                this.body.Y += 10;
+            }
+            // move downleft - diagonal
+            if (state.IsKeyDown(Keys.Left) && state.IsKeyDown(Keys.Down))
+            {
+                this.body.X -= 10;
+                this.body.Y += 10;
+            }
         }
 
-        // add new function for keyboard input, or use the update function probably
         
     }
 }

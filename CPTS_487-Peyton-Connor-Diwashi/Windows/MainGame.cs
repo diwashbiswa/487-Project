@@ -68,7 +68,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.ApplyChanges();
 
             // Add Player
-            this.AddSprite(new Player(new Vector2(750, 150), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
+            this.AddSprite(new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
 
             // Example add Grunt1 enemys
             for(int i = 0; i < 10; i++)
