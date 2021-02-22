@@ -108,6 +108,35 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Handles keyboard input for the player
+        /// </summary>
+        /// <param name="state"></param>
+        private void handleKeyboardInput(KeyboardState state)
+        {
+
+            if (state.IsKeyDown(Keys.Right))
+            {
+                if (this.WillIntersectBounds(Direction.Right))
+                    this.T_Right();
+            }
+            if (state.IsKeyDown(Keys.Left))
+            {
+                if (this.WillIntersectBounds(Direction.Left))
+                    this.T_Left();
+            }
+            if (state.IsKeyDown(Keys.Up))
+            {
+                if (this.WillIntersectBounds(Direction.Up))
+                    this.T_Up();
+            }
+            if (state.IsKeyDown(Keys.Down))
+            {
+                if (this.WillIntersectBounds(Direction.Down))
+                    this.T_Down();
+            }
+        }
+
+        /// <summary>
         /// Returns true if the next move will be IN Player.bounds, else false.
         /// </summary>
         /// <param name="direction"> Player.Direction </param>
@@ -159,35 +188,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     this.T_DR();
                     break;
             }
-        }
-
-        /// <summary>
-        /// Handles keyboard input for the player
-        /// </summary>
-        /// <param name="state"></param>
-        private void handleKeyboardInput(KeyboardState state)
-        {
-
-            if (state.IsKeyDown(Keys.Right))
-            {
-                if (this.WillIntersectBounds(Direction.Right))
-                    this.T_Right();
-            }
-            if (state.IsKeyDown(Keys.Left))
-            {
-                if (this.WillIntersectBounds(Direction.Left))
-                    this.T_Left();
-            }
-            if (state.IsKeyDown(Keys.Up))
-            {
-                if (this.WillIntersectBounds(Direction.Up))
-                    this.T_Up();
-            }
-            if (state.IsKeyDown(Keys.Down))
-            {
-                if (this.WillIntersectBounds(Direction.Down))
-                    this.T_Down();
-            }
-        }       
+        }     
     }
 }
