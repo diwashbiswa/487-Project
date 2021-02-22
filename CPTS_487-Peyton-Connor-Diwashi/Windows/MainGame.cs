@@ -47,9 +47,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.enemies.Add(s);
         }
 
-        protected void AddPlayer(Player p)
+        protected void AddSprite(Sprite s)
         {
-            this.players.Add(p);
+            this.sprites.Add(s);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             frames++;
 
             // Add Player
-            this.AddPlayer(new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
+            this.AddSprite(new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
 
             //Add Enemy
             if (timer > 1 && timer < 1.1)
@@ -150,6 +150,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.Draw(gameTime, _spriteBatch);
             }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
