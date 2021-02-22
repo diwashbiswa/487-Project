@@ -106,30 +106,88 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
             
         }
-        // add new function for keyboard input, or use the update function probably
 
-        // Handle Keyboard input for player
-        public void handleKeyboardInput(KeyboardState state)
+        /// <summary>
+        /// Returns true if the next move will be IN Player.bounds, else false.
+        /// </summary>
+        /// <param name="direction"> Player.Direction </param>
+        /// <returns></returns>
+        protected bool WillIntersectBounds(Player.Direction direction)
+        {
+            bool s = false;
+            Rectangle revert = this.body;
+            this.Transform(direction);
+
+            if (this.body.Intersects(this.bounds)) { s = true; }
+            else { s = false; }
+
+            this.body = revert;
+
+            return s;
+        }
+
+        /// <summary>
+        /// Moves the player in Player.Direction
+        /// </summary>
+        /// <param name="direc"></param>
+        protected void Transform(Player.Direction direc)
+        {
+            switch (direc)
+            {
+                case Direction.Down:
+                    this.T_Down();
+                    break;
+                case Direction.Up:
+                    this.T_Up();
+                    break;
+                case Direction.Left:
+                    this.T_Left();
+                    break;
+                case Direction.Right:
+                    this.T_Right();
+                    break;
+                case Direction.UpLeft:
+                    this.T_UL();
+                    break;
+                case Direction.UpRight:
+                    this.T_UR();
+                    break;
+                case Direction.DownLeft:
+                    this.T_DL();
+                    break;
+                case Direction.DownRight:
+                    this.T_DR();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Handles keyboard input for the player
+        /// </summary>
+        /// <param name="state"></param>
+        private void handleKeyboardInput(KeyboardState state)
         {
 
             if (state.IsKeyDown(Keys.Right))
             {
-                this.T_Right();
+                if (this.WillIntersectBounds(Direction.Right))
+                    this.T_Right();
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                this.T_Left();
+                if (this.WillIntersectBounds(Direction.Left))
+                    this.T_Left();
             }
             if (state.IsKeyDown(Keys.Up))
             {
-                this.T_Up();
+                if (this.WillIntersectBounds(Direction.Up))
+                    this.T_Up();
             }
             if (state.IsKeyDown(Keys.Down))
             {
-                this.T_Down();
+                if (this.WillIntersectBounds(Direction.Down))
+                    this.T_Down();
             }
-
-        }
-        
+        }       
     }
 }
