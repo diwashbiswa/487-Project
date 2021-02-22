@@ -9,20 +9,31 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    /// <summary>
-    /// All Sprite objects extend from here
-    /// </summary>
+
     public class Grunt1 : Enemy
     {
         private Enemy.Direction currentDirection;
 
         private Random rand;
 
-        public Grunt1(Vector2 position, Texture2D texture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        private List<Bullet> bullets;
+
+        private List<Bullet> disposedBullets;
+
+        private Texture2D bulletTexture;
+
+        private TimeSpan previousFire = TimeSpan.Zero;
+
+        private double fireRateSeconds = 1.5;
+
+        public Grunt1(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
+            this.bullets = new List<Bullet>();
+            this.disposedBullets = new List<Bullet>();
+            this.bulletTexture = bulletTexture;
         }
 
         /// <summary>
@@ -40,22 +51,70 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Event invoked to this function when a bullet this Grunt subscribes to becomes disposed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DisposeBulletEvent(object sender, EventArgs e)
+        {
+            Bullet b = (Bullet)sender;
+            this.disposedBullets.Add(b);
+        }
+
+        /// <summary>
         /// Move the enemy in a random sequence of directions
         /// </summary>
         /// <param name="gameTime"></param>
         protected override void Move(GameTime gameTime)
         {
+            // If the sprite will be in bounds for his next move then move it, otherwise switch directions
             if (this.WillIntersectBounds(this.currentDirection))
                 this.Transform(this.currentDirection);
             else
                 this.currentDirection = this.getRandomDirection();
         }
 
-        // This attack happens only when this enemy is bound to a target with base.BindToTarget()
-        protected override void Attack(GameTime gameTime, Rectangle target)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // TBI
-        } 
+            // Draw all bullets first
+            foreach (Bullet b in this.bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+
+            // Draw this sprite
+            base.Draw(gameTime, spriteBatch);
+        }
+
+        // Only runs if the enemy is bounded to a target
+        protected override void Attack(GameTime gameTime, Vector2 target)
+        {
+            // Fire new bullet
+            if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
+            {
+                Bullet b = new Bullet(this.Position, this.bulletTexture, 9.0f, 3.0f);
+                b.Dispose += this.DisposeBulletEvent;
+                b.Direction = this.DirectonTowardsTarget;
+                this.bullets.Add(b);
+                this.previousFire = gameTime.TotalGameTime;
+            }
+
+            // Remove all disposed bullets from the Update list
+            foreach (Bullet b in this.disposedBullets)
+            {
+                if (this.bullets.Contains(b))
+                {
+                    this.bullets.Remove(b);
+                }
+            }
+            this.disposedBullets.Clear();
+
+            // Update all bullets
+            foreach (Bullet b in this.bullets)
+            {
+                b.Update(gameTime);
+            }
+        }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
         {

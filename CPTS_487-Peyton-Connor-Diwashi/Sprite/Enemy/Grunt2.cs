@@ -9,25 +9,35 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    /// <summary>
-    /// All Sprite objects extend from here
-    /// </summary>
     public class Grunt2 : Enemy
     {
         private Enemy.Direction currentDirection;
 
+        private Random rand;
+
+        private List<Bullet> bullets;
+
+        private List<Bullet> disposedBullets;
+
+        private Texture2D bulletTexture;
+
+        private TimeSpan previousFire = TimeSpan.Zero;
+
         private TimeSpan timePrev_ChangeDirection = TimeSpan.Zero;
+
+        private double fireRateSeconds = .6f;
 
         private int secondsBetweenDirectionChange;
 
-        private Random rand;
-
-        public Grunt2(Vector2 position, Texture2D texture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        public Grunt2(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.secondsBetweenDirectionChange = rand.Next(1, 5);
             this.Speed = (uint)rand.Next(2, 4);
+            this.bulletTexture = bulletTexture;
+            this.bullets = new List<Bullet>();
+            this.disposedBullets = new List<Bullet>();
         }
 
         /// <summary>
@@ -39,6 +49,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             Enemy.Direction[] direc = { Direction.Left, Direction.Right, Direction.DownLeft, Direction.DownRight, Direction.UpLeft, Direction.UpRight };
 
             return direc[rand.Next(6)];
+        }
+
+        /// <summary>
+        /// Event invoked to this function when a bullet this Grunt subscribes to becomes disposed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DisposeBulletEvent(object sender, EventArgs e)
+        {
+            Bullet b = (Bullet)sender;
+            this.disposedBullets.Add(b);
         }
 
         /// <summary>
@@ -60,17 +81,53 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.currentDirection = this.getRandomDirection();
         }
 
-        // This attack happens only when this enemy is bount to a target with base.BindToTarget()
-        protected override void Attack(GameTime gameTime, Rectangle target)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // TBI
+            // Draw all bullets first
+            foreach (Bullet b in this.bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+
+            // Draw this sprite
+            base.Draw(gameTime, spriteBatch);
+        }
+
+        // Only runs if the enemy is bounded to a target
+        protected override void Attack(GameTime gameTime, Vector2 target)
+        {
+            // Fire new bullet
+            if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
+            {
+                Bullet b = new Bullet(this.Position, this.bulletTexture, 6.0f, 3.0f);
+                b.Dispose += this.DisposeBulletEvent;
+                b.Direction = new Vector2(0, 1);
+                this.bullets.Add(b);
+                this.previousFire = gameTime.TotalGameTime;
+            }
+
+            // Remove all disposed bullets from the Update list
+            foreach (Bullet b in this.disposedBullets)
+            {
+                if (this.bullets.Contains(b))
+                {
+                    this.bullets.Remove(b);
+                }
+            }
+            this.disposedBullets.Clear();
+
+            // Update all bullets
+            foreach (Bullet b in this.bullets)
+            {
+                b.Update(gameTime);
+            }
         }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
         {
-            //TBI
+            // TBI
 
-            // base.Dispose EventHandler Invoke
+            // dispose EventHandler Invoke based on some logic, encapsulating Classes subscribe to base.Dispose
         }
     }
 }

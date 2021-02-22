@@ -20,7 +20,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected Rectangle bounds;
 
         // The target the Enemy is Focused on
-        protected Rectangle attackTarget;
+        protected Vector2 attackTarget;
 
         // Is the enemy bound to a target
         protected bool boundToTarget = false;
@@ -37,22 +37,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Speed of enemy
         private uint speed;
 
-        /// <summary>
-        /// Position of the (top-left) corner of the Enemy
-        /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                return new Vector2((float)this.body.X, (float)this.body.Y);
-            }
-            set
-            {
-                Vector2 v = value;
-                this.body.X = (int)v.X;
-                this.body.Y = (int)v.Y;
-            }
-        }
+        // Set a lifespan for this enemy
+        private int lifespanSeconds = 0;
+
+        // Lifespan timer when lifespan is set
+        private float lifespanTimer = 0;
 
         /// <summary>
         /// Enumerating direction for enemies
@@ -76,6 +65,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private void T_UL() { this.T_Up(); this.T_Left(); }
 
         /// <summary>
+        /// Position of the (top-left) corner of the Enemy
+        /// </summary>
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2((float)this.body.X, (float)this.body.Y);
+            }
+            set
+            {
+                Vector2 v = value;
+                this.body.X = (int)v.X;
+                this.body.Y = (int)v.Y;
+            }
+        }
+
+        /// <summary>
         /// Returns a Rectangle representing the area consumed by this enemy
         /// </summary>
         public Rectangle Hitbox { get { return this.body; } private set { this.body = value; } }
@@ -94,6 +100,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Gets and sets the speed of the Enemy during transformations
         /// </summary>
         public uint Speed { get { return this.speed; } set { this.speed = value; } }
+
+        /// <summary>
+        /// Set a lifespan in seconds for this enemy
+        /// </summary>
+        public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
+
+        /// <summary>
+        /// Gets a directional vector pointing towards this enemies attack target.
+        /// </summary>
+        protected Vector2 DirectonTowardsTarget
+        {
+            get
+            {
+               // Get directional vector to target
+               Vector2 dv = this.attackTarget - this.Position;
+               return dv / dv.Length();
+            }
+        }
 
         /// <summary>
         /// Initialize the base class for Enemy
@@ -174,7 +198,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Bind the enemy to a target to attack.
         /// </summary>
         /// <param name="t"> attack target </param>
-        public void BindToTarget(ref Rectangle t)
+        public void BindToTarget(Vector2 t)
         {
             this.boundToTarget = true;
             this.attackTarget = t;
@@ -223,8 +247,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // super.Attack()
             if (this.boundToTarget)
                 this.Attack(gameTime, this.attackTarget);
+
+            // if the enemy has a lifespan keep track and invoke dispose event
+            if(this.lifespanSeconds != 0)
+            {
+                this.lifespanTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                // Trigger Dispose event to subscribers when timeer is done
+                if (this.lifespanTimer >= this.lifespanSeconds)
+                    this.Dispose.Invoke(this, new EventArgs());
+            }
+
         }
 
+        /// CONSIDER MOVING TO Spite.cs CONSIDER MAKING virtual
         /// <summary>
         /// Superclass Invokes when the enemy should be removed from the game
         /// </summary>
@@ -243,6 +279,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="target"></param>
-        protected abstract void Attack(GameTime gameTime, Rectangle target);
+        protected abstract void Attack(GameTime gameTime, Vector2 target);
     }
 }
