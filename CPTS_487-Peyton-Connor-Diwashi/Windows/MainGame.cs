@@ -15,7 +15,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private SpriteBatch _spriteBatch;
         private EnemyFactory ef;
         private List<Enemy> enemies = new List<Enemy>();
-        private List<Player> players = new List<Player>();
+        //private List<Player> players = new List<Player>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
         private Player player;
         private Rectangle grunt1_bounds;
@@ -75,6 +75,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
+            // Create Player
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds);
+
             // Create new EnemyFactory
             this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 350), Content);
             // Set Event to Invoke when an enemies Lifespan is Up
@@ -84,9 +87,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             base.Initialize();
         }
-
-            // Example add Grunt1 enemys
-           // for(int i = 0; i < 10; i++)
 
         protected override void LoadContent()
         {
@@ -99,7 +99,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             frames++;
 
             // Add Player
-            this.AddSprite(new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref player_bounds));
+            this.AddSprite(this.player);
 
             //Add Enemy
             if (timer > 1 && timer < 1.1)
@@ -128,15 +128,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.disposedEnemies.Clear();
 
             // Set the target for the enemies as the mouse position
-            this.target.X = Mouse.GetState().X;
-            this.target.Y = Mouse.GetState().Y;
+            //this.target.X = Mouse.GetState().X;
+            //this.target.Y = Mouse.GetState().Y;
+            this.target.X = this.player.X;
+            this.target.Y = this.player.Y;
 
             // Update ALL sprites added with AddSprite
             foreach(Enemy s in enemies)
             {
                 s.BindToTarget(this.target);
                 s.Update(gameTime);
-            } 
+            }
+
+            this.player.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -150,6 +155,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.Draw(gameTime, _spriteBatch);
             }
+
+            this.player.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
 
