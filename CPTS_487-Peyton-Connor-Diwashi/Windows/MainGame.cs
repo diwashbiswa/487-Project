@@ -15,7 +15,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private SpriteBatch _spriteBatch;
         private EnemyFactory ef;
         private List<Enemy> enemies = new List<Enemy>();
+        //private List<Player> players = new List<Player>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
+        private Player player;
+        private Rectangle grunt1_bounds;
+        private Rectangle player_bounds;
+        private Rectangle enemy_bounds;
+        private List<Sprite> sprites = new List<Sprite>();
+
+        // scale each sprite by this.
         private float scaleFactor;
         private float timer = 0.0f;
         private long frames = 0;
@@ -39,6 +47,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.enemies.Add(s);
         }
 
+        protected void AddSprite(Sprite s)
+        {
+            this.sprites.Add(s);
+        }
+
         /// <summary>
         /// Sprite must subscibe to this event to be disposed
         /// </summary>
@@ -55,9 +68,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set scale factor for all objects
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
 
+            this.enemy_bounds = new Rectangle(50, 50, 1180, 350);
+            //this.ScaleRectangle(ref enemy_bounds, this.scaleFactor);
+
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
+
+            // Create Player
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds);
 
             // Create new EnemyFactory
             this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 350), Content);
@@ -65,7 +84,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
             this.ef.LifeSpanSeconds = 15;
-           
+
             base.Initialize();
         }
 
@@ -79,6 +98,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             frames++;
 
+            // Add Player
+            this.AddSprite(this.player);
+
+            //Add Enemy
             if (timer > 1 && timer < 1.1)
                 this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1));
 
@@ -94,7 +117,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             //----
 
-
             // Get rid of all disposed enemies
             foreach (Enemy s in disposedEnemies)
             {
@@ -106,15 +128,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.disposedEnemies.Clear();
 
             // Set the target for the enemies as the mouse position
-            this.target.X = Mouse.GetState().X;
-            this.target.Y = Mouse.GetState().Y;
+            //this.target.X = Mouse.GetState().X;
+            //this.target.Y = Mouse.GetState().Y;
+            this.target.X = this.player.X;
+            this.target.Y = this.player.Y;
 
             // Update ALL sprites added with AddSprite
             foreach(Enemy s in enemies)
             {
                 s.BindToTarget(this.target);
                 s.Update(gameTime);
-            } 
+            }
+
+            this.player.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -128,6 +155,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.Draw(gameTime, _spriteBatch);
             }
+
+            this.player.Draw(gameTime, _spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
