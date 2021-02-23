@@ -118,6 +118,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
         {
+            // if enemy is dead Dispose.Invoke
+
             // TBI
 
             // dispose EventHandler Invoke based on some logic, encapsulating Classes subscribe to base.Dispose

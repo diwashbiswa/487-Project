@@ -65,6 +65,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds);
             // Create new EnemyFactory
+
+            // TODO: Lifespan as a paramater
             this.ef = new StandardEnemyFactory(enemy_bounds, Content);
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
@@ -138,3 +140,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
     }
 }
+
+/*
+ 1. JSON script draft
+
+ 2. Adding controllers between maingame and classes
+    - spawning
+    - collision detection
+    - movement
+ 
+ 3. Movement Class
+
+ 4. Make enemy and bullet more similar
+
+ 5. Extract keyboard input away from sprites
+
+ */
