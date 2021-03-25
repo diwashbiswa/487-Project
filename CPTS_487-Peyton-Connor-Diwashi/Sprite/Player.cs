@@ -191,3 +191,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }     
     }
 }
+
+
+
+
+// Feedback from professor
+//Build a bullet factory
+// only need grunt position from the grunt1.cs
+// bulllet and enemies are identical
+// bullet classes just need to know the location of the enemies
+//      -- make them spawn from that locatiiiiiiiiiiiiiiiiiiiiiion
+    //  -- looks likkkkkkke                                the enemmmmmmmmies are firing the bullet
+// Have Movement class - for movement of the bullets that go dddddifferent directions
+
+//Controller class should be handling the keyboard input
+//Player just responds to up, down, etc.
+//controller in main game
+//Make it versatile - Xbox controller can control it, up down left right key, and WASD button
+// Add configuration manual in the beginning of the game
+// Or make it customizatizable from the JSON Script
