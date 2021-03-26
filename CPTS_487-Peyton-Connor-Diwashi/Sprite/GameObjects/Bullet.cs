@@ -13,14 +13,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Rectangle for Bullets Hitbox
         private Rectangle box;
 
+        // Movement of this sprite (Linear Direction)
+        private Movement movement = null;
+
         // How long will the Bullet last
         private float lifespanSeconds;
 
         // Incremental timer for how long the bullet has been alive
         private float timer;
-
-        // Speed of the bullet
-        private float speed;
 
         // Texture fo the Bullet
         private Texture2D tex;
@@ -43,36 +43,37 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        // Vector direction of the bullet values from x = {-1 to 1} y = {-1 to 1)
-        public Vector2 Direction { get; set; }
-
         /// <summary>
-        /// Creates a new instance of a Bullet
+        /// Creates a new instance of a bullet using targeted movement
         /// </summary>
         /// <param name="position"></param>
         /// <param name="texture"></param>
         /// <param name="speed"></param>
         /// <param name="lifespan_seconds"></param>
-        public Bullet(Vector2 position, Texture2D texture, float speed, float lifespan_seconds)
+        public Bullet(Vector2 position, Vector2 target, Texture2D texture, float speed, float lifespan_seconds)
         {
-            this.speed = speed;
+            this.movement = new LinearDirectionMovement(speed, position, target);
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
             this.box = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.Position = position;
-            this.Direction = new Vector2(0, 1);
         }
 
         /// <summary>
-        /// Scale the bullet
+        /// creates a new instance of a bullet using cardinal movement
         /// </summary>
-        /// <param name="n"> scale factor </param>
-        public override void Scale(float n)
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="texture"></param>
+        /// <param name="speed"></param>
+        /// <param name="lifespan_seconds"></param>
+        public Bullet(Vector2 position, Movement.CardinalDirection direction, Texture2D texture, float speed, float lifespan_seconds)
         {
-            this.box.X = (int)((float)this.box.X * n);
-            this.box.Y = (int)((float)this.box.Y * n);
-            this.box.Width = (int)((float)this.box.Width * n);
-            this.box.Height = (int)((float)this.box.Height * n);
+            this.movement = new CardinalMovement(speed, direction);
+            this.lifespanSeconds = lifespan_seconds;
+            this.tex = texture;
+            this.box = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            this.Position = position;
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (timer >= this.lifespanSeconds)
                 this.Dispose.Invoke(this, new EventArgs());
 
-            this.Position += this.Direction * this.speed;
+            this.Position += this.movement.Move();
         }
     }
 }

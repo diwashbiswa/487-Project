@@ -12,7 +12,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public abstract class EnemyFactory
     {
-        protected Rectangle enemyBounds;
+        protected Rectangle spawnBounds;
 
         protected ContentManager Content;
 
@@ -57,25 +57,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Min X Spawn
         protected int XMin
         {
-            get { return this.enemyBounds.X + 1; }
+            get { return this.spawnBounds.X + 1; }
         }
 
         // Max X Spawn
         protected int XMax
         {
-            get { return (this.enemyBounds.X + this.enemyBounds.Width) - 1; }
+            get { return (this.spawnBounds.X + this.spawnBounds.Width) - 1; }
         }
 
         // Min Y Spawn
         protected int YMin
         {
-            get { return this.enemyBounds.Y + 1; }
+            get { return this.spawnBounds.Y + 1; }
         }
 
         // Max Y Spawn
         protected int YMax
         {
-            get { return (this.enemyBounds.Y + this.enemyBounds.Height) - 1; }
+            get { return (this.spawnBounds.Y + this.spawnBounds.Height) - 1; }
         }
 
         public enum EnemyType { Grunt1, Grunt2, Boss1, Boss2};
@@ -83,10 +83,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <summary>
         /// Creates a new instance of the EnemyFactory Class
         /// </summary>
-        /// <param name="enemy_bounds"> Bounds for enemies created with this Factory </param>
-        public EnemyFactory(Rectangle enemy_bounds, ContentManager content_manager, EventHandler disposeMethod = null)
+        /// <param name="spawn_bounds"> Bounds for enemies created with this Factory </param>
+        public EnemyFactory(Rectangle spawn_bounds, ContentManager content_manager, EventHandler disposeMethod = null)
         {
-            this.enemyBounds = enemy_bounds;
+            this.spawnBounds = spawn_bounds;
             this.Content = content_manager;
             this.disposeMethod = disposeMethod;
             this.LifeSpanSeconds = 0;

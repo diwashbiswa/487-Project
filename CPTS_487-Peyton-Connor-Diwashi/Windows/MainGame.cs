@@ -17,7 +17,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Enemy> enemies = new List<Enemy>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
         private Player player;
-        private Rectangle enemy_bounds;
+        private Rectangle spawn_bounds;
         private float scaleFactor;
         private float timer = 0.0f;
         private long frames = 0;
@@ -60,14 +60,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
-
-            this.enemy_bounds = new Rectangle(50, 50, 1180, 600);
+            // Create bounds for spawning on screen
+            this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
-            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds);
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
             // Create new EnemyFactory
 
             // TODO: Lifespan as a paramater
-            this.ef = new StandardEnemyFactory(enemy_bounds, Content);
+            this.ef = new StandardEnemyFactory(spawn_bounds, Content);
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
@@ -142,6 +142,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 }
 
 /*
+ *      TODO:
+ * 
  1. JSON script draft
 
  2. Adding controllers between maingame and classes
@@ -154,5 +156,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  4. Make enemy and bullet more similar
 
  5. Extract keyboard input away from sprites
+
+
+      BUGS:
+
+      Enemy.Position += movement.Move() does not work with any movement vector 
+        containing values less than 1 because of integer casting int the Enemy.Position PROPERTY. 
+        Position is in PIXELS therefore we cannot move by .5 of a pixel. 
+        For this reason, a movement of 0.5 will cause the enemy to infinitely
+        stall. Now, minimum cardinal movement is set to 1 in any direction.
 
  */
