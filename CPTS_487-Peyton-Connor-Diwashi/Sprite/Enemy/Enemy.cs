@@ -16,6 +16,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Represents the body and size of the enemy
         private Rectangle body;
 
+        protected Movement movement;
+
         // Represents the area the enemy is allowed to be inside
         protected Rectangle bounds;
 
@@ -44,25 +46,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private float lifespanTimer = 0;
 
         /// <summary>
-        /// Enumerating direction for enemies
-        /// </summary>
-        protected enum Direction { Down, Up, Left, Right, DownRight, DownLeft, UpRight, UpLeft };
-
-        /// <summary>
         /// Direct interfact to enemy X and Y coordinates
         /// </summary>
         public int X { get { return this.body.X; } private set { this.body.X = value; } }
         public int Y { get { return this.body.Y; } private set { this.body.Y = value; } }
-
-        // Move this enemy Up,Down,Left,Right, Down-Right, Down-Left, Up-Right, Up-Left
-        private void T_Down() { this.Y+=(int)speed; }
-        private void T_Up() { this.Y-= (int)speed; }
-        private void T_Left() { this.X-= (int)speed; }
-        private void T_Right() { this.X+= (int)speed; }
-        private void T_DR() { this.T_Down(); this.T_Right(); }
-        private void T_DL() { this.T_Down(); this.T_Left(); }
-        private void T_UR() { this.T_Up(); this.T_Right(); }
-        private void T_UL() { this.T_Up(); this.T_Left(); }
 
         /// <summary>
         /// Position of the (top-left) corner of the Enemy
@@ -107,19 +94,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
 
         /// <summary>
-        /// Gets a directional vector pointing towards this enemies attack target.
-        /// </summary>
-        protected Vector2 DirectonTowardsTarget
-        {
-            get
-            {
-               // Get directional vector to target
-               Vector2 dv = this.attackTarget - this.Position;
-               return dv / dv.Length();
-            }
-        }
-
-        /// <summary>
         /// Initialize the base class for Enemy
         /// </summary>
         /// <param name="position"> position of the enemy on the screen </param>
@@ -141,60 +115,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Transforms the Enemy in a direction
-        /// </summary>
-        /// <param name="direc"></param>
-        protected void Transform(Enemy.Direction direc)
-        {
-            switch (direc)
-            {
-                case Direction.Down:
-                    this.T_Down();
-                    break;
-                case Direction.Up:
-                    this.T_Up();
-                    break;
-                case Direction.Left:
-                    this.T_Left();
-                    break;
-                case Direction.Right:
-                    this.T_Right();
-                    break;
-                case Direction.UpLeft:
-                    this.T_UL();
-                    break;
-                case Direction.UpRight:
-                    this.T_UR();
-                    break;
-                case Direction.DownLeft:
-                    this.T_DL();
-                    break;
-                case Direction.DownRight:
-                    this.T_DR();
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Returns true if a movement in direction will be WITHIN bounds
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        protected bool WillIntersectBounds(Enemy.Direction direction)
-        {
-            bool s = false;
-            Rectangle revert = this.Hitbox;
-            this.Transform(direction);
-
-            if (this.Hitbox.Intersects(this.bounds)) { s = true; }
-            else { s = false; }
-
-            this.Hitbox = revert;
-
-            return s;
-        }
-
-        /// <summary>
         /// Bind the enemy to a target to attack.
         /// </summary>
         /// <param name="t"> attack target </param>
@@ -210,18 +130,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void UnbindFromTarget()
         {
             this.boundToTarget = false;
-        }
-
-        /// <summary>
-        /// Scale the enemy by a factor
-        /// </summary>
-        /// <param name="n"> scale factor </param>
-        public override void Scale(float n)
-        {
-            this.body.X = (int)((float)this.body.X * n);
-            this.body.Y = (int)((float)this.body.Y * n);
-            this.body.Width = (int)((float)this.body.Width * n);
-            this.body.Height = (int)((float)this.body.Height * n);
         }
 
         /// <summary>

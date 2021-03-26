@@ -63,7 +63,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             this.enemy_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
-            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds);
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds, 7.0f);
             // Create new EnemyFactory
 
             // TODO: Lifespan as a paramater
@@ -142,6 +142,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 }
 
 /*
+ *      TODO:
+ * 
  1. JSON script draft
 
  2. Adding controllers between maingame and classes
@@ -154,5 +156,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  4. Make enemy and bullet more similar
 
  5. Extract keyboard input away from sprites
+
+
+      BUGS:
+
+      Enemy.Position += movement.Move() does not work with any movement vector 
+        containing values less than 1 because of integer casting int the Enemy.Position PROPERTY. 
+        Position is in PIXELS therefore we cannot move by .5 of a pixel. 
+        For this reason, a movement of 0.5 will cause the enemy to infinitely
+        stall. Now, minimum cardinal movement is set to 1 in any direction.
 
  */

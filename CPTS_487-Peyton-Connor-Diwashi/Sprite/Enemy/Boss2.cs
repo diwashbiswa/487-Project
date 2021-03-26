@@ -11,7 +11,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class Boss2 : Enemy
     {
-        private Enemy.Direction currentDirection;
+        private Movement.CardinalDirection currentDirection;
 
         private Random rand;
 
@@ -33,20 +33,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.bullets = new List<Bullet>();
             this.disposedBullets = new List<Bullet>();
             this.bulletTexture = bulletTexture;
+            this.movement = new CardinalMovement(this.Speed, this.currentDirection);
         }
 
         /// <summary>
         /// Get a random direction enumerated by Enemy.Direction
         /// </summary>
         /// <returns></returns>
-        private Enemy.Direction getRandomDirection()
+        private Movement.CardinalDirection getRandomDirection()
         {
-            if (rand.Next() % 2 == 0)
-            {
-                return (Enemy.Direction)rand.Next(4, 8);
-            }
-
-            return (Enemy.Direction)rand.Next(8);
+            return (Movement.CardinalDirection)rand.Next(8);
         }
 
         /// <summary>
@@ -66,11 +62,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         protected override void Move(GameTime gameTime)
         {
-            // If the sprite will be in bounds for his next move then move it, otherwise switch directions
-            if (this.WillIntersectBounds(this.currentDirection))
-                this.Transform(this.currentDirection);
-            else
-                this.currentDirection = this.getRandomDirection();
+            this.Position += this.movement.Move();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -91,9 +83,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Fire new bullet
             if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
             {
-                Bullet b = new Bullet(this.Position, this.bulletTexture, 9.0f, 3.0f);
+                Bullet b = new Bullet(this.Position, this.attackTarget, this.bulletTexture, 9.0f, 3.0f);
                 b.Dispose += this.DisposeBulletEvent;
-                b.Direction = this.DirectonTowardsTarget;
                 this.bullets.Add(b);
                 this.previousFire = gameTime.TotalGameTime;
             }

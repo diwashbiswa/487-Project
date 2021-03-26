@@ -30,9 +30,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        // This is no longer used to glocally scale sprites. Only locally.
-        public abstract void Scale(float n);
-
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         public abstract void Update(GameTime gameTime);
