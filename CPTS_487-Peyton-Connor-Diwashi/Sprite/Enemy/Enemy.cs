@@ -19,7 +19,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected Movement movement;
 
         // The target the Enemy is Focused on
-        protected Vector2 attackTarget;
+        public Vector2 attackTarget;
 
         // Is the enemy bound to a target
         protected bool boundToTarget = false;

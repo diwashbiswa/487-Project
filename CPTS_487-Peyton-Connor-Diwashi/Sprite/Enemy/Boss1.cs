@@ -16,19 +16,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Random rand;
 
-        private BulletSpawner bulletSpawner;
-
-        private TimeSpan previousFire = TimeSpan.Zero;
-
-        private double fireRateSeconds = 1.5;
-
-        public Boss1(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture)
+        public Boss1(Vector2 position, Texture2D texture) : base(position, texture)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
             this.movement = new CardinalMovement(this.Speed, this.currentDirection);
-            this.bulletSpawner = new BulletSpawner(bulletTexture, this.Position, this.movement, this.body.Width, this.body.Height);
         }
 
         /// <summary>
@@ -43,7 +36,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            this.bulletSpawner.Update(gameTime);
         }
 
         /// <summary>
@@ -57,9 +49,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Draw all bullets
-            this.bulletSpawner.Draw(gameTime, spriteBatch);
-
             // Draw this sprite
             base.Draw(gameTime, spriteBatch);
         }
@@ -67,12 +56,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Only runs if the enemy is bounded to a target
         protected override void Attack(GameTime gameTime, Vector2 target)
         {
-            // Fire new bullet
-            if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
-            {
-                this.bulletSpawner.Fire(this.attackTarget, 9.0f, 3.0f);
-                this.previousFire = gameTime.TotalGameTime;
-            }
+            // Handled in BulletSpawner
         }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)

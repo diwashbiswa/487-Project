@@ -13,9 +13,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
         private EnemyFactory ef;
+        private SpawnerFactory sf;
+
         private List<Enemy> enemies = new List<Enemy>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
+
+        private List<BulletSpawner> spawners = new List<BulletSpawner>();
+        private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
+
         private Player player;
         private Rectangle spawn_bounds;
         private float scaleFactor;
@@ -40,6 +47,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.enemies.Add(s);
         }
 
+        protected void AddSpawner(BulletSpawner s)
+        {
+            this.spawners.Add(s);
+        }
+
         /// <summary>
         /// Sprite must subscibe to this event to be disposed
         /// </summary>
@@ -48,6 +60,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected void DisposeEnemyEvent(object sender, EventArgs e)
         {
             Enemy x = (Enemy)sender;
+
+            foreach(BulletSpawner s in spawners)
+            {
+                if (s.parent == x)
+                {
+                    this.disposedSpawners.Add(s);
+                }
+            }
+
             this.disposedEnemies.Add(x);
         }
 
@@ -64,10 +85,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
-            // Create new EnemyFactory
 
-            // TODO: Lifespan as a paramater
+            // Create enemy and spawner factories
             this.ef = new StandardEnemyFactory(spawn_bounds, Content);
+            this.sf = new StandardSpawnerFactory(Content);
+
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
@@ -88,19 +110,61 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             //Add Enemy
             if (timer > 1 && timer < 1.1)
-                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1));
+            {
+                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1);
+                this.AddEnemy(e);
+                this.sf.Parent = e;
+                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
+            }
 
             if (timer > 30 && timer < 30.1)
-                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2));
+            {
+                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
+                this.AddEnemy(e);
+                this.sf.Parent = e;
+                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
+            }
 
-            if (frames == 15*60)
-                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Boss1));
+            if (frames == 15 * 60)
+            {
+                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
+                this.AddEnemy(e);
+                this.sf.Parent = e;
+                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
+            }
 
             if (frames == 45 * 60)
-                this.AddEnemy(ef.CreateEnemy(EnemyFactory.EnemyType.Boss2));
+            {
+                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
+                this.AddEnemy(e);
+                this.sf.Parent = e;
+                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
+            }
 
 
-            // Get rid of all disposed enemies
+
+            // COLLISION here
+
+
+
+            // SPAWNER ----------------------------
+            foreach (BulletSpawner s in disposedSpawners)
+            {
+                if (this.spawners.Contains(s))
+                {
+                    this.spawners.Remove(s);
+                }
+            }
+            foreach (BulletSpawner s in spawners)
+            {
+                s.Update(gameTime);
+            }
+            // ------- ----------------------------
+
+
+
+
+            // ENEMY ----------------------------
             foreach (Enemy s in disposedEnemies)
             {
                 if(this.enemies.Contains(s))
@@ -109,17 +173,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 }
             }
             this.disposedEnemies.Clear();
-
             this.target.X = this.player.X;
             this.target.Y = this.player.Y;
-
             foreach(Enemy s in enemies)
             {
                 s.BindToTarget(this.target);
                 s.Update(gameTime);
             }
+            // ----- ----------------------------
 
+
+
+            // PLAYER ----------------------------
             this.player.Update(gameTime);
+            // ------ ----------------------------
 
             base.Update(gameTime);
         }
@@ -133,6 +200,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.Draw(gameTime, _spriteBatch);
             }
+
+            foreach(BulletSpawner s in spawners)
+            {
+                s.Draw(gameTime, _spriteBatch);
+            }
+
             this.player.Draw(gameTime, _spriteBatch);
             _spriteBatch.End();
 
@@ -156,6 +229,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  4. Make enemy and bullet more similar
 
  5. Extract keyboard input away from sprites
+
+ 6. BulletSpawner spawned directly after Enemy using BulletSpawnerFactory
 
 
       BUGS:

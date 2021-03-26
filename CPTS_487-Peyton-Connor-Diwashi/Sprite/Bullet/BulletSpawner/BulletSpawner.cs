@@ -8,18 +8,23 @@ using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class BulletSpawner : Sprite
+    public abstract class BulletSpawner : Sprite
     {
-        private List<Bullet> bullets;
+        public Enemy parent = null;
+
+        protected List<Bullet> bullets;
 
         private List<Bullet> disposedBullets;
 
-        private Texture2D bulletTexture;
+        protected Texture2D bulletTexture;
 
         private Rectangle body;
 
         private Movement movement;
 
+        /// <summary>
+        /// The X,Y coordinates this spawner will fire from
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -34,30 +39,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public BulletSpawner(Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
+        public BulletSpawner(Enemy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
         {
             this.bulletTexture = bulletTex;
             this.bullets = new List<Bullet>();
             this.disposedBullets = new List<Bullet>();
             this.body = new Rectangle((int)position.X, (int)position.Y, width, height);
             this.movement = movement;
+            this.parent = parent;
         }
 
-        public void Fire(Vector2 target, float speed, float lifespanSeconds)
-        {
-            Bullet b = new CardinalBullet(this.Position, target, this.bulletTexture, speed, lifespanSeconds);
-            b.Dispose += this.DisposeBulletEvent;
-            this.bullets.Add(b);
-        }
-
-        public void Fire(CardinalMovement.CardinalDirection direction, float speed, float lifespanSeconds)
-        {
-            Bullet b = new CardinalBullet(this.Position, direction, this.bulletTexture, speed, lifespanSeconds);
-            b.Dispose += this.DisposeBulletEvent;
-            this.bullets.Add(b);
-        }
-
-        private void DisposeBulletEvent(object sender, EventArgs e)
+        /// <summary>
+        /// This method is invoked when one of this spawners bullets dies
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DisposeBulletEvent(object sender, EventArgs e)
         {
             Bullet b = (Bullet)sender;
             this.disposedBullets.Add(b);
@@ -71,8 +68,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// Part of base.Update, this method runs in a superclass when this spawners parent is bound to an attackTarget
+        /// </summary>
+        /// <param name="gameTime"></param>
+        protected abstract void SpawnBullet(GameTime gameTime);
+
         public override void Update(GameTime gameTime)
         {
+            // Try to super.SpawnBullet if parent is bound to target
+            if (parent.IsBoundToTarget)
+            {
+                this.SpawnBullet(gameTime);
+            }
+
             foreach (Bullet b in this.disposedBullets)
             {
                 if (this.bullets.Contains(b))
