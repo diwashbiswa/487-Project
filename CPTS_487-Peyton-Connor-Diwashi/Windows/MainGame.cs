@@ -17,7 +17,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Enemy> enemies = new List<Enemy>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
         private Player player;
-        private Rectangle enemy_bounds;
+        private Rectangle spawn_bounds;
         private float scaleFactor;
         private float timer = 0.0f;
         private long frames = 0;
@@ -60,14 +60,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
-
-            this.enemy_bounds = new Rectangle(50, 50, 1180, 600);
+            // Create bounds for spawning on screen
+            this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
-            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref enemy_bounds, 7.0f);
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
             // Create new EnemyFactory
 
             // TODO: Lifespan as a paramater
-            this.ef = new StandardEnemyFactory(enemy_bounds, Content);
+            this.ef = new StandardEnemyFactory(spawn_bounds, Content);
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned

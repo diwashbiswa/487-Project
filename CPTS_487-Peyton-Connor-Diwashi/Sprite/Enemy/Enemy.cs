@@ -18,9 +18,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected Movement movement;
 
-        // Represents the area the enemy is allowed to be inside
-        protected Rectangle bounds;
-
         // The target the Enemy is Focused on
         protected Vector2 attackTarget;
 
@@ -98,20 +95,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="position"> position of the enemy on the screen </param>
         /// <param name="texture"> texture to draw the enemy with </param>
-        public Enemy(Vector2 position, Texture2D texture, ref Rectangle bounds)
+        public Enemy(Vector2 position, Texture2D texture)
         {
             this.Color = Color.White;
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.boundToTarget = false;
-            this.bounds = bounds;
-            this.speed = 1;
-
-            // Check for enemy spawned out of bounds
-            if (!this.Hitbox.Intersects(this.bounds))
-            {
-                throw new Exception("Enemy was spawned out of bounds\n");
-            }
         }
 
         /// <summary>

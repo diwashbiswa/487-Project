@@ -25,7 +25,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private double fireRateSeconds = .6f;
 
-        public Grunt2(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture, ref bounds)
+        public Grunt2(Vector2 position, Texture2D texture, Texture2D bulletTexture, ref Rectangle bounds) : base(position, texture)
         {
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();

@@ -18,9 +18,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Represents the body and size of the player
         private Rectangle body;
 
-        // Represents the area the player is allowed to be inside
-        protected Rectangle bounds;
-
         // Texture to draw on the player
         private Texture2D tex;
 
@@ -69,7 +66,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.Color = Color.White;
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.bounds = bounds;
             this.movement = new KeyboardMovement(speed);
         }
 
