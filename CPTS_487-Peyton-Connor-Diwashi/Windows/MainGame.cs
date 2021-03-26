@@ -47,6 +47,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.enemies.Add(s);
         }
 
+        /// <summary>
+        /// Add a spawner to list of enemy spawners
+        /// </summary>
+        /// <param name="s"></param>
         protected void AddSpawner(BulletSpawner s)
         {
             this.spawners.Add(s);
@@ -61,6 +65,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             Enemy x = (Enemy)sender;
 
+            // Remove each spawner associated with the enemy
             foreach(BulletSpawner s in spawners)
             {
                 if (s.parent == x)
