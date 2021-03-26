@@ -27,7 +27,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
             this.movement = new CardinalMovement(this.Speed, this.currentDirection);
-            this.bulletSpawner = new BulletSpawner(bulletTexture, this.Position, this.movement, this.body.Width, this.body.Height);
+            this.bulletSpawner = new BulletSpawner(bulletTexture, this.Position, this.movement, this.Width, this.Height);
         }
 
         /// <summary>

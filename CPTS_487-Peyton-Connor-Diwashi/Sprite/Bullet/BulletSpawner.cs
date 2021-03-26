@@ -45,14 +45,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public void Fire(Vector2 target, float speed, float lifespanSeconds)
         {
-            Bullet b = new Bullet(this.Position, target, this.bulletTexture, speed, lifespanSeconds);
+            Bullet b = new CardinalBullet(this.Position, target, this.bulletTexture, speed, lifespanSeconds);
             b.Dispose += this.DisposeBulletEvent;
             this.bullets.Add(b);
         }
 
         public void Fire(CardinalMovement.CardinalDirection direction, float speed, float lifespanSeconds)
         {
-            Bullet b = new Bullet(this.Position, direction, this.bulletTexture, speed, lifespanSeconds);
+            Bullet b = new CardinalBullet(this.Position, direction, this.bulletTexture, speed, lifespanSeconds);
             b.Dispose += this.DisposeBulletEvent;
             this.bullets.Add(b);
         }
