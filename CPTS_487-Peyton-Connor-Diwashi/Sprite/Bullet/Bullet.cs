@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    class Bullet : Sprite
+    public abstract class Bullet : Sprite
     {
         // Rectangle for Bullets Hitbox
         private Rectangle box;
 
         // Movement of this sprite (Linear Direction)
-        private Movement movement = null;
+        protected Movement movement = null;
 
         // How long will the Bullet last
         private float lifespanSeconds;
@@ -50,26 +50,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="texture"></param>
         /// <param name="speed"></param>
         /// <param name="lifespan_seconds"></param>
-        public Bullet(Vector2 position, Vector2 target, Texture2D texture, float speed, float lifespan_seconds)
+        public Bullet(Vector2 position, Texture2D texture, float speed, float lifespan_seconds)
         {
-            this.movement = new LinearDirectionMovement(speed, position, target);
-            this.lifespanSeconds = lifespan_seconds;
-            this.tex = texture;
-            this.box = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.Position = position;
-        }
-
-        /// <summary>
-        /// creates a new instance of a bullet using cardinal movement
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="direction"></param>
-        /// <param name="texture"></param>
-        /// <param name="speed"></param>
-        /// <param name="lifespan_seconds"></param>
-        public Bullet(Vector2 position, Movement.CardinalDirection direction, Texture2D texture, float speed, float lifespan_seconds)
-        {
-            this.movement = new CardinalMovement(speed, direction);
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
             this.box = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);

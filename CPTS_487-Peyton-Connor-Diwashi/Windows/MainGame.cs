@@ -148,10 +148,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
  2. Adding controllers between maingame and classes
     - spawning
-    - collision detection
+    - collision detections
     - movement
  
- 3. Movement Class
+ 3. ScriptMovement : Movement
 
  4. Make enemy and bullet more similar
 

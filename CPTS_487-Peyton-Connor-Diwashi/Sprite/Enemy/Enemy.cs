@@ -14,7 +14,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     public abstract class Enemy : Sprite
     {
         // Represents the body and size of the enemy
-        private Rectangle body;
+        protected Rectangle body;
 
         protected Movement movement;
 
@@ -43,10 +43,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private float lifespanTimer = 0;
 
         /// <summary>
-        /// Direct interfact to enemy X and Y coordinates
+        /// Direct interface to enemy X and Y coordinates
         /// </summary>
         public int X { get { return this.body.X; } private set { this.body.X = value; } }
         public int Y { get { return this.body.Y; } private set { this.body.Y = value; } }
+
+        public int Width { get { return this.body.Width;  } }
+        public int Height { get { return this.body.Height; } }
+
+        public Movement Movement
+        {
+            get
+            {
+                return this.movement;
+            }
+            protected set
+            {
+                this.movement = value;
+            }
+        }
 
         /// <summary>
         /// Position of the (top-left) corner of the Enemy
