@@ -16,11 +16,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Random rand;
 
-        private List<Bullet> bullets;
-
-        private List<Bullet> disposedBullets;
-
-        private Texture2D bulletTexture;
+        private BulletSpawner bulletSpawner;
 
         private TimeSpan previousFire = TimeSpan.Zero;
 
@@ -31,10 +27,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
-            this.bullets = new List<Bullet>();
-            this.disposedBullets = new List<Bullet>();
-            this.bulletTexture = bulletTexture;
             this.movement = new CardinalMovement(this.Speed, this.currentDirection);
+            this.bulletSpawner = new BulletSpawner(bulletTexture, this.Position, this.movement, this.body.Width, this.body.Height);
         }
 
         /// <summary>
@@ -46,15 +40,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             return (Movement.CardinalDirection)rand.Next(8);
         }
 
-        /// <summary>
-        /// Event invoked to this function when a bullet this Grunt subscribes to becomes disposed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DisposeBulletEvent(object sender, EventArgs e)
+        public override void Update(GameTime gameTime)
         {
-            Bullet b = (Bullet)sender;
-            this.disposedBullets.Add(b);
+            base.Update(gameTime);
+            this.bulletSpawner.Update(gameTime);
         }
 
         /// <summary>
@@ -68,11 +57,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Draw all bullets first
-            foreach (Bullet b in this.bullets)
-            {
-                b.Draw(gameTime, spriteBatch);
-            }
+            // Draw all bullets
+            this.bulletSpawner.Draw(gameTime, spriteBatch);
 
             // Draw this sprite
             base.Draw(gameTime, spriteBatch);
@@ -84,31 +70,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Fire new bullet
             if (gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds)
             {
-                Bullet b = new Bullet(this.Position, this.attackTarget, this.bulletTexture, 9.0f, 3.0f);
-                b.Dispose += this.DisposeBulletEvent;
-                this.bullets.Add(b);
+                this.bulletSpawner.Fire(this.attackTarget, 9.0f, 3.0f);
                 this.previousFire = gameTime.TotalGameTime;
-            }
-
-            // Remove all disposed bullets from the Update list
-            foreach (Bullet b in this.disposedBullets)
-            {
-                if (this.bullets.Contains(b))
-                {
-                    this.bullets.Remove(b);
-                }
-            }
-            this.disposedBullets.Clear();
-
-            // Update all bullets
-            foreach (Bullet b in this.bullets)
-            {
-                b.Update(gameTime);
             }
         }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
         {
+            // if enemy is dead Dispose.Invoke
+
             // TBI
 
             // dispose EventHandler Invoke based on some logic, encapsulating Classes subscribe to base.Dispose

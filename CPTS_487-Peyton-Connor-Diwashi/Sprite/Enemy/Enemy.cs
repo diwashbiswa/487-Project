@@ -14,7 +14,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     public abstract class Enemy : Sprite
     {
         // Represents the body and size of the enemy
-        private Rectangle body;
+        protected Rectangle body;
 
         protected Movement movement;
 
