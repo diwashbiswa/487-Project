@@ -15,9 +15,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public class Player : Sprite
     {
-        // Represents the body and size of the player
-        private Rectangle body;
-
         // Texture to draw on the player
         private Texture2D tex;
 
@@ -77,6 +74,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public override void Update(GameTime gameTime)
         {
             this.Position += this.movement.Move();
+        }
+
+        public override void Collide(Sprite sender)
+        {
+            if (sender is Bullet)
+            {
+                this.col = Color.Red;
+            }
         }
     }
 }

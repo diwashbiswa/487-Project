@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 
 namespace CPTS_487_Peyton_Connor_Diwashi
@@ -23,6 +24,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
 
+        private List<Sprite> collision_list = new List<Sprite>();
+
         private Player player;
         private Rectangle spawn_bounds;
         private float scaleFactor;
@@ -31,11 +34,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         Vector2 target = new Vector2(0, 0);
 
+
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        /// <summary>
+        /// Build a list of all sprites needed for collision detection
+        /// </summary>
+        protected void buildSpriteList()
+        {
+            collision_list.Clear();
+            collision_list.Add(player);
+            collision_list.AddRange(enemies);
+            foreach (BulletSpawner s in spawners)
+            {
+                collision_list.AddRange(s.Bullets);
+            }
         }
 
         /// <summary>
@@ -148,8 +166,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
 
-            // COLLISION here
-
+            // COLLISION ---------------------------
+            this.buildSpriteList();
+            CollisionObserver.Collide(collision_list);
+            // --------- ---------------------------
 
 
             // SPAWNER ----------------------------

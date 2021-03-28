@@ -18,9 +18,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected Texture2D bulletTexture;
 
-        private Rectangle body;
-
         private Movement movement;
+
+        /// <summary>
+        /// Returns a list of this spawners bullets
+        /// </summary>
+        public List<Bullet> Bullets
+        {
+            get
+            {
+                return this.bullets;
+            }
+        }
 
         /// <summary>
         /// The X,Y coordinates this spawner will fire from
@@ -97,6 +106,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
             this.Position += this.movement.Move();
+        }
+
+        public override void Collide(Sprite sender)
+        {
+            // no collision
         }
     }
 }
