@@ -80,7 +80,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Bullet)
             {
-                this.col = Color.Red;
+                string line = "Player has been hit at: ";
+                line += this.X.ToString();
+                line += ",";
+                line += this.Y.ToString();
+                Console.WriteLine(line);
             }
         }
     }
