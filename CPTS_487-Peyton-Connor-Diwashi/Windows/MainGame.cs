@@ -17,6 +17,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Enemy> enemies = new List<Enemy>();
         private List<Enemy> disposedEnemies = new List<Enemy>();
         private Player player;
+        private Texture2D lives;
         private Rectangle spawn_bounds;
         private float scaleFactor;
         private float timer = 0.0f;
@@ -65,6 +66,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
             // Create new EnemyFactory
+
+            this.lives = Content.Load<Texture2D>("heart");
 
             // TODO: Lifespan as a paramater
             this.ef = new StandardEnemyFactory(spawn_bounds, Content);

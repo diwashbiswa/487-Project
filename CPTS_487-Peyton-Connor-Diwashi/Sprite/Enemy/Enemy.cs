@@ -42,6 +42,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Lifespan timer when lifespan is set
         private float lifespanTimer = 0;
 
+        // Enemy's health
+        private int health;
+
         /// <summary>
         /// Direct interface to enemy X and Y coordinates
         /// </summary>
@@ -134,6 +137,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void UnbindFromTarget()
         {
             this.boundToTarget = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void takeDamage()
+        {
+            this.health -= 20; //enemy takes 20 damages each time
+        }
+
+        public void die()
+        {
+            if (this.health <= 0)
+            {
+                this.Dispose.Invoke(this, new EventArgs()); //dispose the enemy
+            }
         }
 
         /// <summary>

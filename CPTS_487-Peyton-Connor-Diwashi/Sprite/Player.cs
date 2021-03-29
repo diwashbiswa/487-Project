@@ -27,6 +27,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // movement for player
         private Movement movement;
 
+        // player's health
+        private int health;
+
+        // respawning - invincible
+        private bool invincible;
+
         /// <summary>
         /// Direct interfact to enemy X and Y coordinates
         /// </summary>
@@ -67,6 +73,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.movement = new KeyboardMovement(speed);
+        }
+
+        /// <summary>
+        /// Everytime a bullet hits player, it takes damage - one life lost
+        /// </summary>
+        public void takeDamage()
+        {
+            if (this.invincible == false)
+            {
+                this.health--;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
