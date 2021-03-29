@@ -88,6 +88,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Player)
             {
+                LogConsole.Log("Bullet collided with player");
                 this.Dispose.Invoke(this, new EventArgs());
             }
         }

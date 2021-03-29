@@ -24,6 +24,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // movement for player
         private Movement movement;
 
+        #region testing
+        private float a_timer = 1.0f;
+        #endregion
+
         /// <summary>
         /// Direct interfact to enemy X and Y coordinates
         /// </summary>
@@ -73,6 +77,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
+            // TEST Small animation for when player is hit by a bullet
+            a_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (a_timer > 0.2f)
+                this.col = Color.White;
+            else
+                this.col = Color.Red;
+            // End animation TEST ------------------------------------
+
             this.Position += this.movement.Move();
         }
 
@@ -80,11 +92,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Bullet)
             {
-                string line = "Player has been hit at: ";
-                line += this.X.ToString();
-                line += ",";
-                line += this.Y.ToString();
-                Console.WriteLine(line);
+                LogConsole.LogPosition("Player has been hit", this.X, this.Y);
+                a_timer = 0.0f;
             }
         }
     }
