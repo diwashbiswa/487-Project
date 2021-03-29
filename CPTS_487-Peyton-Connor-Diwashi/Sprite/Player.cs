@@ -32,7 +32,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private int health;
 
         // respawning - invincible
-        private bool invincible;
+        private bool invincible = false;
 
         /// <summary>
         /// Direct interfact to enemy X and Y coordinates
@@ -76,6 +76,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.movement = new KeyboardMovement(speed);
         }
 
+        public void setHealth(int newHealth)
+        {
+            this.health = newHealth;
+        }
+
+        public int getHealth()
+        {
+            return this.health;
+        }
+
         /// <summary>
         /// Everytime a bullet hits player, it takes damage - one life lost
         /// </summary>
@@ -85,6 +95,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 this.health--;
             }
+            LogConsole.Log("Player health: " + this.health);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -110,6 +121,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (sender is Bullet)
             {
                 LogConsole.LogPosition("Player has been hit", this.X, this.Y);
+                this.takeDamage();
+                Console.WriteLine("Player has been hit", this.X, this.Y);
+                Console.WriteLine("player health: " + this.health);
+                
                 a_timer = 0.0f;
             }
         }
@@ -124,9 +139,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 // only need grunt position from the grunt1.cs
 // bulllet and enemies are identical
 // bullet classes just need to know the location of the enemies
-//      -- make them spawn from that locatiiiiiiiiiiiiiiiiiiiiiion
-    //  -- looks likkkkkkke                                the enemmmmmmmmies are firing the bullet
-// Have Movement class - for movement of the bullets that go dddddifferent directions
+//      -- make them spawn from that location
+    //  -- looks like the enemies are firing the bullet
+// Have Movement class - for movement of the bullets that go different directions
 
 //Controller class should be handling the keyboard input
 //Player just responds to up, down, etc.

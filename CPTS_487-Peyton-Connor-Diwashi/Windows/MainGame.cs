@@ -109,6 +109,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
+            this.player.setHealth(5);
 
             // Create enemy and spawner factories
             this.ef = new StandardEnemyFactory(spawn_bounds, Content);
