@@ -80,9 +80,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.Position += this.movement.Move();
         }
 
+        /// <summary>
+        /// When the bullet hits the player it is disposed
+        /// </summary>
+        /// <param name="sender"></param>
         public override void Collide(Sprite sender)
         {
-            // TBI
+            if (sender is Player)
+            {
+                this.Dispose.Invoke(this, new EventArgs());
+            }
         }
     }
 }

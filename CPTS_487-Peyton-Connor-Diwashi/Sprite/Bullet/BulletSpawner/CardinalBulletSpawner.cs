@@ -46,6 +46,5 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             base.Update(gameTime);
         }
-
     }
 }
