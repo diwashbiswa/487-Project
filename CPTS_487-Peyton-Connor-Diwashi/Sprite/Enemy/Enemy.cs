@@ -13,13 +13,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public abstract class Enemy : Sprite
     {
-        // Represents the body and size of the enemy
-        protected Rectangle body;
-
         protected Movement movement;
 
         // The target the Enemy is Focused on
-        protected Vector2 attackTarget;
+        public Vector2 attackTarget;
 
         // Is the enemy bound to a target
         protected bool boundToTarget = false;
@@ -191,6 +188,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         }
 
+        public override void Collide(Sprite sender)
+        {
+            // TBI
+        }
+
         /// CONSIDER MOVING TO Spite.cs CONSIDER MAKING virtual
         /// <summary>
         /// Superclass Invokes when the enemy should be removed from the game
@@ -211,5 +213,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         /// <param name="target"></param>
         protected abstract void Attack(GameTime gameTime, Vector2 target);
+
     }
 }
