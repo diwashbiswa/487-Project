@@ -26,16 +26,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             switch (type)
             {
                 case EnemyType.Grunt1:
-                    e = new Grunt1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt1"), this.Content.Load<Texture2D>("BulletGreen"), ref this.spawnBounds);
+                    e = new Grunt1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt1"));
                     break;
                 case EnemyType.Grunt2:
-                    e = new Grunt2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt2"), this.Content.Load<Texture2D>("BulletPurple"), ref this.spawnBounds);
+                    e = new Grunt2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt2"));
                     break;
                 case EnemyType.Boss1:
-                    e = new Boss1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss1"), this.Content.Load<Texture2D>("BossBullet"), ref this.spawnBounds);
+                    e = new Boss1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss1"));
                     break;
                 case EnemyType.Boss2:
-                    e = new Boss2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss2"), this.Content.Load<Texture2D>("BossBullet"), ref this.spawnBounds);
+                    e = new Boss2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss2"));
                     break;
                 default:
                     throw new Exception("Warning: StandardEnemyFactory: Request for unsupported Enemy");

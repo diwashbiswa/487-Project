@@ -15,9 +15,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public class Player : Sprite
     {
-        // Represents the body and size of the player
-        private Rectangle body;
-
         // Texture to draw on the player
         private Texture2D tex;
 
@@ -26,6 +23,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         // movement for player
         private Movement movement;
+
+        #region testing
+        private float a_timer = 1.0f;
+        #endregion
 
         /// <summary>
         /// Direct interfact to enemy X and Y coordinates
@@ -76,7 +77,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
+            // TEST Small animation for when player is hit by a bullet
+            a_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (a_timer > 0.2f)
+                this.col = Color.White;
+            else
+                this.col = Color.Red;
+            // End animation TEST ------------------------------------
+
             this.Position += this.movement.Move();
+        }
+
+        public override void Collide(Sprite sender)
+        {
+            if (sender is Bullet)
+            {
+                LogConsole.LogPosition("Player has been hit", this.X, this.Y);
+                a_timer = 0.0f;
+            }
         }
     }
 }

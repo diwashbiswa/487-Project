@@ -10,9 +10,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public abstract class Bullet : Sprite
     {
-        // Rectangle for Bullets Hitbox
-        private Rectangle box;
-
         // Movement of this sprite (Linear Direction)
         protected Movement movement = null;
 
@@ -33,13 +30,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             get
             {
-                return new Vector2((float)this.box.X, (float)this.box.Y);
+                return new Vector2((float)this.body.X, (float)this.body.Y);
             }
             set
             {
                 Vector2 v = value;
-                this.box.X = (int)v.X;
-                this.box.Y = (int)v.Y;
+                this.body.X = (int)v.X;
+                this.body.Y = (int)v.Y;
             }
         }
 
@@ -54,7 +51,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
-            this.box = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.Position = position;
         }
 
@@ -65,7 +62,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spriteBatch"></param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.tex, this.box, Color.White);
+            spriteBatch.Draw(this.tex, this.body, Color.White);
         }
 
         /// <summary>
@@ -81,6 +78,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.Dispose.Invoke(this, new EventArgs());
 
             this.Position += this.movement.Move();
+        }
+
+        /// <summary>
+        /// When the bullet hits the player it is disposed
+        /// </summary>
+        /// <param name="sender"></param>
+        public override void Collide(Sprite sender)
+        {
+            if (sender is Player)
+            {
+                LogConsole.Log("Bullet collided with player");
+                this.Dispose.Invoke(this, new EventArgs());
+            }
         }
     }
 }
