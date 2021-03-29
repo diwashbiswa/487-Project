@@ -86,6 +86,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             return this.health;
         }
 
+        public bool isDead()
+        {
+            return this.health <= 0;
+        }
+
         /// <summary>
         /// Everytime a bullet hits player, it takes damage - one life lost
         /// </summary>
@@ -121,9 +126,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (sender is Bullet)
             {
                 LogConsole.LogPosition("Player has been hit", this.X, this.Y);
-                this.takeDamage();
-                Console.WriteLine("Player has been hit", this.X, this.Y);
-                Console.WriteLine("player health: " + this.health);
+                if (!isDead())
+                {
+                    this.takeDamage();
+                    Console.WriteLine("Player has been hit", this.X, this.Y);
+                    Console.WriteLine("player health: " + this.health);
+                }
+                //LogConsole.LogPosition("Player health: ", this.health);
+                Console.WriteLine("Player health: " + this.health);
+
                 
                 a_timer = 0.0f;
             }

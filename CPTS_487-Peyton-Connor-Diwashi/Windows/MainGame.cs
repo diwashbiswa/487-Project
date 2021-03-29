@@ -28,6 +28,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Player player;
         private Texture2D lives;
+        private Rectangle livesPosition;
+
         private Rectangle spawn_bounds;
         private float scaleFactor;
         private float timer = 0.0f;
@@ -110,6 +112,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
             this.player.setHealth(5);
+            
 
             // Create enemy and spawner factories
             this.ef = new StandardEnemyFactory(spawn_bounds, Content);
@@ -213,6 +216,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             // PLAYER ----------------------------
             this.player.Update(gameTime);
+
+            this.lives = Content.Load<Texture2D>("heart");
+            //this.livesPosition = new Rectangle(50, 20, player.getHealth(), 20);
+            this.livesPosition = new Rectangle(50, 20, 20, 20);
+
             // ------ ----------------------------
 
             base.Update(gameTime);
@@ -234,6 +242,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
             this.player.Draw(gameTime, _spriteBatch);
+            _spriteBatch.Draw(this.lives, this.livesPosition, Color.Red);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
