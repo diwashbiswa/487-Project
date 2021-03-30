@@ -29,7 +29,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private Player player;
         private Texture2D lives;
         private Rectangle livesPosition;
-        private int lives_x_position = 50;
         private Vector2 pos;
 
         private Rectangle spawn_bounds;
@@ -222,7 +221,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.pos = new Vector2(50, 20);
             this.lives = Content.Load<Texture2D>("heart");
             this.livesPosition = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
-            //this.livesPosition = new Rectangle(50, 20, 20, 20);
 
             // ------ ----------------------------
 
@@ -246,21 +244,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             this.player.Draw(gameTime, _spriteBatch);
 
-            //for(int i = 0; i < player.getHealth(); i++)
-            //{
-            //    lives_x_position += 20;
-            //    _spriteBatch.Draw(lives, livesPosition, Color.Red);
 
-            //}
-
+            // Displays player lives on the screen for each lives they have
             var incrementX = 30;
-
             for (int i = 0; i < player.getHealth(); i++)
             {
-                var iteratedPos = pos + new Vector2((incrementX * i), 0);
-                _spriteBatch.Draw(lives, iteratedPos, Color.Red);
+                var newPos = pos + new Vector2((incrementX * i), 0);
+                _spriteBatch.Draw(lives, newPos, Color.Red);
             }
-
             //_spriteBatch.Draw(lives, livesPosition, Color.Red);
 
 
