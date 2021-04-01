@@ -30,6 +30,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private Texture2D lives;
         private Rectangle livesPosition;
         private Vector2 pos;
+        //SpriteFont font;
 
         private Rectangle spawn_bounds;
         private float scaleFactor;
@@ -88,7 +89,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             Enemy x = (Enemy)sender;
 
             // Remove each spawner associated with the enemy
-            foreach(BulletSpawner s in spawners)
+            foreach (BulletSpawner s in spawners)
             {
                 if (s.parent == x)
                 {
@@ -113,7 +114,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
             this.player.setHealth(5);
-            
+            //this.font = Content.Load<SpriteFont>("font");
+
 
             // Create enemy and spawner factories
             this.ef = new StandardEnemyFactory(spawn_bounds, Content);
@@ -198,7 +200,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // ENEMY ----------------------------
             foreach (Enemy s in disposedEnemies)
             {
-                if(this.enemies.Contains(s))
+                if (this.enemies.Contains(s))
                 {
                     this.enemies.Remove(s);
                 }
@@ -206,7 +208,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.disposedEnemies.Clear();
             this.target.X = this.player.X;
             this.target.Y = this.player.Y;
-            foreach(Enemy s in enemies)
+            foreach (Enemy s in enemies)
             {
                 s.BindToTarget(this.target);
                 s.Update(gameTime);
@@ -237,7 +239,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 s.Draw(gameTime, _spriteBatch);
             }
 
-            foreach(BulletSpawner s in spawners)
+            foreach (BulletSpawner s in spawners)
             {
                 s.Draw(gameTime, _spriteBatch);
             }
@@ -254,11 +256,36 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
             //_spriteBatch.Draw(lives, livesPosition, Color.Red);
 
+            if (player.getHealth() == 0)
+            {
+                Console.WriteLine("Player has lost all lives. He dead!");
+
+                //Show game over screen
+                GameOverPopUp(_spriteBatch, gameTime);
+
+                //Exit();
+            }
+
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        public void GameOverPopUp(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.Gray);
+
+            // Game Over text
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Font"), "Game Over", new Vector2(100, 100), Color.Blue);
+
+            // Exit button
+            GUIButton button_exit = new GUIButton(new Vector2(340, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Exit");
+
+            // Play again button
+            GUIButton button_playgame = new GUIButton(new Vector2(20, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Start");
+        }
+    
     }
 }
 
