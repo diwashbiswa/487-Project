@@ -8,142 +8,8 @@ using System.Runtime.InteropServices;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class MainGame : Game
+    public partial class MainGame : Game
     {
-        // This will be changed by Program.cs as needed
-        public Vector2 currentWindowResolution = new Vector2(1280, 720);
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-
-        private EnemyFactory ef;
-        private SpawnerFactory sf;
-
-        private List<Entitiy> enemies = new List<Entitiy>();
-        private List<Entitiy> disposedEnemies = new List<Entitiy>();
-
-        private List<BulletSpawner> spawners = new List<BulletSpawner>();
-        private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
-
-        private List<Sprite> collisionList1 = new List<Sprite>();
-        private List<Sprite> collisionList2 = new List<Sprite>();
-
-        private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
-
-        private Player player;
-        private Texture2D lives;
-        private Rectangle livesPosition;
-        private Vector2 pos;
-
-        private float scaleFactor;
-        private float timer = 0.0f;
-        private long frames = 0;
-
-        Vector2 target = new Vector2(0, 0);
-
-        public MainGame()
-        {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-        }
-
-        /// <summary>
-        /// Build a list of all sprites needed for collision detection
-        /// </summary>
-        protected void buildList_PlayerEnemyBullet()
-        {
-            collisionList1.Clear();
-            collisionList1.Add(player);
-            foreach (BulletSpawner s in spawners)
-            {
-                if (s.parent is not Player)
-                    collisionList1.AddRange(s.Bullets);
-            }
-        }
-
-        protected void buildList_EnemiesPlayerBullet()
-        {
-            collisionList2.Clear();
-            collisionList2.AddRange(enemies);
-            foreach (BulletSpawner s in spawners)
-            {
-                if (s.parent is Player)
-                    collisionList2.AddRange(s.Bullets);
-            }
-        }
-
-        /// <summary>
-        /// Add sprite to list of drawable, updatable sprites.
-        /// </summary>
-        /// <param name="s"></param>
-        protected void AddEnemy(Entitiy s)
-        {
-            this.enemies.Add(s);
-        }
-
-        /// <summary>
-        /// Add a spawner to list of enemy spawners
-        /// </summary>
-        /// <param name="s"></param>
-        protected void AddSpawner(BulletSpawner s)
-        {
-            this.spawners.Add(s);
-        }
-
-        /// <summary>
-        /// Sprite must subscibe to this event to be disposed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void DisposeEnemyEvent(object sender, EventArgs e)
-        {
-            Entitiy x = (Entitiy)sender;
-
-            // Remove each spawner associated with the enemy
-            foreach (BulletSpawner s in spawners)
-            {
-                if (s.parent == x)
-                {
-                    this.disposedSpawners.Add(s);
-                }
-            }
-
-            this.disposedEnemies.Add(x);
-        }
-
-        protected override void Initialize()
-        {
-            // Set scale factor for all objects
-            this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
-
-            this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
-            this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
-            this._graphics.ApplyChanges();
-
-            // Create Player
-            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), 7.0f);
-            player.Health = 5;
-
-            // Create enemy and spawner factories
-            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 600), Content);
-            this.sf = new StandardSpawnerFactory(Content);
-
-            // Set Event to Invoke when an enemies Lifespan is Up
-            this.ef.DisposeMethod = DisposeEnemyEvent;
-            // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
-            this.ef.LifeSpanSeconds = 45;
-
-            this.sf.Parent = this.player;
-            this.AddSpawner(this.sf.CreateSpawner(SpawnerFactory.SpawnerType.Keyboard));
-
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-        }
-
         protected override void Update(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -185,8 +51,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // COLLISION ---------------------------
-            this.buildList_PlayerEnemyBullet();
-            this.buildList_EnemiesPlayerBullet();
+            this.BuildList_PlayerEnemyBullet();
+            this.BuildList_EnemiesPlayerBullet();
             CollisionObserver.Collide(collisionList1);
             CollisionObserver.Collide(collisionList2);
             // --------- ---------------------------
@@ -246,16 +112,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GraphicsDevice.Clear(Color.DarkGray);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Matrix.CreateScale(this.scaleFactor));
+
+            // Draw All Enemies
             foreach (Sprite s in enemies)
             {
                 s.Draw(gameTime, _spriteBatch);
             }
 
+            // Draw All Bullets
             foreach (BulletSpawner s in spawners)
             {
                 s.Draw(gameTime, _spriteBatch);
             }
 
+            // Draw Player
             this.player.Draw(gameTime, _spriteBatch);
 
 
@@ -299,9 +169,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 gc.Draw(gameTime, _spriteBatch);
             }
-
         }
-
     }
 }
 
