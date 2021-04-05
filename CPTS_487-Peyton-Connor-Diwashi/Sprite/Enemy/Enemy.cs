@@ -28,7 +28,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private Texture2D tex;
 
         // Color to draw the enemy with
-        private Color col;
+        protected Color col;
 
         // Speed of enemy
         private uint speed;

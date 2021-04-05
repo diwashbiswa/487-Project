@@ -118,6 +118,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
             this.ef.LifeSpanSeconds = 45;
 
+            this.sf.Parent = this.player;
+            this.AddSpawner(this.sf.CreateSpawner(SpawnerFactory.SpawnerType.Keyboard));
+
             base.Initialize();
         }
 

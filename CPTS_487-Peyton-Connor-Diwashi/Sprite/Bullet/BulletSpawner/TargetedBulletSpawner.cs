@@ -14,6 +14,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private double fireRateSeconds = 1.5;
 
+
         public TargetedBulletSpawner(Enemy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
         {
             this.fireRateSeconds = fireRateSeconds;

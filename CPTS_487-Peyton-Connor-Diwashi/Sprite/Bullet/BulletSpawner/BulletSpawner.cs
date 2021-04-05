@@ -86,7 +86,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public override void Update(GameTime gameTime)
         {
             // Try to super.SpawnBullet if parent is bound to target
-            if (parent.IsBoundToTarget)
+
+            /// BAD -- FIX THIS
+
+                if (parent.IsBoundToTarget)
+                {
+                    this.SpawnBullet(gameTime);
+                }
+
+            else
             {
                 this.SpawnBullet(gameTime);
             }
