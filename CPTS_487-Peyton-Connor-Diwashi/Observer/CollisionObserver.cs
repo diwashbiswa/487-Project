@@ -30,6 +30,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     if(s1.Body.Intersects(s2.Body))
                     {
                         s1.Collide(s2, new EventArgs());
+
                     }
                 }
             }

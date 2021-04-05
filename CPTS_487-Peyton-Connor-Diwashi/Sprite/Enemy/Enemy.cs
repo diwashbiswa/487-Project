@@ -157,6 +157,27 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        public void takeDamagePlayer()
+        {
+            this.health -= 1;
+        }
+
+        public bool isDead()
+        {
+            return this.health <= 0;
+        }
+
+
+        public int getHealth()
+        {
+            return this.health;
+        }
+
+        public void setHealth(int newHealth)
+        {
+            this.health = newHealth;
+        }
+
         /// <summary>
         /// Draw the enemy with the given spriteBatch
         /// </summary>

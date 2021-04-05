@@ -127,7 +127,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
             this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
-            this.player.setHealth(5);
+            player.setHealth(5);
             //this.font = Content.Load<SpriteFont>("font");
 
 
@@ -277,7 +277,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             if (player.getHealth() == 0)
             {
-                Console.WriteLine("Player has lost all lives. He dead!");
+                //Console.WriteLine("Player has lost all lives. He dead!");
 
                 //Show game over screen
                 GameOverPopUp(_spriteBatch, gameTime);

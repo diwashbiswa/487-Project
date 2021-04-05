@@ -60,8 +60,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (sender is Bullet)
             {
                 LogConsole.LogPosition("Player has been hit", this.X, this.Y);
+                if (!isDead())
+                {
+                    this.takeDamagePlayer();
+                    Console.WriteLine("Player has been hit", this.X, this.Y);
+                    Console.WriteLine("player health: " + this.getHealth());
+                }
+                //LogConsole.LogPosition("Player health: ", this.health);
+                Console.WriteLine("Player health: " + this.getHealth());
+
+
                 a_timer = 0.0f;
             }
+
         }
 
         protected override void Disposed(GameTime gameTime, EventHandler dispose)
