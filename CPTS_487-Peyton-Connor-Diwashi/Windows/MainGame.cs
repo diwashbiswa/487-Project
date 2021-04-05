@@ -31,6 +31,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private Rectangle livesPosition;
         private Vector2 pos;
         //SpriteFont font;
+        // List of all componenets for the GUI on the home screen
+        private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
 
         private Rectangle spawn_bounds;
         private float scaleFactor;
@@ -263,6 +265,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 //Show game over screen
                 GameOverPopUp(_spriteBatch, gameTime);
 
+
                 //Exit();
             }
 
@@ -277,15 +280,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GraphicsDevice.Clear(Color.Gray);
 
             // Game Over text
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Font"), "Game Over", new Vector2(100, 100), Color.Blue);
+            spriteBatch.DrawString(Content.Load<SpriteFont>("Font"), "Game Over", new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2 - 100), Color.DarkRed);
 
             // Exit button
-            GUIButton button_exit = new GUIButton(new Vector2(340, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Exit");
+            GUIButton button_exit = new GUIButton(new Vector2(Window.ClientBounds.Width / 2 - 300, Window.ClientBounds.Height/2 + 100), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Exit");
 
             // Play again button
-            GUIButton button_playgame = new GUIButton(new Vector2(20, 600), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Start");
+            GUIButton button_playgame = new GUIButton(new Vector2(Window.ClientBounds.Width / 2 + 100, Window.ClientBounds.Height / 2 + 100), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Start");
+
+            gameOverButtons.Add(button_exit);
+            gameOverButtons.Add(button_playgame);
+
+            // Draw all exit and play buttons
+            foreach (GUIComponent gc in gameOverButtons)
+            {
+                gc.Draw(gameTime, _spriteBatch);
+            }
+
         }
-    
+
     }
 }
 
