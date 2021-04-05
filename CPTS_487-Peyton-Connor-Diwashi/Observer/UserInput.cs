@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
     /// <summary>
-    /// Class for carinal movment in Movement.CardinalDirection
+    /// UserInput Singleton class 
     /// </summary>
     public sealed class UserInput
     {
@@ -41,6 +41,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Dictionary<KeyBinds, Keys> keyDict = new Dictionary<KeyBinds, Keys>();
 
+        /// <summary>
+        /// Is the Key associated with KeyBind down currently being presses?
+        /// </summary>
+        /// <param name="bind"> A UserInput.Keybinds enum </param>
+        /// <returns></returns>
         public bool IsKeyDown(KeyBinds bind)
         {
             if (!(keyDict.ContainsKey(bind)))
@@ -52,6 +57,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (keyState.IsKeyDown(k))
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// Associate a KeyBind with a KEy
+        /// </summary>
+        /// <param name="bind"></param>
+        /// <param name="key"></param>
+        public void Bind(KeyBinds bind, Keys key)
+        {
+            if (keyDict.ContainsKey(bind))
+            {
+                keyDict.Remove(bind);
+            }
+            keyDict.Add(bind, key);
         }
 
         private void getState()
