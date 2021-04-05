@@ -22,12 +22,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override Vector2 Move()
         {
-            KeyboardState state = Keyboard.GetState();
+            UserInput state = UserInput.Instance;
 
             direction.X = 0.0f;
             direction.Y = 0.0f;
 
-            if (state.IsKeyDown(Keys.LeftShift) || state.IsKeyDown(Keys.RightShift))
+            if (state.IsKeyDown(UserInput.KeyBinds.SlowMode))
             {
                 this.Speed = initialSpeed / 2.0f;
             }
@@ -36,19 +36,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.Speed = initialSpeed;
             }
 
-            if(state.IsKeyDown(Keys.W))
+            if(state.IsKeyDown(UserInput.KeyBinds.Up))
             {
                 this.Cardinal2Vector(ref direction, CardinalDirection.North, true);
             }
-            if (state.IsKeyDown(Keys.A))
+            if (state.IsKeyDown(UserInput.KeyBinds.Left))
             {
                 this.Cardinal2Vector(ref direction, CardinalDirection.West, true);
             }
-            if (state.IsKeyDown(Keys.S))
+            if (state.IsKeyDown(UserInput.KeyBinds.Down))
             {
                 this.Cardinal2Vector(ref direction, CardinalDirection.South, true);
             }
-            if (state.IsKeyDown(Keys.D))
+            if (state.IsKeyDown(UserInput.KeyBinds.Right))
             {
                 this.Cardinal2Vector(ref direction, CardinalDirection.East, true);
             }
