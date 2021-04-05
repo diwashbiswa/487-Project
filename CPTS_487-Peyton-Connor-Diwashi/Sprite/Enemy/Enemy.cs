@@ -102,6 +102,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
 
+        protected void InvokeDispose(object sender, EventArgs e)
+        {
+            this.Dispose.Invoke(sender, e);
+        }
+
         /// <summary>
         /// Initialize the base class for Enemy
         /// </summary>
@@ -169,7 +174,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         }
 
-        public override void Collide(Sprite sender)
+        public override void Collide(Sprite sender, EventArgs e)
         {
             // TBI
         }

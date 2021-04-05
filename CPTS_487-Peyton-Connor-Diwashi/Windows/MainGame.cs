@@ -24,7 +24,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
 
-        private List<Sprite> collision_list = new List<Sprite>();
+        private List<Sprite> collisionList1 = new List<Sprite>();
+        private List<Sprite> collisionList2 = new List<Sprite>();
 
         private Player player;
         private Rectangle spawn_bounds;
@@ -45,14 +46,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <summary>
         /// Build a list of all sprites needed for collision detection
         /// </summary>
-        protected void buildSpriteList()
+        protected void buildList_PlayerEnemyBullet()
         {
-            collision_list.Clear();
-            collision_list.Add(player);
-            collision_list.AddRange(enemies);
+            collisionList1.Clear();
+            collisionList1.Add(player);
             foreach (BulletSpawner s in spawners)
             {
-                collision_list.AddRange(s.Bullets);
+                if (s.parent is not Player)
+                    collisionList1.AddRange(s.Bullets);
+            }
+        }
+
+        protected void buildList_EnemiesPlayerBullet()
+        {
+            collisionList2.Clear();
+            collisionList2.AddRange(enemies);
+            foreach (BulletSpawner s in spawners)
+            {
+                if (s.parent is Player)
+                    collisionList2.AddRange(s.Bullets);
             }
         }
 
@@ -170,8 +182,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // COLLISION ---------------------------
-            this.buildSpriteList();
-            CollisionObserver.Collide(collision_list);
+            this.buildList_PlayerEnemyBullet();
+            this.buildList_EnemiesPlayerBullet();
+            CollisionObserver.Collide(collisionList1);
+            CollisionObserver.Collide(collisionList2);
             // --------- ---------------------------
 
 

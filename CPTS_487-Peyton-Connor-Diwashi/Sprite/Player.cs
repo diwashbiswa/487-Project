@@ -55,7 +55,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.Position += this.movement.Move();
         }
 
-        public override void Collide(Sprite sender)
+        public override void Collide(Sprite sender, EventArgs e)
         {
             if (sender is Bullet)
             {

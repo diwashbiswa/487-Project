@@ -52,6 +52,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             base.Draw(gameTime, spriteBatch);
         }
 
+        public override void Collide(Sprite sender, EventArgs e)
+        {
+            if (sender is Bullet)
+            {
+                LogConsole.LogPosition("Boss2 was hit by player", this.X, this.Y);
+                base.InvokeDispose(this, e);
+            }
+        }
+
         // Only runs if the enemy is bounded to a target
         protected override void Attack(GameTime gameTime, Vector2 target)
         {
