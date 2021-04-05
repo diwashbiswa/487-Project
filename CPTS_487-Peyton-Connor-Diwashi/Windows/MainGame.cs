@@ -116,7 +116,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
-            this.ef.LifeSpanSeconds = 15;
+            this.ef.LifeSpanSeconds = 45;
 
             base.Initialize();
         }
@@ -140,7 +140,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
             }
 
-            if (timer > 30 && timer < 30.1)
+            if (timer > 100 && timer < 100.1)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
                 this.AddEnemy(e);
@@ -148,7 +148,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
             }
 
-            if (frames == 15 * 60)
+            if (frames == 45 * 60)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
                 this.AddEnemy(e);
@@ -156,7 +156,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
             }
 
-            if (frames == 45 * 60)
+            if (frames == 145 * 60)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
                 this.AddEnemy(e);
@@ -256,6 +256,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  5. Extract keyboard input away from sprites
 
  6. BulletSpawner spawned directly after Enemy using BulletSpawnerFactory
+
+ 7. EntityTracker class managed by MainGame
+
+ 8. KeyboardListener intermediate class
+
+ 9. Player Observer in Maingame
 
 
       BUGS:

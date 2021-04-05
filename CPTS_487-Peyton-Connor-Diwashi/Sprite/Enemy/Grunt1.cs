@@ -20,7 +20,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
-            this.movement = new CardinalMovement(this.Speed, this.currentDirection);
+            //this.movement = new CardinalMovement(this.Speed, this.currentDirection);
+            this.movement = new BounceMovement(this.Speed, new Rectangle(0, 0, 1280, 720), this.body);
         }
 
         /// <summary>
