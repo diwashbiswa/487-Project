@@ -20,7 +20,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.rand = new Random();
             this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
-            this.movement = new CardinalMovement(this.Speed, this.currentDirection);
+            this.movement = new BounceMovement(this.Speed, new Rectangle(0, 0, 1280, 720), this.body);
         }
 
         /// <summary>
@@ -50,6 +50,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             // Draw this sprite
             base.Draw(gameTime, spriteBatch);
+        }
+
+        public override void Collide(Sprite sender, EventArgs e)
+        {
+            if (sender is Bullet)
+            {
+                LogConsole.LogPosition("Boss2 was hit by player", this.X, this.Y);
+                base.InvokeDispose(this, e);
+            }
         }
 
         // Only runs if the enemy is bounded to a target

@@ -48,6 +48,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Method to be called when this sprite collides with sender
         /// </summary>
         /// <param name="sender"> The sprite this sprite collided with </param>
-        public abstract void Collide(Sprite sender);
+        public abstract void Collide(Sprite sender, EventArgs e);
     }
 }

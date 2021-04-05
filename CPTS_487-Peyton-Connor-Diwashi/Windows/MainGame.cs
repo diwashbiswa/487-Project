@@ -24,7 +24,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
 
-        private List<Sprite> collision_list = new List<Sprite>();
+        private List<Sprite> collisionList1 = new List<Sprite>();
+        private List<Sprite> collisionList2 = new List<Sprite>();
 
         private Player player;
         private Texture2D lives;
@@ -52,14 +53,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <summary>
         /// Build a list of all sprites needed for collision detection
         /// </summary>
-        protected void buildSpriteList()
+        protected void buildList_PlayerEnemyBullet()
         {
-            collision_list.Clear();
-            collision_list.Add(player);
-            collision_list.AddRange(enemies);
+            collisionList1.Clear();
+            collisionList1.Add(player);
             foreach (BulletSpawner s in spawners)
             {
-                collision_list.AddRange(s.Bullets);
+                if (s.parent is not Player)
+                    collisionList1.AddRange(s.Bullets);
+            }
+        }
+
+        protected void buildList_EnemiesPlayerBullet()
+        {
+            collisionList2.Clear();
+            collisionList2.AddRange(enemies);
+            foreach (BulletSpawner s in spawners)
+            {
+                if (s.parent is Player)
+                    collisionList2.AddRange(s.Bullets);
             }
         }
 
@@ -126,7 +138,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Set Event to Invoke when an enemies Lifespan is Up
             this.ef.DisposeMethod = DisposeEnemyEvent;
             // Set Enemy LifeSpan, only works when a DisposeMethod EventHandler is assigned
-            this.ef.LifeSpanSeconds = 15;
+            this.ef.LifeSpanSeconds = 45;
+
+            this.sf.Parent = this.player;
+            this.AddSpawner(this.sf.CreateSpawner(SpawnerFactory.SpawnerType.Keyboard));
 
             base.Initialize();
         }
@@ -150,7 +165,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
             }
 
-            if (timer > 30 && timer < 30.1)
+            if (timer > 100 && timer < 100.1)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
                 this.AddEnemy(e);
@@ -158,7 +173,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
             }
 
-            if (frames == 15 * 60)
+            if (frames == 45 * 60)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
                 this.AddEnemy(e);
@@ -166,7 +181,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
             }
 
-            if (frames == 45 * 60)
+            if (frames == 145 * 60)
             {
                 Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
                 this.AddEnemy(e);
@@ -177,8 +192,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // COLLISION ---------------------------
-            this.buildSpriteList();
-            CollisionObserver.Collide(collision_list);
+            this.buildList_PlayerEnemyBullet();
+            this.buildList_EnemiesPlayerBullet();
+            CollisionObserver.Collide(collisionList1);
+            CollisionObserver.Collide(collisionList2);
             // --------- ---------------------------
 
 
@@ -319,6 +336,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  5. Extract keyboard input away from sprites
 
  6. BulletSpawner spawned directly after Enemy using BulletSpawnerFactory
+
+ 7. EntityTracker class managed by MainGame
+
+ 8. KeyboardListener intermediate class
+
+ 9. Player Observer in Maingame
 
 
       BUGS:

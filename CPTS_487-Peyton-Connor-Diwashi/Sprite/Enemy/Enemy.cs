@@ -28,7 +28,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private Texture2D tex;
 
         // Color to draw the enemy with
-        private Color col;
+        protected Color col;
 
         // Speed of enemy
         private uint speed;
@@ -104,6 +104,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Set a lifespan in seconds for this enemy
         /// </summary>
         public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
+
+        protected void InvokeDispose(object sender, EventArgs e)
+        {
+            this.Dispose.Invoke(sender, e);
+        }
 
         /// <summary>
         /// Initialize the base class for Enemy
@@ -188,7 +193,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         }
 
-        public override void Collide(Sprite sender)
+        public override void Collide(Sprite sender, EventArgs e)
         {
             // TBI
         }

@@ -84,11 +84,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// When the bullet hits the player it is disposed
         /// </summary>
         /// <param name="sender"></param>
-        public override void Collide(Sprite sender)
+        public override void Collide(Sprite sender, EventArgs e)
         {
-            if (sender is Player)
+            if (sender is Enemy)
             {
-                LogConsole.Log("Bullet collided with player");
                 this.Dispose.Invoke(this, new EventArgs());
             }
         }

@@ -28,7 +28,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 case (SpawnerType.CardinalSouth):
                     return new CardinalBulletSpawner(e, this.Content.Load<Texture2D>("BulletGreen"), e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.South);
                 case (SpawnerType.Targeted):
-                    return new TargetedBulletSpawner(e, this.Content.Load<Texture2D>("BulletPurple"), e.Position, e.Movement, e.Width, e.Height);
+                    return new TargetedBulletSpawner(e, this.Content.Load<Texture2D>("BossBullet"), e.Position, e.Movement, e.Width, e.Height);
+                case (SpawnerType.Keyboard):
+                    return new KeyboardBulletSpawner(e, this.Content.Load<Texture2D>("BulletPurple"), e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.North);
                 default:
                     throw new Exception("StandardSpawnerFactory type requested not yet implemented");
             }
