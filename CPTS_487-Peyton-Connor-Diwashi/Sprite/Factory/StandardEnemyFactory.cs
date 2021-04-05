@@ -14,14 +14,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         public StandardEnemyFactory(Rectangle spawn_bounds, ContentManager content_manager) : base(spawn_bounds, content_manager) { }
 
-        protected override Enemy createEnemy(EnemyType type)
+        protected override Entitiy createEnemy(EnemyType type)
         {
             Random rand = new Random();
             // Get random spawn
             float xS = (float)rand.Next(this.XMin, this.XMax);
             float yS = (float)rand.Next(this.YMin, this.YMax);
 
-            Enemy e;
+            Entitiy e;
 
             switch (type)
             {

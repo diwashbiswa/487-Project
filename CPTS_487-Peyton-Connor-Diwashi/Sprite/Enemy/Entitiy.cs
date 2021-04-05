@@ -11,7 +11,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// All Sprite objects extend from here
     /// </summary>
-    public abstract class Enemy : Sprite
+    public abstract class Entitiy : Sprite
     {
         protected Movement movement;
 
@@ -20,9 +20,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         // Is the enemy bound to a target
         protected bool boundToTarget = false;
-
-        //To be invoked when the enemy is removed
-        public event EventHandler Dispose;
 
         // Texture to draw on the enemy
         private Texture2D tex;
@@ -40,16 +37,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private float lifespanTimer = 0;
 
         // Enemy's health
-        private int health;
-
-        /// <summary>
-        /// Direct interface to enemy X and Y coordinates
-        /// </summary>
-        public int X { get { return this.body.X; } private set { this.body.X = value; } }
-        public int Y { get { return this.body.Y; } private set { this.body.Y = value; } }
-
-        public int Width { get { return this.body.Width;  } }
-        public int Height { get { return this.body.Height; } }
+        private int health = 1;
 
         public Movement Movement
         {
@@ -63,27 +51,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        /// <summary>
-        /// Position of the (top-left) corner of the Enemy
-        /// </summary>
-        public Vector2 Position
+        public int Health
         {
             get
             {
-                return new Vector2((float)this.body.X, (float)this.body.Y);
+                return this.health;
             }
             set
             {
-                Vector2 v = value;
-                this.body.X = (int)v.X;
-                this.body.Y = (int)v.Y;
+                this.health = value;
             }
         }
 
-        /// <summary>
-        /// Returns a Rectangle representing the area consumed by this enemy
-        /// </summary>
-        public Rectangle Hitbox { get { return this.body; } private set { this.body = value; } }
+        public bool Dead
+        {
+            get
+            {
+                if (this.health <= 0) { return true;  } return false;
+            }
+        }
 
         /// <summary>
         /// Draw color for the enemy texture
@@ -105,17 +91,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         public uint LifeSpan { set { this.lifespanSeconds = (int)value; } }
 
-        protected void InvokeDispose(object sender, EventArgs e)
-        {
-            this.Dispose.Invoke(sender, e);
-        }
-
         /// <summary>
         /// Initialize the base class for Enemy
         /// </summary>
         /// <param name="position"> position of the enemy on the screen </param>
         /// <param name="texture"> texture to draw the enemy with </param>
-        public Enemy(Vector2 position, Texture2D texture)
+        public Entitiy(Vector2 position, Texture2D texture)
         {
             this.Color = Color.White;
             this.tex = texture;
@@ -142,40 +123,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// 
+        /// Decrement the health of this Enemy by amount
         /// </summary>
-        public void takeDamage()
+        /// <param name="amount"></param>
+        public void TakeDamage(int amount)
         {
-            this.health -= 20; //enemy takes 20 damages each time
-        }
-
-        public void die()
-        {
-            if (this.health <= 0)
-            {
-                this.Dispose.Invoke(this, new EventArgs()); //dispose the enemy
-            }
-        }
-
-        public void takeDamagePlayer()
-        {
-            this.health -= 1;
-        }
-
-        public bool isDead()
-        {
-            return this.health <= 0;
-        }
-
-
-        public int getHealth()
-        {
-            return this.health;
-        }
-
-        public void setHealth(int newHealth)
-        {
-            this.health = newHealth;
+            this.health -= amount; //enemy takes 20 damages each time
         }
 
         /// <summary>
@@ -196,8 +149,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             // super.Move()
             this.Move(gameTime);
-            // super.Disposed()
-            this.Disposed(gameTime, this.Dispose);
+
             // super.Attack()
             if (this.boundToTarget)
                 this.Attack(gameTime, this.attackTarget);
@@ -209,23 +161,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                 // Trigger Dispose event to subscribers when timeer is done
                 if (this.lifespanTimer >= this.lifespanSeconds)
-                    this.Dispose.Invoke(this, new EventArgs());
+                    base.InvokeDispose(this, new EventArgs());
             }
 
         }
 
-        public override void Collide(Sprite sender, EventArgs e)
-        {
-            // TBI
-        }
-
-        /// CONSIDER MOVING TO Spite.cs CONSIDER MAKING virtual
-        /// <summary>
-        /// Superclass Invokes when the enemy should be removed from the game
-        /// </summary>
-        /// <param name="gameTime"></param>
-        /// <param name="dispose"> Invoked when the Enemy should be destroyed </param>
-        protected abstract void Disposed(GameTime gameTime, EventHandler dispose);
+        public override void Collide(Sprite sender, EventArgs e) { }
 
         /// <summary>
         /// Move the enemy

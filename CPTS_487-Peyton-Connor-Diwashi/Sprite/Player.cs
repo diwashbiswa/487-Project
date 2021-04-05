@@ -13,20 +13,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// All Sprite objects extend from here
     /// </summary>
-    public class Player : Enemy
+    public class Player : Entitiy
     {
         #region testing
         private float a_timer = 1.0f;
         #endregion
-
 
         /// <summary>
         /// Player constructor
         /// </summary>
         /// <param name="position"></param>
         /// <param name="texture"></param>
-        /// <param name="bounds"></param>
-        public Player(Vector2 position, Texture2D texture, ref Rectangle bounds, float speed) : base(position, texture)
+        public Player(Vector2 position, Texture2D texture, float speed) : base(position, texture)
         {
             this.Color = Color.White;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
@@ -59,25 +57,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Bullet)
             {
-                LogConsole.LogPosition("Player has been hit", this.X, this.Y);
-                if (!isDead())
+                if (!this.Dead)
                 {
-                    this.takeDamagePlayer();
-                    Console.WriteLine("Player has been hit", this.X, this.Y);
-                    Console.WriteLine("player health: " + this.getHealth());
+                    this.TakeDamage(1);
+                    LogConsole.LogPosition("Player has been hit", this.X, this.Y);
+                    LogConsole.Log("player health: " + this.Health);
                 }
-                //LogConsole.LogPosition("Player health: ", this.health);
-                Console.WriteLine("Player health: " + this.getHealth());
-
-
+                else
+                {
+                    base.InvokeDispose(this, new EventArgs());
+                }
                 a_timer = 0.0f;
             }
-
-        }
-
-        protected override void Disposed(GameTime gameTime, EventHandler dispose)
-        {
-            // TBI
         }
 
         protected override void Attack(GameTime gameTime, Vector2 target)

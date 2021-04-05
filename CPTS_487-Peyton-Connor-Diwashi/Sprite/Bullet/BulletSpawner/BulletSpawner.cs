@@ -10,7 +10,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public abstract class BulletSpawner : Sprite
     {
-        public Enemy parent = null;
+        public Entitiy parent = null;
 
         protected List<Bullet> bullets;
 
@@ -31,24 +31,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        /// <summary>
-        /// The X,Y coordinates this spawner will fire from
-        /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                return new Vector2((float)this.body.X, (float)this.body.Y);
-            }
-            set
-            {
-                Vector2 v = value;
-                this.body.X = (int)v.X;
-                this.body.Y = (int)v.Y;
-            }
-        }
-
-        public BulletSpawner(Enemy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
+        public BulletSpawner(Entitiy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
         {
             this.bulletTexture = bulletTex;
             this.bullets = new List<Bullet>();
@@ -85,15 +68,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
-            // Try to super.SpawnBullet if parent is bound to target
-
-            /// BAD -- FIX THIS
-
-                if (parent.IsBoundToTarget)
-                {
-                    this.SpawnBullet(gameTime);
-                }
-
+            // Only spawn a bullet if the parent is bound to a target.
+            if (parent.IsBoundToTarget)
+            {
+                this.SpawnBullet(gameTime);
+            }
             else
             {
                 this.SpawnBullet(gameTime);

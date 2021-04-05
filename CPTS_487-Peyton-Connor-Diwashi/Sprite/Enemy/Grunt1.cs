@@ -9,28 +9,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class Grunt1 : Enemy
+    public class Grunt1 : Entitiy
     {
-        private Movement.CardinalDirection currentDirection;
-
-        private Random rand;
-
         public Grunt1(Vector2 position, Texture2D texture) : base(position, texture)
         {
-            this.rand = new Random();
-            this.currentDirection = this.getRandomDirection();
             this.Speed = 1;
-            //this.movement = new CardinalMovement(this.Speed, this.currentDirection);
             this.movement = new BounceMovement(this.Speed, new Rectangle(0, 0, 1280, 720), this.body);
-        }
-
-        /// <summary>
-        /// Get a random direction enumerated by Enemy.Direction
-        /// </summary>
-        /// <returns></returns>
-        private Movement.CardinalDirection getRandomDirection()
-        {
-            return (Movement.CardinalDirection)rand.Next(8);
         }
 
         public override void Update(GameTime gameTime)
@@ -66,15 +50,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected override void Attack(GameTime gameTime, Vector2 target)
         {
             // Handled in BulletSpawner
-        }
-
-        protected override void Disposed(GameTime gameTime, EventHandler dispose)
-        {
-            // if enemy is dead Dispose.Invoke
-
-            // TBI
-
-            // dispose EventHandler Invoke based on some logic, encapsulating Classes subscribe to base.Dispose
         }
     }
 }

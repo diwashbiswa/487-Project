@@ -22,24 +22,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Texture fo the Bullet
         private Texture2D tex;
 
-        // To be Invoked when the bullet should be removed
-        public event EventHandler Dispose = delegate { };
-
-        // X,Y Position of the Bullet
-        public Vector2 Position
-        {
-            get
-            {
-                return new Vector2((float)this.body.X, (float)this.body.Y);
-            }
-            set
-            {
-                Vector2 v = value;
-                this.body.X = (int)v.X;
-                this.body.Y = (int)v.Y;
-            }
-        }
-
         /// <summary>
         /// Creates a new instance of a bullet using targeted movement
         /// </summary>
@@ -75,7 +57,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             // Trigger Dispose event to subscribers when timeer is done
             if (timer >= this.lifespanSeconds)
-                this.Dispose.Invoke(this, new EventArgs());
+                base.InvokeDispose(this, new EventArgs());
 
             this.Position += this.movement.Move();
         }
@@ -86,9 +68,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="sender"></param>
         public override void Collide(Sprite sender, EventArgs e)
         {
-            if (sender is Enemy)
+            if (sender is Entitiy)
             {
-                this.Dispose.Invoke(this, new EventArgs());
+                base.InvokeDispose(this, new EventArgs());
             }
         }
     }

@@ -18,8 +18,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private EnemyFactory ef;
         private SpawnerFactory sf;
 
-        private List<Enemy> enemies = new List<Enemy>();
-        private List<Enemy> disposedEnemies = new List<Enemy>();
+        private List<Entitiy> enemies = new List<Entitiy>();
+        private List<Entitiy> disposedEnemies = new List<Entitiy>();
 
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<BulletSpawner> disposedSpawners = new List<BulletSpawner>();
@@ -27,21 +27,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Sprite> collisionList1 = new List<Sprite>();
         private List<Sprite> collisionList2 = new List<Sprite>();
 
+        private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
+
         private Player player;
         private Texture2D lives;
         private Rectangle livesPosition;
         private Vector2 pos;
-        //SpriteFont font;
-        // List of all componenets for the GUI on the home screen
-        private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
 
-        private Rectangle spawn_bounds;
         private float scaleFactor;
         private float timer = 0.0f;
         private long frames = 0;
 
         Vector2 target = new Vector2(0, 0);
-
 
         public MainGame()
         {
@@ -79,7 +76,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Add sprite to list of drawable, updatable sprites.
         /// </summary>
         /// <param name="s"></param>
-        protected void AddEnemy(Enemy s)
+        protected void AddEnemy(Entitiy s)
         {
             this.enemies.Add(s);
         }
@@ -100,7 +97,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="e"></param>
         protected void DisposeEnemyEvent(object sender, EventArgs e)
         {
-            Enemy x = (Enemy)sender;
+            Entitiy x = (Entitiy)sender;
 
             // Remove each spawner associated with the enemy
             foreach (BulletSpawner s in spawners)
@@ -123,16 +120,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
 
-            // Create bounds for spawning on screen
-            this.spawn_bounds = new Rectangle(50, 50, 1180, 600);
             // Create Player
-            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), ref spawn_bounds, 7.0f);
-            player.setHealth(5);
-            //this.font = Content.Load<SpriteFont>("font");
-
+            this.player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), 7.0f);
+            player.Health = 5;
 
             // Create enemy and spawner factories
-            this.ef = new StandardEnemyFactory(spawn_bounds, Content);
+            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 600), Content);
             this.sf = new StandardSpawnerFactory(Content);
 
             // Set Event to Invoke when an enemies Lifespan is Up
@@ -159,7 +152,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             //Add Enemy
             if (timer > 1 && timer < 1.1)
             {
-                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1);
+                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1);
                 this.AddEnemy(e);
                 this.sf.Parent = e;
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
@@ -167,7 +160,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             if (timer > 100 && timer < 100.1)
             {
-                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
+                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
                 this.AddEnemy(e);
                 this.sf.Parent = e;
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
@@ -175,7 +168,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             if (frames == 45 * 60)
             {
-                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
+                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
                 this.AddEnemy(e);
                 this.sf.Parent = e;
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
@@ -183,7 +176,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             if (frames == 145 * 60)
             {
-                Enemy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
+                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
                 this.AddEnemy(e);
                 this.sf.Parent = e;
                 this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
@@ -217,7 +210,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // ENEMY ----------------------------
-            foreach (Enemy s in disposedEnemies)
+            foreach (Entitiy s in disposedEnemies)
             {
                 if (this.enemies.Contains(s))
                 {
@@ -227,7 +220,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.disposedEnemies.Clear();
             this.target.X = this.player.X;
             this.target.Y = this.player.Y;
-            foreach (Enemy s in enemies)
+            foreach (Entitiy s in enemies)
             {
                 s.BindToTarget(this.target);
                 s.Update(gameTime);
@@ -268,25 +261,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             // Displays player lives on the screen for each lives they have
             var incrementX = 30;
-            for (int i = 0; i < player.getHealth(); i++)
+            for (int i = 0; i < player.Health; i++)
             {
                 var newPos = pos + new Vector2((incrementX * i), 0);
                 _spriteBatch.Draw(lives, newPos, Color.Red);
             }
             //_spriteBatch.Draw(lives, livesPosition, Color.Red);
 
-            if (player.getHealth() == 0)
+            if (player.Dead)
             {
-                //Console.WriteLine("Player has lost all lives. He dead!");
-
                 //Show game over screen
                 GameOverPopUp(_spriteBatch, gameTime);
-
-
-                //Exit();
             }
-
-
             _spriteBatch.End();
 
             base.Draw(gameTime);

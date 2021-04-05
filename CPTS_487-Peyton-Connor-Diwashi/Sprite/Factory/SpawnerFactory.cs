@@ -16,9 +16,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public enum SpawnerType { CardinalSouth, Targeted, Keyboard };
 
-        private Enemy parent = null;
+        private Entitiy parent = null;
 
-        public Enemy Parent
+        public Entitiy Parent
         {
             get
             {

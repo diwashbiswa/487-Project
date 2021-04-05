@@ -16,7 +16,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Movement.CardinalDirection direction;
 
-        public CardinalBulletSpawner(Enemy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
+        public CardinalBulletSpawner(Entitiy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
         {
             this.fireRateSeconds = fireRateSeconds;
             this.direction = direction;
