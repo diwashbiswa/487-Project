@@ -18,22 +18,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             //Add Enemy
             if (timer > 1 && timer < 1.1)
             {
-                this.EntityManager.Add(EnemyFactory.EnemyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
+                this.EntityManager.Add(EntitiyFactory.EntitiyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
             }
 
             if (timer > 100 && timer < 100.1)
             {
-                this.EntityManager.Add(EnemyFactory.EnemyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
+                this.EntityManager.Add(EntitiyFactory.EntitiyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
             }
 
             if (frames == 45 * 60)
             {
-                this.EntityManager.Add(EnemyFactory.EnemyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
+                this.EntityManager.Add(EntitiyFactory.EntitiyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
             }
 
             if (frames == 145 * 60)
             {
-                this.EntityManager.Add(EnemyFactory.EnemyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
+                this.EntityManager.Add(EntitiyFactory.EntitiyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
             }
 
 

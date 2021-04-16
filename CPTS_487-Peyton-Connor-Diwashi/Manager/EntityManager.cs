@@ -13,16 +13,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private static object _lock = new object();
 
-        private ContentManager Content;
-
         private EntityEventManager eventManager;
 
-        private EnemyFactory ef;
+        private EntitiyFactory ef;
         private SpawnerFactory sf;
 
         private List<Entitiy> entities = new List<Entitiy>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
-        private List<Player> players = new List<Player>();
+        private List<Entitiy> players = new List<Entitiy>();
 
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
@@ -54,7 +52,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public Player PlayerOne
+        public Entitiy PlayerOne
         {
             get
             {
@@ -62,7 +60,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public List<Player> Players
+        public List<Entitiy> Players
         {
             get
             {
@@ -110,18 +108,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public EntityManager(ContentManager Content)
+        public EntityManager()
         {
-            this.Content = Content;
-            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 600), Content);
-            this.sf = new StandardSpawnerFactory(Content);
+            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 600));
+            this.sf = new StandardSpawnerFactory();
         }
 
         public void AddPlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             lock (this.Lock)
             {
-                Player player = new Player(new Vector2(500, 300), Content.Load<Texture2D>("spaceship_player"), 7.0f);
+                Entitiy player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
                 player.Health = 5;
                 this.SubscribeAll(player);
                 this.players.Add(player);
@@ -134,7 +131,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public void Add(EnemyFactory.EnemyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
+        public void Add(EntitiyFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             lock (this.Lock)
             {

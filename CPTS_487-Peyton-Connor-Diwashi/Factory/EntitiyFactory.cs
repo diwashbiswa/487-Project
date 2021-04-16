@@ -10,13 +10,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public abstract class EnemyFactory
+    public abstract class EntitiyFactory
     {
         protected Rectangle spawnBounds;
-
-        protected ContentManager Content;
-
-        protected EventHandler disposeMethod = null;
 
         private uint lifeSpan = 0;
 
@@ -32,25 +28,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
             set
             {
-                if (this.disposeMethod == null)
-                {
-                    this.lifeSpan = 0;
-                }
-                else
-                {
-                    this.lifeSpan = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for Disposed Enemies
-        /// </summary>
-        public EventHandler DisposeMethod
-        {
-            set
-            {
-                this.disposeMethod = value;
+                this.lifeSpan = value;
             }
         }
 
@@ -78,17 +56,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             get { return (this.spawnBounds.Y + this.spawnBounds.Height) - 1; }
         }
 
-        public enum EnemyType { Grunt1, Grunt2, Boss1, Boss2};
+        public enum EntitiyType { Grunt1, Grunt2, Boss1, Boss2, Player};
 
         /// <summary>
         /// Creates a new instance of the EnemyFactory Class
         /// </summary>
         /// <param name="spawn_bounds"> Bounds for enemies created with this Factory </param>
-        public EnemyFactory(Rectangle spawn_bounds, ContentManager content_manager, EventHandler disposeMethod = null)
+        public EntitiyFactory(Rectangle spawn_bounds)
         {
             this.spawnBounds = spawn_bounds;
-            this.Content = content_manager;
-            this.disposeMethod = disposeMethod;
             this.LifeSpanSeconds = 0;
         }
 
@@ -97,11 +73,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="type"> EnemyFactory.EnemyType </param>
         /// <returns></returns>
-        public Entitiy CreateEnemy(EnemyType type)
+        public Entitiy CreateEnemy(EntitiyType type)
         {
             return this.createEnemy(type);
         }
 
-        protected abstract Entitiy createEnemy(EnemyType type);
+        protected abstract Entitiy createEnemy(EntitiyType type);
     }
 }

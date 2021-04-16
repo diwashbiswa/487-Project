@@ -10,12 +10,14 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class StandardEnemyFactory : EnemyFactory
+    public class StandardEnemyFactory : EntitiyFactory
     {
-        public StandardEnemyFactory(Rectangle spawn_bounds, ContentManager content_manager) : base(spawn_bounds, content_manager) { }
+        public StandardEnemyFactory(Rectangle spawn_bounds) : base(spawn_bounds) { }
 
-        protected override Entitiy createEnemy(EnemyType type)
+        protected override Entitiy createEnemy(EntitiyType type)
         {
+            TextureManager texManager = TextureManager.Textures;
+
             Random rand = new Random();
             // Get random spawn
             float xS = (float)rand.Next(this.XMin, this.XMax);
@@ -25,26 +27,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             switch (type)
             {
-                case EnemyType.Grunt1:
-                    e = new Grunt1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt1"));
+                case EntitiyType.Grunt1:
+                    e = new Grunt1(new Vector2(xS, yS), texManager.Get(TextureManager.Type.Grunt1));
                     break;
-                case EnemyType.Grunt2:
-                    e = new Grunt2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Grunt2"));
+                case EntitiyType.Grunt2:
+                    e = new Grunt2(new Vector2(xS, yS), texManager.Get(TextureManager.Type.Grunt2));
                     break;
-                case EnemyType.Boss1:
-                    e = new Boss1(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss1"));
+                case EntitiyType.Boss1:
+                    e = new Boss1(new Vector2(xS, yS), texManager.Get(TextureManager.Type.Boss1));
                     break;
-                case EnemyType.Boss2:
-                    e = new Boss2(new Vector2(xS, yS), this.Content.Load<Texture2D>("Boss2"));
+                case EntitiyType.Boss2:
+                    e = new Boss2(new Vector2(xS, yS), texManager.Get(TextureManager.Type.Boss2));
+                    break;
+                case EntitiyType.Player:
+                    e = new Player(new Vector2(500, 300), texManager.Get(TextureManager.Type.SpaceshipPlayer), 7.0f);
                     break;
                 default:
                     throw new Exception("Warning: StandardEnemyFactory: Request for unsupported Enemy");
-            }
-
-            // Subscribe to a specified event handler for Enemy.Dispose
-            if (this.disposeMethod != null)
-            {
-                e.Dispose += this.disposeMethod;
             }
 
             e.LifeSpan = this.LifeSpanSeconds;

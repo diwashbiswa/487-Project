@@ -12,7 +12,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public abstract class SpawnerFactory
     {
-        protected ContentManager Content;
 
         public enum SpawnerType { None, CardinalSouth, Targeted, Keyboard };
 
@@ -30,10 +29,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public SpawnerFactory(ContentManager content_manager)
-        {
-            this.Content = content_manager;
-        }
+        public SpawnerFactory() { }
 
         /// <summary>
         /// Gets a new instance of an Enemy of EnemyFactory.EnemyType
