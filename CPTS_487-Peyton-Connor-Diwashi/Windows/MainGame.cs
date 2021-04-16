@@ -18,91 +18,65 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             //Add Enemy
             if (timer > 1 && timer < 1.1)
             {
-                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt1);
-                this.AddEnemy(e);
-                this.sf.Parent = e;
-                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
+                this.EntityManager.Add(EnemyFactory.EnemyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
             }
 
             if (timer > 100 && timer < 100.1)
             {
-                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Grunt2);
-                this.AddEnemy(e);
-                this.sf.Parent = e;
-                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth));
+                this.EntityManager.Add(EnemyFactory.EnemyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
             }
 
             if (frames == 45 * 60)
             {
-                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss1);
-                this.AddEnemy(e);
-                this.sf.Parent = e;
-                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
+                this.EntityManager.Add(EnemyFactory.EnemyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
             }
 
             if (frames == 145 * 60)
             {
-                Entitiy e = ef.CreateEnemy(EnemyFactory.EnemyType.Boss2);
-                this.AddEnemy(e);
-                this.sf.Parent = e;
-                this.AddSpawner(sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted));
+                this.EntityManager.Add(EnemyFactory.EnemyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
             }
+
+
 
 
 
             // COLLISION ---------------------------
-            this.BuildList_PlayerEnemyBullet();
-            this.BuildList_EnemiesPlayerBullet();
-            CollisionObserver.Collide(collisionList1);
-            CollisionObserver.Collide(collisionList2);
+            this.CollisionList.Clear();
+            this.CollisionList.AddRange(EntityManager.PlayerBullets);
+            this.CollisionList.AddRange(EntityManager.Entities);
+            Collision.Collide(this.CollisionList);
+
+            this.CollisionList.Clear();
+            this.CollisionList.AddRange(EntityManager.EnemyBullets);
+            this.CollisionList.AddRange(EntityManager.Players);
+            Collision.Collide(this.CollisionList);
             // --------- ---------------------------
 
 
-            // SPAWNER ----------------------------
-            foreach (BulletSpawner s in disposedSpawners)
-            {
-                if (this.spawners.Contains(s))
-                {
-                    this.spawners.Remove(s);
-                }
-            }
-            foreach (BulletSpawner s in spawners)
-            {
-                s.Update(gameTime);
-            }
-            // ------- ----------------------------
 
 
 
-
-            // ENEMY ----------------------------
-            foreach (Entitiy s in disposedEnemies)
-            {
-                if (this.enemies.Contains(s))
-                {
-                    this.enemies.Remove(s);
-                }
-            }
-            this.disposedEnemies.Clear();
-            this.target.X = this.player.X;
-            this.target.Y = this.player.Y;
-            foreach (Entitiy s in enemies)
+            this.target.X = this.EntityManager.PlayerOne.X;
+            this.target.Y = this.EntityManager.PlayerOne.Y;
+            foreach (Entitiy s in EntityManager.Entities)
             {
                 s.BindToTarget(this.target);
-                s.Update(gameTime);
             }
-            // ----- ----------------------------
+            this.EntityManager.Update(gameTime);
 
 
 
-            // PLAYER ----------------------------
-            this.player.Update(gameTime);
 
+
+            // MAKE PART OF CLASS
             this.pos = new Vector2(50, 20);
             this.lives = Content.Load<Texture2D>("heart");
             this.livesPosition = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
 
-            // ------ ----------------------------
+
+
+
+
 
             base.Update(gameTime);
         }
@@ -113,40 +87,35 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Matrix.CreateScale(this.scaleFactor));
 
-            // Draw All Enemies
-            foreach (Sprite s in enemies)
-            {
-                s.Draw(gameTime, _spriteBatch);
-            }
-
-            // Draw All Bullets
-            foreach (BulletSpawner s in spawners)
-            {
-                s.Draw(gameTime, _spriteBatch);
-            }
-
-            // Draw Player
-            this.player.Draw(gameTime, _spriteBatch);
+            this.EntityManager.Draw(gameTime, _spriteBatch);
 
 
+
+
+
+            // MAKE PART OF CLASS
             // Displays player lives on the screen for each lives they have
-            var incrementX = 30;
-            for (int i = 0; i < player.Health; i++)
+            for (int i = 0; i < this.EntityManager.PlayerOne.Health; i++)
             {
-                var newPos = pos + new Vector2((incrementX * i), 0);
+                Vector2 newPos = pos + new Vector2((30 * i), 0);
                 _spriteBatch.Draw(lives, newPos, Color.Red);
             }
-            //_spriteBatch.Draw(lives, livesPosition, Color.Red);
-
-            if (player.Dead)
+            if (this.EntityManager.PlayerOne.Dead)
             {
+                Exit();
                 //Show game over screen
                 GameOverPopUp(_spriteBatch, gameTime);
             }
+
+
+
+
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
 
         public void GameOverPopUp(SpriteBatch spriteBatch, GameTime gameTime)
         {
@@ -185,17 +154,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  
  3. ScriptMovement : Movement
 
- 4. Make enemy and bullet more similar
+ 4. EntityTracker class managed by MainGame
 
- 5. Extract keyboard input away from sprites
+ 5. Player Observer in Maingame
 
- 6. BulletSpawner spawned directly after Enemy using BulletSpawnerFactory
-
- 7. EntityTracker class managed by MainGame
-
- 8. KeyboardListener intermediate class
-
- 9. Player Observer in Maingame
+ 6. Make player lives a class.
 
 
       BUGS:

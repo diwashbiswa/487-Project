@@ -8,9 +8,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public partial class HomeScreen : Game
     {
-        public event EventHandler e_exit;
-        public event EventHandler e_play;
-        public event EventHandler e_resolution;
+        public event EventHandler e_exit = delegate { };
+        public event EventHandler e_play = delegate { };
+        public event EventHandler e_resolution = delegate { };
 
         /// <summary>
         /// On exitButton Click event, invoke 'e_exit' event from the home window. (Program.cs subscribes, exit all windows)

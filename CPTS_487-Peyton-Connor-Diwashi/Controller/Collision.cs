@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public static class CollisionObserver
+    public static class Collision
     {
         /// <summary>
         /// Detect collisions within a list of sprites. Invoke abstract Sprite.Collide on collision

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CPTS_487-Peyton-Connor-Diwashi": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

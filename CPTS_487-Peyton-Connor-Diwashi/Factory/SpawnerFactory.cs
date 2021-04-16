@@ -14,7 +14,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         protected ContentManager Content;
 
-        public enum SpawnerType { CardinalSouth, Targeted, Keyboard };
+        public enum SpawnerType { None, CardinalSouth, Targeted, Keyboard };
 
         private Entitiy parent = null;
 
