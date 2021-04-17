@@ -37,10 +37,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
 
-
-
-
-            // COLLISION ---------------------------
             // Collide the range of Player Bullets with the range of Entities (entities are non-player)
             this.CollisionList.Clear();
             this.CollisionList.AddRange(EntityManager.PlayerBullets);
@@ -52,7 +48,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.CollisionList.AddRange(EntityManager.EnemyBullets);
             this.CollisionList.AddRange(EntityManager.Players);
             Collision.Collide(this.CollisionList);
-            // --------- ---------------------------
 
 
 

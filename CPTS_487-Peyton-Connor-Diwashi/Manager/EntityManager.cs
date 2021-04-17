@@ -90,9 +90,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spawner"> Add a spawner as well? </param>
         public void AddPlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
-            // Lock on list update operations
-            lock (this)
-            {
+
                 Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
                 player.Health = 5;
                 this.SubscribeAll(player);
@@ -105,7 +103,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     this.SubscribeAll(s);
                     this.spawners.Add(s);
                 }
-            }
         }
 
         /// <summary>
@@ -115,9 +112,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spawner"> Add a spawner as well? </param>
         public void Add(EntitiyFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
-            // Lock on list update opeartions
-            lock (this)
-            {
                 Entity e = ef.CreateEnemy(type);
                 this.SubscribeAll(e);
                 this.entities.Add(e);
@@ -129,7 +123,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     this.SubscribeAll(s);
                     this.spawners.Add(s);
                 }
-            }
         }
 
         /// <summary>
