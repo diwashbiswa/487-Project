@@ -11,7 +11,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// All Sprite objects extend from here
     /// </summary>
-    public abstract class Entitiy : Sprite
+    public abstract class Entity : Sprite
     {
         protected Movement movement;
 
@@ -96,12 +96,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="position"> position of the enemy on the screen </param>
         /// <param name="texture"> texture to draw the enemy with </param>
-        public Entitiy(Vector2 position, Texture2D texture)
+        public Entity(Vector2 position, Texture2D texture)
         {
             this.Color = Color.White;
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.boundToTarget = false;
+            this.attackTarget = new Vector2(300, 500);
         }
 
         /// <summary>
@@ -128,7 +128,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="amount"></param>
         public void TakeDamage(int amount)
         {
-            this.health -= amount; //enemy takes 20 damages each time
+            if (amount >= this.health)
+            {
+                this.health = 0;
+                this.InvokeDispose(this, new EventArgs());
+            }
+            else
+            {
+                this.health -= amount; //enemy takes 20 damages each time
+            }
+            return;
         }
 
         /// <summary>
@@ -147,12 +156,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            // super.Move()
+            // Move this entity
             this.Move(gameTime);
-
-            // super.Attack()
-            if (this.boundToTarget)
-                this.Attack(gameTime, this.attackTarget);
 
             // if the enemy has a lifespan keep track and invoke dispose event
             if(this.lifespanSeconds != 0)
@@ -166,20 +171,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         }
 
-        public override void Collide(Sprite sender, EventArgs e) { }
-
         /// <summary>
         /// Move the enemy
         /// </summary>
         /// <param name="gameTime"></param>
-        protected abstract void Move(GameTime gameTime);
+        protected void Move(GameTime gameTime)
+        {
+            this.Position += movement.Move();
+        }
 
-        /// <summary>
-        /// Attack a target, use base.BindToTarget and base.UnbindFromTarget to trigger the attack in an update.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        /// <param name="target"></param>
-        protected abstract void Attack(GameTime gameTime, Vector2 target);
 
+        public override void Collide(Sprite sender, EventArgs e) { }
     }
 }

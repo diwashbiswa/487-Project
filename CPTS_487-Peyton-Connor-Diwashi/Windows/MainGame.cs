@@ -41,11 +41,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // COLLISION ---------------------------
+            // Collide the range of Player Bullets with the range of Entities (entities are non-player)
             this.CollisionList.Clear();
             this.CollisionList.AddRange(EntityManager.PlayerBullets);
             this.CollisionList.AddRange(EntityManager.Entities);
             Collision.Collide(this.CollisionList);
 
+            // Collide the range of Enemy Bullets with the range of Players (probably just 1)
             this.CollisionList.Clear();
             this.CollisionList.AddRange(EntityManager.EnemyBullets);
             this.CollisionList.AddRange(EntityManager.Players);
@@ -58,7 +60,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             this.target.X = this.EntityManager.PlayerOne.X;
             this.target.Y = this.EntityManager.PlayerOne.Y;
-            foreach (Entitiy s in EntityManager.Entities)
+            foreach (Entity s in EntityManager.Entities)
             {
                 s.BindToTarget(this.target);
             }
@@ -68,10 +70,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
 
-            // MAKE PART OF CLASS
+            // MAKE PART OF CLASS {
             this.pos = new Vector2(50, 20);
             this.lives = Content.Load<Texture2D>("heart");
             this.livesPosition = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
+            // }
 
 
 
@@ -93,7 +96,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
 
-            // MAKE PART OF CLASS
+            // MAKE PART OF CLASS {
             // Displays player lives on the screen for each lives they have
             for (int i = 0; i < this.EntityManager.PlayerOne.Health; i++)
             {
@@ -106,6 +109,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 //Show game over screen
                 GameOverPopUp(_spriteBatch, gameTime);
             }
+            // }
 
 
 
@@ -146,19 +150,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  *      TODO:
  * 
  1. JSON script draft
-
- 2. Adding controllers between maingame and classes
-    - spawning
-    - collision detections
-    - movement
  
  3. ScriptMovement : Movement
 
- 4. EntityTracker class managed by MainGame
-
- 5. Player Observer in Maingame
-
  6. Make player lives a class.
+
+ 7. Bring More variables into maingame player creation to get ready for level scripts
 
 
       BUGS:

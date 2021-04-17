@@ -13,7 +13,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// All Sprite objects extend from here
     /// </summary>
-    public class Player : Entitiy
+    public class Player : Entity
     {
         #region testing
         private float a_timer = 1.0f;
@@ -48,11 +48,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             base.Update(gameTime);
         }
 
-        protected override void Move(GameTime gameTime)
-        {
-            this.Position += this.movement.Move();
-        }
-
         public override void Collide(Sprite sender, EventArgs e)
         {
             if (sender is Bullet)
@@ -69,11 +64,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 }
                 a_timer = 0.0f;
             }
-        }
-
-        protected override void Attack(GameTime gameTime, Vector2 target)
-        {
-            // TBI
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
+using System.Collections.Concurrent;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
@@ -15,6 +16,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public EntityEventManager() { }
 
+        private ConcurrentQueue<EventArgs> readyQueue = new ConcurrentQueue<EventArgs>();
+        private ConcurrentQueue<Sprite> disposeQueue = new ConcurrentQueue<Sprite>();
+
+        /// <summary>
+        /// Items ready to be dynamically added to the game (as EventArgs)
+        /// </summary>
+        public ConcurrentQueue<EventArgs> ReadyQueue { get { return this.readyQueue; } }
+
+        /// <summary>
+        /// Sprites ready to be dynamically removed from the game
+        /// </summary>
+        public ConcurrentQueue<Sprite> DisposeQueue {  get { return this.disposeQueue; } }
+
         public EntityManager ObjectManager
         {
             set
@@ -23,22 +37,30 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// Enqueues an item to the Concurrent DisposeQueue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Dispose(object sender, EventArgs e)
         {
-            // Lock the locking object for thread safety
-            lock (objectManager.Lock)
-            {
-                Entitiy en = (Entitiy)sender;
+                Sprite s = (Sprite)sender;
+                disposeQueue.Enqueue(s);
+        }
 
-                // remove any spawners which have disposing parent
-                this.objectManager.Spawners.RemoveAll(x => x.parent == en);
+        /// <summary>
+        /// Enqueues an item to the Concurrent ReadyQueue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Fire(object sender, BulletEventArgs e)
+        {
+            if (sender is not Bullet)
+                throw new Exception("Fire event Invoked with non-bullet sender");
 
-                // remove any entities matching sender
-                this.objectManager.Entities.RemoveAll(x => x == en);
-
-                // remove any players matching sender
-                this.objectManager.Players.RemoveAll(x => x == en);
-            }
+                Bullet b = (Bullet)sender;
+                b.Dispose += this.Dispose;
+                readyQueue.Enqueue(e);
         }
     }
 }

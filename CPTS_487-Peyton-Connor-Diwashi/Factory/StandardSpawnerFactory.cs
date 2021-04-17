@@ -23,7 +23,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 throw new Exception("StandardSpawnerFactory: parent was null");
             }
 
-            Entitiy e = this.Parent;
+            Entity e = this.Parent;
 
             switch (type)
             {

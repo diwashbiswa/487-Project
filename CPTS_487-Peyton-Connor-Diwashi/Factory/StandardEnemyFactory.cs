@@ -14,7 +14,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         public StandardEnemyFactory(Rectangle spawn_bounds) : base(spawn_bounds) { }
 
-        protected override Entitiy createEnemy(EntitiyType type)
+        protected override Entity createEnemy(EntitiyType type)
         {
             TextureManager texManager = TextureManager.Textures;
 
@@ -23,7 +23,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             float xS = (float)rand.Next(this.XMin, this.XMax);
             float yS = (float)rand.Next(this.YMin, this.YMax);
 
-            Entitiy e;
+            Entity e;
 
             switch (type)
             {

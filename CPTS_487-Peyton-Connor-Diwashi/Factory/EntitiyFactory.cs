@@ -73,11 +73,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="type"> EnemyFactory.EnemyType </param>
         /// <returns></returns>
-        public Entitiy CreateEnemy(EntitiyType type)
+        public Entity CreateEnemy(EntitiyType type)
         {
             return this.createEnemy(type);
         }
 
-        protected abstract Entitiy createEnemy(EntitiyType type);
+        protected abstract Entity createEnemy(EntitiyType type);
     }
 }

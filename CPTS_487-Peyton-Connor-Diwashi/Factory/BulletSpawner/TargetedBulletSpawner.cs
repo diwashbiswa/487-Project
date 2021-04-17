@@ -15,17 +15,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private double fireRateSeconds = 1.5;
 
 
-        public TargetedBulletSpawner(Entitiy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
+        public TargetedBulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
         {
             this.fireRateSeconds = fireRateSeconds;
-        }
-
-        // spawns a new bullet aimed at target
-        private void Fire(Vector2 target, float speed, float lifespanSeconds)
-        {
-            Bullet b = new CardinalBullet(this.Position, target, this.bulletTexture, speed, lifespanSeconds);
-            b.Dispose += this.DisposeBulletEvent;
-            this.bullets.Add(b);
         }
 
         /// <summary>
@@ -36,7 +28,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if ((gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds))
             {
-                this.Fire(this.parent.attackTarget, 9.0f, 3.0f);
+                Bullet b = new CardinalBullet(this.Position, this.parent.attackTarget, this.bulletTexture, 9.0f, 3.0f);
+                base.InvokeFire(b);
                 this.previousFire = gameTime.TotalGameTime;
             }
         }

@@ -16,17 +16,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Movement.CardinalDirection direction;
 
-        public KeyboardBulletSpawner(Entitiy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 0.15) : base(parent, bulletTex, position, movement, width, height)
+        public KeyboardBulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 0.15) : base(parent, bulletTex, position, movement, width, height)
         {
             this.direction = direction;
             this.fireRateSeconds = fireRateSeconds;
-        }
-
-        private void Fire(Movement.CardinalDirection direc, float speed, float lifespanSeconds)
-        {
-            Bullet b = new CardinalBullet(this.Position, direc, this.bulletTexture, speed, lifespanSeconds);
-            b.Dispose += this.DisposeBulletEvent;
-            this.bullets.Add(b);
         }
 
         /// <summary>
@@ -40,7 +33,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 UserInput state = UserInput.Instance;
                 if (state.IsKeyDown(UserInput.KeyBinds.Fire))
                 {
-                    this.Fire(this.direction, 9.0f, 3.0f);
+                    Bullet b = new CardinalBullet(this.Position, this.direction, this.bulletTexture, 9.0f, 3.0f);
+                    base.InvokeFire(b);
                     this.previousFire = gameTime.TotalGameTime;
                 }
             }

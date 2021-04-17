@@ -16,17 +16,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Movement.CardinalDirection direction;
 
-        public CardinalBulletSpawner(Entitiy parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
+        public CardinalBulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)
         {
             this.fireRateSeconds = fireRateSeconds;
             this.direction = direction;
-        }
-
-        private void Fire(Movement.CardinalDirection direc, float speed, float lifespanSeconds)
-        {
-            Bullet b = new CardinalBullet(this.Position, direc, this.bulletTexture, speed, lifespanSeconds);
-            b.Dispose += this.DisposeBulletEvent;
-            this.bullets.Add(b);
         }
 
         /// <summary>
@@ -37,7 +30,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if ((gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds))
             {
-                this.Fire(this.direction, 9.0f, 3.0f);
+                Bullet b = new CardinalBullet(this.Position, this.direction, this.bulletTexture, 9.0f, 3.0f);
+                base.InvokeFire(b);
                 this.previousFire = gameTime.TotalGameTime;
             }
         }
