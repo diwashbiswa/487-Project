@@ -25,6 +25,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Entity> players = new List<Entity>();
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
+        private List<GUIComponent> GUIComponents = new List<GUIComponent>();
+
+        /// <summary>
+        /// Returns true if player one is ready.
+        /// </summary>
+        bool PlayerOneReady
+        {
+            get
+            {
+                if (this.players.Count > 0)
+                    return true;
+                return false;
+            }
+        }
 
         /// <summary>
         /// This objects EventManager Observes sprites, subscribes to events, and populates queues
@@ -111,6 +125,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             this.ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
             this.sf = new StandardSpawnerFactory();
+            
         }
 
         /// <summary>
@@ -120,6 +135,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
+
+            // Add a GUI component for the first player
+            if (this.players.Count < 1)
+            {
+                var plComponent = new PlayerLives();
+                eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
+            }
+
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
 
             if (spawner != SpawnerFactory.SpawnerType.None)
@@ -179,6 +202,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 b.Update(gameTime);
             }
+            foreach (GUIComponent g in this.GUIComponents)
+            {
+                g.Update(gameTime);
+            }
         }
 
         /// <summary>
@@ -207,6 +234,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             foreach (Bullet b in this.enemy_bullets)
             {
                 b.Draw(gameTime, spriteBatch);
+            }
+            foreach (GUIComponent g in this.GUIComponents)
+            {
+                g.Draw(gameTime, spriteBatch);
             }
         }
 
@@ -272,6 +303,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         this.spawners.Add(p.Spawner);
 
                         LogConsole.Log("New Spawner added.");
+                        continue;
+                    }
+                    if (e is AddGUIEventArgs)
+                    {
+                        this.ReadGUIComponent((AddGUIEventArgs)e);
+                        LogConsole.Log("GUI component added.");
                         continue;
                     }
                     throw new Exception("Warning: ReadReadyQueue(): Unrecognized EventArgs");
@@ -354,6 +391,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// Add a guiComponent from the EventManager Concurrent Queue
+        /// </summary>
+        /// <param name="e"></param>
+        private void ReadGUIComponent(AddGUIEventArgs e)
+        {
+            if(e.Component is PlayerLives)
+            {
+                PlayerLives p = (PlayerLives)e.Component;
+                p.Parent = (Player)e.Parent;
+                this.GUIComponents.Add(p);
+            }
+        }
         /// <summary>
         /// Tells each entitiy to aim at the player (if targeted)
         /// </summary>

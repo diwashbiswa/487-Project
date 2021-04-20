@@ -16,38 +16,47 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         static HomeScreen homeScreen;
         static MainGame game;
         static Vector2 resolution;
+        static bool hs_exit = true;
 
         [STAThread]
         static void Main()
         {
-            homeScreen = new HomeScreen();
-            homeScreen.e_exit += exitGame;
-            homeScreen.e_play += playGame;
-            homeScreen.e_resolution += resolutionUpdated;
             resolution = new Vector2(1280, 720);
-            homeScreen.Run();
 
-            return;
+            while (hs_exit)
+            {
+                homeScreen = new HomeScreen();
+                homeScreen.e_exit += HomescreenExit;
+                homeScreen.e_play += HomeScreenPlay;
+                homeScreen.e_resolution += HomeScreenResolution;
+                homeScreen.Exiting += HomeScreenRestart;
+                homeScreen.Run();
+            }
         }
 
-        // Homescreen exit button clicked
-        private static void exitGame(object sender, System.EventArgs e)
+        // Homescreen exit button clicked (Final Exit)
+        private static void HomescreenExit(object sender, System.EventArgs e)
+        {
+            hs_exit = false;
+            homeScreen.Exit();
+        }
+
+        // Homescreen Exit with restart
+        private static void HomeScreenRestart(object sender, System.EventArgs e)
         {
             homeScreen.Exit();
         }
 
         // Homescreen play button clicked
-        private static void playGame(object sender, System.EventArgs e)
+        private static void HomeScreenPlay(object sender, System.EventArgs e)
         {
-            // Exit the homescreen and start the game
-            homeScreen.Exit();
             game = new MainGame();
             game.currentWindowResolution = resolution;
             game.Run();
         }
 
         // Resolution changed from the home screen
-        private static void resolutionUpdated(object sender, System.EventArgs e)
+        private static void HomeScreenResolution(object sender, System.EventArgs e)
         {
             resolution = (Vector2)sender;
         }

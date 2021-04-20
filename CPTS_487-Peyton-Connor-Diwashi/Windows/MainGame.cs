@@ -16,25 +16,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             frames++;
 
             //Add Enemy
-            if (timer > 1 && timer < 1.1)
+            if (timer > 1 && timer < 1.03)
             {
                 this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
-            }
-
-            if (timer > 100 && timer < 100.1)
-            {
                 this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
             }
 
-            if (frames == 45 * 60)
+            if (frames == 120)
             {
                 this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
-            }
-
-            if (frames == 145 * 60)
-            {
                 this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
             }
+
 
 
             // Collide the range of Player Bullets with the range of Entities (entities are non-player)
@@ -52,21 +45,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             this.EntityManager.Update(gameTime);
 
-
-
-
-
-            // MAKE PART OF CLASS {
-            this.pos = new Vector2(50, 20);
-            this.lives = Content.Load<Texture2D>("heart");
-            this.livesPosition = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
-            // }
-
-
-
-
-
-
             base.Update(gameTime);
         }
 
@@ -83,12 +61,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
 
             // MAKE PART OF CLASS {
-            // Displays player lives on the screen for each lives they have
-            for (int i = 0; i < this.EntityManager.PlayerOne.Health; i++)
-            {
-                Vector2 newPos = pos + new Vector2((30 * i), 0);
-                _spriteBatch.Draw(lives, newPos, Color.Red);
-            }
             if (this.EntityManager.PlayerOne.Dead)
             {
                 Exit();
@@ -96,9 +68,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 GameOverPopUp(_spriteBatch, gameTime);
             }
             // }
-
-
-
 
 
             _spriteBatch.End();

@@ -27,7 +27,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet }
+        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet, Heart }
 
         private Dictionary<Type, Texture2D> texDict = new Dictionary<Type, Texture2D>();
 
