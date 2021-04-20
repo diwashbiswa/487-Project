@@ -13,7 +13,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// <summary>
     /// Manages the addition and removal of sprites in this game
     /// </summary>
-    public class EntityManager
+    public partial class EntityManager
     {
         Vector2 target = new Vector2(0, 0);
 
@@ -135,6 +135,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
+            player.MakeInvincible(5);
 
             // Add a GUI component for the first player
             if (this.players.Count < 1)
@@ -178,6 +179,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Read the queues for dynamic insertion and removal of sprites
             this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
+            this.ReadUpdateQueue(this.eventManager.UpdateQueue);
 
             // Tell all entities to attack player by setting their attack target
             this.BindEntitiesToPlayer();
@@ -249,6 +251,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             e.Dispose += this.eventManager.Dispose;
 
+            if (e is Entity)
+            {
+                Entity v = (Entity)e;
+                v.Collided += this.eventManager.Collided;
+            }
+
             if (e is BulletSpawner)
             {
                 BulletSpawner b = (BulletSpawner)e;
@@ -256,154 +264,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        /// <summary>
-        /// Insert sprites into game-lists from a concurrent queue
-        /// </summary>
-        /// <param name="queue"></param>
-        private void ReadReadyQueue(ConcurrentQueue<EventArgs> queue)
-        {
-            int TESTING_bullets = 0;
-
-            int count = queue.Count;
-            for (int i = 0; i < count; i++)
-            {
-                EventArgs e;
-                if (queue.TryDequeue(out e))
-                {
-                    if (e is AddBulletEventArgs) //add bullet
-                    {
-                        this.ReadBullet((AddBulletEventArgs)e);
-
-                        TESTING_bullets++;
-                        continue;
-                    }
-                    if (e is AddPlayerEventArgs) //add player
-                    {
-                        var p = (AddPlayerEventArgs)e;
-                        this.SubscribeAll(p.Player);
-                        this.players.Add(p.Player);
-
-                        LogConsole.Log("New Player added.");
-                        continue;
-                    }
-                    if (e is AddEnemyEventArgs) //add enemy
-                    {
-                        var p = (AddEnemyEventArgs)e;
-                        this.SubscribeAll(p.Enemy);
-                        this.entities.Add(p.Enemy);
-
-                        LogConsole.Log("New Enemy added.");
-                        continue;
-                    }
-                    if (e is AddSpawnerEventArgs) //add spawner
-                    {
-                        var p = (AddSpawnerEventArgs)e;
-                        p.Spawner.parent = p.Parent;
-                        this.SubscribeAll(p.Spawner);
-                        this.spawners.Add(p.Spawner);
-
-                        LogConsole.Log("New Spawner added.");
-                        continue;
-                    }
-                    if (e is AddGUIEventArgs)
-                    {
-                        this.ReadGUIComponent((AddGUIEventArgs)e);
-                        LogConsole.Log("GUI component added.");
-                        continue;
-                    }
-                    throw new Exception("Warning: ReadReadyQueue(): Unrecognized EventArgs");
-                }
-            }
-
-            if (TESTING_bullets > 0)
-                LogConsole.Log(TESTING_bullets.ToString() + " Bullets were fired.");
-        }
-
-        /// <summary>
-        /// Remove sprites from game-lists from a concurrent queue
-        /// </summary>
-        /// <param name="queue"></param>
-        private void ReadDisposeQueue(ConcurrentQueue<DisposeEventArgs> queue)
-        {
-            int TESTING_bullets = 0;
-
-            int count = queue.Count;
-            for (int i = 0; i < count; i++)
-            {
-                DisposeEventArgs e;
-                Sprite s;
-                if (queue.TryDequeue(out e))
-                {
-                    s = e.Sprite;
-                    if (s == PlayerOne)
-                    {
-                        return;
-                    }
-
-                    if (this.entities.Contains(s))
-                    {
-                        this.entities.Remove((Entity)s);
-                        this.spawners.RemoveAll(x => x.parent == s);
-                        LogConsole.Log("Entitiy and Spawner Disposed.");
-                    }
-
-                    if (this.players.Contains(s))
-                    {
-                        this.players.Remove((Entity)s);
-                        LogConsole.Log("Player Disposed.");
-                    }
-
-                    if (s is Bullet)
-                    {
-                        if (this.player_bullets.Contains(s))
-                        {
-                            this.player_bullets.Remove((Bullet)s);
-                        }
-
-                        if (this.enemy_bullets.Contains(s))
-                        {
-                            this.enemy_bullets.Remove((Bullet)s);
-                        }
-                        TESTING_bullets++;
-                    }
-                }
-            }
-
-            if (TESTING_bullets > 0)
-                LogConsole.Log(TESTING_bullets.ToString() + " Bullets Disposed.");
-        }
-
-        /// <summary>
-        /// Add a bullet by EventArgs passed from the EventManager Concurrent Queue
-        /// </summary>
-        /// <param name="e"></param>
-        private void ReadBullet(AddBulletEventArgs e)
-        {
-            Bullet b = e.Bullet;
-
-            if (e.Parent is Player)
-            {
-                this.player_bullets.Add(b);
-            }
-            else
-            {
-                this.enemy_bullets.Add(b);
-            }
-        }
-
-        /// <summary>
-        /// Add a guiComponent from the EventManager Concurrent Queue
-        /// </summary>
-        /// <param name="e"></param>
-        private void ReadGUIComponent(AddGUIEventArgs e)
-        {
-            if(e.Component is PlayerLives)
-            {
-                PlayerLives p = (PlayerLives)e.Component;
-                p.Parent = (Player)e.Parent;
-                this.GUIComponents.Add(p);
-            }
-        }
         /// <summary>
         /// Tells each entitiy to aim at the player (if targeted)
         /// </summary>

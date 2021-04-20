@@ -39,6 +39,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Enemy's health
         private int health = 1;
 
+        bool invincible = false;
+        private float invincibleTimer = 0;
+        private int invincibleSeconds = 0;
+
+        public EventHandler<EntityCollideEventArgs> Collided = delegate { };
+
         public Movement Movement
         {
             get
@@ -68,6 +74,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             get
             {
                 if (this.health <= 0) { return true;  } return false;
+            }
+        }
+
+        public bool Invincible
+        {
+            get
+            {
+                return this.invincible;
+            }
+            set
+            {
+                this.invincible = value;
             }
         }
 
@@ -123,11 +141,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Make this entitiy invincible for seconds
+        /// </summary>
+        /// <param name="seconds"></param>
+        public void MakeInvincible(int seconds)
+        {
+            this.invincible = true;
+            this.invincibleSeconds = seconds;
+            this.invincibleTimer = 0;
+        }
+
+        /// <summary>
         /// Decrement the health of this Enemy by amount
         /// </summary>
         /// <param name="amount"></param>
         public void TakeDamage(int amount)
         {
+            if (this.invincible)
+                return;
+
             if (amount >= this.health)
             {
                 this.health = 0;
@@ -166,7 +198,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                 // Trigger Dispose event to subscribers when timeer is done
                 if (this.lifespanTimer >= this.lifespanSeconds)
+                {
                     base.InvokeDispose(this, new EventArgs());
+                }
+            }
+
+            // invincibility
+            if (this.invincibleSeconds != 0)
+            {
+                this.col = Color.BlueViolet;
+                this.invincibleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.invincibleTimer >= this.invincibleSeconds)
+                {
+                    this.col = Color.White;
+                    this.invincible = false;
+                    this.invincibleSeconds = 0;
+                    this.invincibleTimer = 0;
+                }
             }
 
         }
@@ -180,6 +228,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.Position += movement.Move();
         }
 
+        public void InvokeCollide(object sender, EntityCollideEventArgs e)
+        {
+            this.Collided.Invoke(sender, e);
+        }
 
         public override void Collide(Sprite sender, EventArgs e) { }
     }

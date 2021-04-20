@@ -34,7 +34,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (sender is Bullet)
             {
                 LogConsole.LogPosition("Boss1 was hit by player", this.X, this.Y);
-                base.InvokeDispose(this, e);
+                this.TakeDamage(1);
             }
         }
     }

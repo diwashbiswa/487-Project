@@ -21,6 +21,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private ConcurrentQueue<EventArgs> readyQueue = new ConcurrentQueue<EventArgs>();
         private ConcurrentQueue<DisposeEventArgs> disposeQueue = new ConcurrentQueue<DisposeEventArgs>();
+        private ConcurrentQueue<EventArgs> updateQueue = new ConcurrentQueue<EventArgs>();
 
         /// <summary>
         /// Items ready to be dynamically added to the game (as EventArgs)
@@ -31,6 +32,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Sprites ready to be removed from the game (as DisposeEventArgs)
         /// </summary>
         public ConcurrentQueue<DisposeEventArgs> DisposeQueue {  get { return this.disposeQueue; } }
+
+        /// <summary>
+        /// Queue of events which require an update of the lists
+        /// </summary>
+        public ConcurrentQueue<EventArgs> UpdateQueue {  get { return this.updateQueue; } }
 
         public EntityManager ObjectManager
         {
@@ -75,6 +81,37 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             Bullet b = (Bullet)sender;
             b.Dispose += this.Dispose;
             readyQueue.Enqueue(e);
+        }
+
+        /// <summary>
+        /// Handles Collision events invoked from Entitiy types
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Collided(object sender, EntityCollideEventArgs e)
+        {
+            if (e.Victim is Player)
+            {
+                Player player = (Player)e.Victim;
+                if (e.Attacker is Bullet)
+                {
+                    player.TakeDamage(1); 
+
+                    if(!player.Invincible)
+                        this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(500, 500)));
+
+                    LogConsole.Log("Player has been hit");
+                    return;
+                }
+                else
+                {
+                    throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("EntityManager: Collided(): Non-Player Victim");
+            }
         }
     }
 }

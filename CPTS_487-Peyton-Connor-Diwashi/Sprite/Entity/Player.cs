@@ -15,9 +15,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public class Player : Entity
     {
-        #region testing
         private float a_timer = 1.0f;
-        #endregion
 
         /// <summary>
         /// Player constructor
@@ -50,20 +48,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Collide(Sprite sender, EventArgs e)
         {
-            if (sender is Bullet)
-            {
-                if (!this.Dead)
-                {
-                    this.TakeDamage(1);
-                    LogConsole.LogPosition("Player has been hit", this.X, this.Y);
-                    LogConsole.Log("player health: " + this.Health);
-                }
-                else
-                {
-                    base.InvokeDispose(this, new EventArgs());
-                }
-                a_timer = 0.0f;
-            }
+            base.InvokeCollide(this, new EntityCollideEventArgs(this, (Bullet)sender));
         }
     }
 }
