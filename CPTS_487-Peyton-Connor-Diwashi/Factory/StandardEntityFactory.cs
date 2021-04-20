@@ -41,6 +41,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     break;
                 case EntitiyType.Player:
                     e = new Player(new Vector2(500, 300), texManager.Get(TextureManager.Type.SpaceshipPlayer), 7.0f);
+                    e.Health = 5;
                     break;
                 default:
                     throw new Exception("Warning: StandardEnemyFactory: Request for unsupported Enemy");

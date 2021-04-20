@@ -18,7 +18,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
-
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
 
@@ -219,11 +218,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Insert sprites into game-lists from a queue
+        /// Insert sprites into game-lists from a concurrent queue
         /// </summary>
         /// <param name="queue"></param>
         private void ReadReadyQueue(ConcurrentQueue<EventArgs> queue)
         {
+            int TESTING_bullets = 0;
+
             int count = queue.Count;
             for (int i = 0; i < count; i++)
             {
@@ -233,14 +234,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     if (e is AddBulletEventArgs) //add bullet
                     {
                         this.ReadBullet((AddBulletEventArgs)e);
+
+                        TESTING_bullets++;
                         continue;
                     }
                     if (e is AddPlayerEventArgs) //add player
                     {
                         var p = (AddPlayerEventArgs)e;
                         this.SubscribeAll(p.Player);
-                        p.Player.Health = 5;
                         this.players.Add(p.Player);
+
+                        LogConsole.Log("New Player added.");
                         continue;
                     }
                     if (e is AddEnemyEventArgs) //add enemy
@@ -248,6 +252,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         var p = (AddEnemyEventArgs)e;
                         this.SubscribeAll(p.Enemy);
                         this.entities.Add(p.Enemy);
+
+                        LogConsole.Log("New Enemy added.");
                         continue;
                     }
                     if (e is AddSpawnerEventArgs) //add spawner
@@ -256,21 +262,27 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         p.Spawner.parent = p.Parent;
                         this.SubscribeAll(p.Spawner);
                         this.spawners.Add(p.Spawner);
+
+                        LogConsole.Log("New Spawner added.");
                         continue;
                     }
                     throw new Exception("Warning: ReadReadyQueue(): Unrecognized EventArgs");
                 }
             }
+
+            if(TESTING_bullets > 0)
+                LogConsole.Log(TESTING_bullets.ToString() + " Bullets were fired.");
         }
 
         /// <summary>
-        /// Remove sprites from game-lists from a queue
+        /// Remove sprites from game-lists from a concurrent queue
         /// </summary>
         /// <param name="queue"></param>
         private void ReadDisposeQueue(ConcurrentQueue<DisposeEventArgs> queue)
         {
-            int count = queue.Count;
+            int TESTING_bullets = 0;
 
+            int count = queue.Count;
             for (int i = 0; i < count; i++)
             {
                 DisposeEventArgs e;
@@ -287,11 +299,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     {
                         this.entities.Remove((Entity)s);
                         this.spawners.RemoveAll(x => x.parent == s);
+                        LogConsole.Log("Entitiy and Spawner Disposed.");
                     }
 
                     if (this.players.Contains(s))
                     {
                         this.players.Remove((Entity)s);
+                        LogConsole.Log("Player Disposed.");
                     }
 
                     if (s is Bullet)
@@ -305,9 +319,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         {
                             this.enemy_bullets.Remove((Bullet)s);
                         }
+                        TESTING_bullets++;
                     }
                 }
             }
+
+            if (TESTING_bullets > 0)
+                LogConsole.Log(TESTING_bullets.ToString() + " Bullets Disposed.");
         }
 
         /// <summary>
