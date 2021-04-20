@@ -10,8 +10,13 @@ using System.Collections.Concurrent;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
+    /// <summary>
+    /// Manages the addition and removal of sprites in this game
+    /// </summary>
     public class EntityManager
     {
+        Vector2 target = new Vector2(0, 0);
+
         private EntityEventManager eventManager;
         private EntitiyFactory ef;
         private SpawnerFactory sf;
@@ -50,7 +55,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             get
             {
-                if(this.players.Count > 0)
+                if (this.players.Count > 0)
                     return this.players.ElementAt(0);
 
                 TextureManager state = TextureManager.Textures;
@@ -78,7 +83,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 return this.spawners;
             }
-        } 
+        }
 
         /// <summary>
         /// All live bullets which were fired by a player
@@ -116,7 +121,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
-                
+
             if (spawner != SpawnerFactory.SpawnerType.None)
             {
                 BulletSpawner s = this.sf.CreateSpawner(spawner, player);
@@ -151,26 +156,29 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
 
-                foreach (Player p in this.players)
-                {
-                    p.Update(gameTime);
-                }
-                foreach (Entity e in this.entities)
-                {
-                    e.Update(gameTime);
-                }
-                foreach (BulletSpawner s in this.spawners)
-                {
-                    s.Update(gameTime);
-                }
-                foreach (Bullet b in this.player_bullets)
-                {
-                    b.Update(gameTime);
-                }
-                foreach (Bullet b in this.enemy_bullets)
-                {
-                    b.Update(gameTime);
-                }
+            // Tell all entities to attack player by setting their attack target
+            this.BindEntitiesToPlayer();
+
+            foreach (Player p in this.players)
+            {
+                p.Update(gameTime);
+            }
+            foreach (Entity e in this.entities)
+            {
+                e.Update(gameTime);
+            }
+            foreach (BulletSpawner s in this.spawners)
+            {
+                s.Update(gameTime);
+            }
+            foreach (Bullet b in this.player_bullets)
+            {
+                b.Update(gameTime);
+            }
+            foreach (Bullet b in this.enemy_bullets)
+            {
+                b.Update(gameTime);
+            }
         }
 
         /// <summary>
@@ -180,26 +188,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-                foreach (Player p in this.players)
-                {
-                    p.Draw(gameTime, spriteBatch);
-                }
-                foreach (Entity e in this.entities)
-                {
-                    e.Draw(gameTime, spriteBatch);
-                }
-                foreach (BulletSpawner s in this.spawners)
-                {
-                    s.Draw(gameTime, spriteBatch);
-                }
-                foreach (Bullet b in this.player_bullets)
-                {
-                    b.Draw(gameTime, spriteBatch);
-                }
-                foreach (Bullet b in this.enemy_bullets)
-                {
-                    b.Draw(gameTime, spriteBatch);
-                }
+            foreach (Player p in this.players)
+            {
+                p.Draw(gameTime, spriteBatch);
+            }
+            foreach (Entity e in this.entities)
+            {
+                e.Draw(gameTime, spriteBatch);
+            }
+            foreach (BulletSpawner s in this.spawners)
+            {
+                s.Draw(gameTime, spriteBatch);
+            }
+            foreach (Bullet b in this.player_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+            foreach (Bullet b in this.enemy_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
         }
 
         /// <summary>
@@ -270,7 +278,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 }
             }
 
-            if(TESTING_bullets > 0)
+            if (TESTING_bullets > 0)
                 LogConsole.Log(TESTING_bullets.ToString() + " Bullets were fired.");
         }
 
@@ -343,6 +351,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             else
             {
                 this.enemy_bullets.Add(b);
+            }
+        }
+
+        /// <summary>
+        /// Tells each entitiy to aim at the player (if targeted)
+        /// </summary>
+        private void BindEntitiesToPlayer()
+        {
+            this.target.X = this.PlayerOne.X;
+            this.target.Y = this.PlayerOne.Y;
+            foreach (Entity s in Entities)
+            {
+                s.BindToTarget(this.target);
             }
         }
     }

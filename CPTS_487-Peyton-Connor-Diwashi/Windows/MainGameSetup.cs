@@ -10,23 +10,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public partial class MainGame : Game
     {
-        EntityManager EntityManager = null;
-        EntityEventManager EventManager = null;
-
-
-        // This will be changed by Program.cs as needed
+        // SYSTEM
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private float scaleFactor;
+
+        // MANAGER
+        EntityManager EntityManager = null;
+        EntityEventManager EventManager = null;
+
+        // TEMPORARY
         private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
         private List<Sprite> CollisionList = new List<Sprite>();
         private Texture2D lives;
         private Rectangle livesPosition;
         private Vector2 pos;
-        private float scaleFactor;
         private float timer = 0.0f;
         private long frames = 0;
-        Vector2 target = new Vector2(0, 0);
 
 
         public MainGame()
@@ -67,7 +68,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             texManager.Add(this.Content.Load<Texture2D>("BulletGreen"), TextureManager.Type.BulletGreen);
             texManager.Add(this.Content.Load<Texture2D>("BulletPurple"), TextureManager.Type.BulletPurple);
             texManager.Add(this.Content.Load<Texture2D>("BossBullet"), TextureManager.Type.BossBullet);         
-            texManager.Add(Content.Load<Texture2D>("spaceship_player"), TextureManager.Type.SpaceshipPlayer);
+            texManager.Add(this.Content.Load<Texture2D>("spaceship_player"), TextureManager.Type.SpaceshipPlayer);
         }
 
         protected override void LoadContent()

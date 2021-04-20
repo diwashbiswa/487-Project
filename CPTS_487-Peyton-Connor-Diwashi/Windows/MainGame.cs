@@ -50,15 +50,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             Collision.Collide(this.CollisionList);
 
 
-
-
-
-            this.target.X = this.EntityManager.PlayerOne.X;
-            this.target.Y = this.EntityManager.PlayerOne.Y;
-            foreach (Entity s in EntityManager.Entities)
-            {
-                s.BindToTarget(this.target);
-            }
             this.EntityManager.Update(gameTime);
 
 

@@ -10,6 +10,9 @@ using System.Collections.Concurrent;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
+    /// <summary>
+    /// Manages concurrent queues populated by Events in the game.
+    /// </summary>
     public class EntityEventManager
     {
         private EntityManager objectManager;
@@ -65,11 +68,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void Fire(object sender, AddBulletEventArgs e)
         {
             if (sender is not Bullet)
+            {
                 throw new Exception("Fire event Invoked with non-bullet sender");
+            }
 
-                Bullet b = (Bullet)sender;
-                b.Dispose += this.Dispose;
-                readyQueue.Enqueue(e);
+            Bullet b = (Bullet)sender;
+            b.Dispose += this.Dispose;
+            readyQueue.Enqueue(e);
         }
     }
 }
