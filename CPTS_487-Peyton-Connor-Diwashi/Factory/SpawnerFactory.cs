@@ -15,20 +15,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public enum SpawnerType { None, CardinalSouth, Targeted, Keyboard };
 
-        private Entity parent = null;
-
-        public Entity Parent
-        {
-            get
-            {
-                return this.parent;
-            }
-            set
-            {
-                this.parent = value;
-            }
-        }
-
         public SpawnerFactory() { }
 
         /// <summary>
@@ -36,11 +22,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="type"> EnemyFactory.EnemyType </param>
         /// <returns></returns>
-        public BulletSpawner CreateSpawner(SpawnerType type)
+        public BulletSpawner CreateSpawner(SpawnerType type, Entity parent)
         {
-            return this.createSpawner(type);
+            return this.createSpawner(type, parent);
         }
 
-        protected abstract BulletSpawner createSpawner(SpawnerType type);
+        protected abstract BulletSpawner createSpawner(SpawnerType type, Entity parent);
     }
 }

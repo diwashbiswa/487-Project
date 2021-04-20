@@ -52,7 +52,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.EventManager = EventManager;
             this.EventManager.ObjectManager = EntityManager;
 
-            this.EntityManager.AddPlayer(SpawnerFactory.SpawnerType.Keyboard);
+            this.EntityManager.EnqueuePlayer(SpawnerFactory.SpawnerType.Keyboard);
 
             base.Initialize();
         }

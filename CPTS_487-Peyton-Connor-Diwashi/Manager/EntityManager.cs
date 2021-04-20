@@ -51,7 +51,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             get
             {
-                return this.players.ElementAt(0);
+                if(this.players.Count > 0)
+                    return this.players.ElementAt(0);
+
+                TextureManager state = TextureManager.Textures;
+                return new Player(new Vector2(0, 0), state.Get(TextureManager.Type.SpaceshipPlayer), 0.0f);
             }
         }
 
@@ -106,44 +110,36 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Add a player to this game
+        /// Add a player to this game through the queue
         /// </summary>
         /// <param name="spawner"> Add a spawner as well? </param>
-        public void AddPlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
+        public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
-
-                Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
-                player.Health = 5;
-                this.SubscribeAll(player);
-                this.players.Add(player);
-
-                if (spawner != SpawnerFactory.SpawnerType.None)
-                {
-                    this.sf.Parent = player;
-                    BulletSpawner s = this.sf.CreateSpawner(spawner);
-                    this.SubscribeAll(s);
-                    this.spawners.Add(s);
-                }
+            Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
+            eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
+                
+            if (spawner != SpawnerFactory.SpawnerType.None)
+            {
+                BulletSpawner s = this.sf.CreateSpawner(spawner, player);
+                eventManager.ReadyEnqueue(s, new AddSpawnerEventArgs(player, s));
+            }
         }
 
         /// <summary>
-        /// Add a sprite to this game
+        /// Add an Entitiy to this game through the queue
         /// </summary>
         /// <param name="type"> Type of sprite </param>
         /// <param name="spawner"> Add a spawner as well? </param>
-        public void Add(EntitiyFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
+        public void EnqueueEntitiy(EntitiyFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
-                Entity e = ef.CreateEnemy(type);
-                this.SubscribeAll(e);
-                this.entities.Add(e);
+            Entity e = ef.CreateEnemy(type);
+            eventManager.ReadyEnqueue(e, new AddEnemyEventArgs(e));
 
-                if (spawner != SpawnerFactory.SpawnerType.None)
-                {
-                    this.sf.Parent = e;
-                    BulletSpawner s = this.sf.CreateSpawner(spawner);
-                    this.SubscribeAll(s);
-                    this.spawners.Add(s);
-                }
+            if (spawner != SpawnerFactory.SpawnerType.None)
+            {
+                BulletSpawner s = this.sf.CreateSpawner(spawner, e);
+                eventManager.ReadyEnqueue(s, new AddSpawnerEventArgs(e, s));
+            }
         }
 
         /// <summary>
@@ -234,12 +230,35 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 EventArgs e;
                 if (queue.TryDequeue(out e))
                 {
-                    // Decide which list we will add to depending on type of EventArgs
-                    if (e is BulletEventArgs)
+                    if (e is AddBulletEventArgs) //add bullet
                     {
-                        this.ReadBullet((BulletEventArgs)e);
+                        this.ReadBullet((AddBulletEventArgs)e);
+                        continue;
                     }
-
+                    if (e is AddPlayerEventArgs) //add player
+                    {
+                        var p = (AddPlayerEventArgs)e;
+                        this.SubscribeAll(p.Player);
+                        p.Player.Health = 5;
+                        this.players.Add(p.Player);
+                        continue;
+                    }
+                    if (e is AddEnemyEventArgs) //add enemy
+                    {
+                        var p = (AddEnemyEventArgs)e;
+                        this.SubscribeAll(p.Enemy);
+                        this.entities.Add(p.Enemy);
+                        continue;
+                    }
+                    if (e is AddSpawnerEventArgs) //add spawner
+                    {
+                        var p = (AddSpawnerEventArgs)e;
+                        p.Spawner.parent = p.Parent;
+                        this.SubscribeAll(p.Spawner);
+                        this.spawners.Add(p.Spawner);
+                        continue;
+                    }
+                    throw new Exception("Warning: ReadReadyQueue(): Unrecognized EventArgs");
                 }
             }
         }
@@ -295,7 +314,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Add a bullet by EventArgs passed from the EventManager Concurrent Queue
         /// </summary>
         /// <param name="e"></param>
-        private void ReadBullet(BulletEventArgs e)
+        private void ReadBullet(AddBulletEventArgs e)
         {
             Bullet b = e.Bullet;
 

@@ -38,6 +38,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Enqueues a Sprite to the ReadyQueue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ReadyEnqueue(object sender, EventArgs e)
+        {
+            this.readyQueue.Enqueue(e);
+        }
+
+        /// <summary>
         /// Enqueues an item to the Concurrent DisposeQueue
         /// </summary>
         /// <param name="sender"></param>
@@ -52,7 +62,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Fire(object sender, BulletEventArgs e)
+        public void Fire(object sender, AddBulletEventArgs e)
         {
             if (sender is not Bullet)
                 throw new Exception("Fire event Invoked with non-bullet sender");

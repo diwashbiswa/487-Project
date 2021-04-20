@@ -16,7 +16,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private Movement movement;
 
-        public event EventHandler<BulletEventArgs> Fire = delegate { };
+        public event EventHandler<AddBulletEventArgs> Fire = delegate { };
 
         public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
         {
@@ -48,7 +48,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="e"></param>
         protected void InvokeFire(object sender)
         {
-            this.Fire.Invoke(sender, new BulletEventArgs(this.parent, (Bullet)sender));
+            this.Fire.Invoke(sender, new AddBulletEventArgs(this.parent, (Bullet)sender));
         }
 
         public override void Collide(Sprite sender, EventArgs e) { }

@@ -14,16 +14,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         public StandardSpawnerFactory() { }
 
-        protected override BulletSpawner createSpawner(SpawnerType type)
+        protected override BulletSpawner createSpawner(SpawnerType type, Entity parent)
         {
             TextureManager texManager = TextureManager.Textures;
 
-            if (this.Parent == null)
-            {
-                throw new Exception("StandardSpawnerFactory: parent was null");
-            }
-
-            Entity e = this.Parent;
+            Entity e = parent;
 
             switch (type)
             {
