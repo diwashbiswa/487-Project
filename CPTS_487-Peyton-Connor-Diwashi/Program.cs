@@ -26,6 +26,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             homeScreen.e_resolution += resolutionUpdated;
             resolution = new Vector2(1280, 720);
             homeScreen.Run();
+
+            return;
         }
 
         // Homescreen exit button clicked

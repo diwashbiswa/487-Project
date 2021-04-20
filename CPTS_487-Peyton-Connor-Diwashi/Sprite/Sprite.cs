@@ -18,7 +18,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected Rectangle body = new Rectangle(0, 0, 0, 0);
 
         //To be invoked when the enemy is removed
-        public event EventHandler Dispose = delegate { };
+        public event EventHandler<DisposeEventArgs> Dispose = delegate { };
 
         public Rectangle Body
         {
@@ -76,7 +76,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="e"></param>
         protected void InvokeDispose(object sender, EventArgs e)
         {
-            this.Dispose.Invoke(sender, e);
+            this.Dispose.Invoke(sender, new DisposeEventArgs((Sprite)sender));
         }
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);

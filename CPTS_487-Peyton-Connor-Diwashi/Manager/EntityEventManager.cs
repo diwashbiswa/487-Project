@@ -17,7 +17,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public EntityEventManager() { }
 
         private ConcurrentQueue<EventArgs> readyQueue = new ConcurrentQueue<EventArgs>();
-        private ConcurrentQueue<Sprite> disposeQueue = new ConcurrentQueue<Sprite>();
+        private ConcurrentQueue<DisposeEventArgs> disposeQueue = new ConcurrentQueue<DisposeEventArgs>();
 
         /// <summary>
         /// Items ready to be dynamically added to the game (as EventArgs)
@@ -25,9 +25,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public ConcurrentQueue<EventArgs> ReadyQueue { get { return this.readyQueue; } }
 
         /// <summary>
-        /// Sprites ready to be dynamically removed from the game
+        /// Sprites ready to be removed from the game (as DisposeEventArgs)
         /// </summary>
-        public ConcurrentQueue<Sprite> DisposeQueue {  get { return this.disposeQueue; } }
+        public ConcurrentQueue<DisposeEventArgs> DisposeQueue {  get { return this.disposeQueue; } }
 
         public EntityManager ObjectManager
         {
@@ -42,10 +42,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Dispose(object sender, EventArgs e)
+        public void Dispose(object sender, DisposeEventArgs e)
         {
-                Sprite s = (Sprite)sender;
-                disposeQueue.Enqueue(s);
+             disposeQueue.Enqueue(e);
         }
 
         /// <summary>

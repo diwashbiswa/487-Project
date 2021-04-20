@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class StandardEnemyFactory : EntitiyFactory
+    public class StandardEntityFactory : EntitiyFactory
     {
-        public StandardEnemyFactory(Rectangle spawn_bounds) : base(spawn_bounds) { }
+        public StandardEntityFactory(Rectangle spawn_bounds) : base(spawn_bounds) { }
 
         protected override Entity createEnemy(EntitiyType type)
         {

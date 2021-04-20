@@ -22,6 +22,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
 
+        /// <summary>
+        /// This objects EventManager Observes sprites, subscribes to events, and populates queues
+        /// </summary>
         public EntityEventManager EventManager
         {
             set
@@ -30,6 +33,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// All non-player entities in this manager
+        /// </summary>
         public List<Entity> Entities
         {
             get
@@ -38,6 +44,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// The first player added to the mamanger
+        /// </summary>
         public Entity PlayerOne
         {
             get
@@ -46,6 +55,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// All players in this manager
+        /// </summary>
         public List<Entity> Players
         {
             get
@@ -54,6 +66,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// All spawners in this manager
+        /// </summary>
         public List<BulletSpawner> Spawners
         {
             get
@@ -62,6 +77,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         } 
 
+        /// <summary>
+        /// All live bullets which were fired by a player
+        /// </summary>
         public List<Bullet> PlayerBullets
         {
             get
@@ -70,6 +88,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// All bullets which were fired by a non-player entitiy
+        /// </summary>
         public List<Bullet> EnemyBullets
         {
             get
@@ -80,7 +101,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public EntityManager()
         {
-            this.ef = new StandardEnemyFactory(new Rectangle(50, 50, 1180, 600));
+            this.ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
             this.sf = new StandardSpawnerFactory();
         }
 
@@ -131,7 +152,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            this.ReadQueue();
+            // Read the queues for dynamic insertion and removal of sprites
+            this.ReadDisposeQueue(this.eventManager.DisposeQueue);
+            this.ReadReadyQueue(this.eventManager.ReadyQueue);
 
                 foreach (Player p in this.players)
                 {
@@ -200,30 +223,47 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Reads the concurrent event queue from EventManager. Update the lists accordingly
+        /// Insert sprites into game-lists from a queue
         /// </summary>
-        private void ReadQueue()
+        /// <param name="queue"></param>
+        private void ReadReadyQueue(ConcurrentQueue<EventArgs> queue)
         {
-            int count = eventManager.ReadyQueue.Count;
-            for(int i = 0; i < count; i++)
+            int count = queue.Count;
+            for (int i = 0; i < count; i++)
             {
                 EventArgs e;
-                if(eventManager.ReadyQueue.TryDequeue(out e))
+                if (queue.TryDequeue(out e))
                 {
+                    // Decide which list we will add to depending on type of EventArgs
                     if (e is BulletEventArgs)
                     {
                         this.ReadBullet((BulletEventArgs)e);
                     }
+
                 }
             }
+        }
 
-            count = eventManager.DisposeQueue.Count;
+        /// <summary>
+        /// Remove sprites from game-lists from a queue
+        /// </summary>
+        /// <param name="queue"></param>
+        private void ReadDisposeQueue(ConcurrentQueue<DisposeEventArgs> queue)
+        {
+            int count = queue.Count;
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
+                DisposeEventArgs e;
                 Sprite s;
-                if (eventManager.DisposeQueue.TryDequeue(out s))
+                if (queue.TryDequeue(out e))
                 {
+                    s = e.Sprite;
+                    if (s == PlayerOne)
+                    {
+                        return;
+                    }
+
                     if (this.entities.Contains(s))
                     {
                         this.entities.Remove((Entity)s);
@@ -246,8 +286,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         {
                             this.enemy_bullets.Remove((Bullet)s);
                         }
-
-                        LogConsole.Log("Bullet Disposed");
                     }
                 }
             }
