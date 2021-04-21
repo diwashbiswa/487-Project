@@ -135,7 +135,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
-            player.MakeInvincible(5);
+            player.MakeInvincible(3);
 
             // Add a GUI component for the first player
             if (this.players.Count < 1)
@@ -176,7 +176,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            // Read the queues for dynamic insertion and removal of sprites
+            // Read the queues for dynamic insertion, removal, updating of sprites
             this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
             this.ReadUpdateQueue(this.eventManager.UpdateQueue);
@@ -244,19 +244,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Subscribe the EventManager to all Entity Events
+        /// Subscribe the EventManager to all Sprite * Events
         /// </summary>
         /// <param name="e"></param>
         private void SubscribeAll(Sprite e)
         {
+            // Every Sprite has Dispose
             e.Dispose += this.eventManager.Dispose;
 
+            // Entitiy Specific Events
             if (e is Entity)
             {
                 Entity v = (Entity)e;
                 v.Collided += this.eventManager.Collided;
             }
 
+            // BulletSpawner Specific Events
             if (e is BulletSpawner)
             {
                 BulletSpawner b = (BulletSpawner)e;

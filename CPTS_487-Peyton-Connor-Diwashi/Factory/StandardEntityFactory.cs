@@ -40,7 +40,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     e = new Boss2(new Vector2(xS, yS), texManager.Get(TextureManager.Type.Boss2));
                     break;
                 case EntitiyType.Player:
-                    e = new Player(new Vector2(500, 300), texManager.Get(TextureManager.Type.SpaceshipPlayer), 7.0f);
+                    e = new Player(new Vector2(600, 600), texManager.Get(TextureManager.Type.SpaceshipPlayer), 7.0f);
                     e.Health = 5;
                     break;
                 default:

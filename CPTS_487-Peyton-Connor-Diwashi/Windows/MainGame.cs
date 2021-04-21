@@ -105,17 +105,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  
  3. ScriptMovement : Movement
 
- 6. Make player lives a class.
-
  7. Bring More variables into maingame player creation to get ready for level scripts
-
-
-      BUGS:
-
-      Enemy.Position += movement.Move() does not work with any movement vector 
-        containing values less than 1 because of integer casting int the Enemy.Position PROPERTY. 
-        Position is in PIXELS therefore we cannot move by .5 of a pixel. 
-        For this reason, a movement of 0.5 will cause the enemy to infinitely
-        stall. Now, minimum cardinal movement is set to 1 in any direction.
 
  */

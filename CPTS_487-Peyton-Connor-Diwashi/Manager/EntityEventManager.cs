@@ -34,7 +34,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public ConcurrentQueue<DisposeEventArgs> DisposeQueue {  get { return this.disposeQueue; } }
 
         /// <summary>
-        /// Queue of events which require an update of the lists
+        /// Queue of EventArgs which require an update of the lists
         /// </summary>
         public ConcurrentQueue<EventArgs> UpdateQueue {  get { return this.updateQueue; } }
 
@@ -78,6 +78,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 throw new Exception("Fire event Invoked with non-bullet sender");
             }
 
+            if (e.Parent.Invincible == true)
+                return;
+
             Bullet b = (Bullet)sender;
             b.Dispose += this.Dispose;
             readyQueue.Enqueue(e);
@@ -98,7 +101,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     player.TakeDamage(1); 
 
                     if(!player.Invincible)
-                        this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(500, 500)));
+                        this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));
 
                     LogConsole.Log("Player has been hit");
                     return;
@@ -106,7 +109,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                 throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
             }
-
+            
             throw new NotImplementedException("EntityManager: Collided(): Non-Player Victim");
         }
     }

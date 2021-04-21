@@ -159,6 +159,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 LogConsole.Log(TESTING_bullets.ToString() + " Bullets Disposed.");
         }
 
+        #region helper
+
         /// <summary>
         /// Add a bullet by EventArgs passed from the EventManager Concurrent Queue
         /// </summary>
@@ -205,17 +207,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Player p = (Player)e.Entity;
                 p.MakeInvincible(3);
                 p.Position = e.NewPosition;
-                foreach (BulletSpawner s in this.spawners)
-                {
-                    if (s.parent == p)
-                    {
-                        s.Position = e.NewPosition;
-                    }
-                }
+                this.spawners.Where(x => x.parent == p).ToList().ForEach(x => x.Position = e.NewPosition);
                 return;
             }
 
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
