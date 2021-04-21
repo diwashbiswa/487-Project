@@ -15,6 +15,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private float scaleFactor;
+        public event EventHandler Restart = delegate { };
 
         // GOOD
         EntityManager EntityManager = null;
@@ -22,7 +23,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Sprite> CollisionList = new List<Sprite>();
 
         // TEMPORARY
-        private List<GUIComponent> gameOverButtons = new List<GUIComponent>();
         private float timer = 0.0f;
         private long frames = 0;
 
@@ -49,6 +49,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.EventManager = EventManager;
             this.EventManager.ObjectManager = EntityManager;
 
+            this.EntityManager.Exit += this.Exit;
+
             // Add player with GUI component
             this.EntityManager.EnqueuePlayer(SpawnerFactory.SpawnerType.Keyboard);
 
@@ -67,6 +69,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             texManager.Add(this.Content.Load<Texture2D>("BossBullet"), TextureManager.Type.BossBullet);         
             texManager.Add(this.Content.Load<Texture2D>("spaceship_player"), TextureManager.Type.SpaceshipPlayer);
             texManager.Add(this.Content.Load<Texture2D>("heart"), TextureManager.Type.Heart);
+            texManager.Add(this.Content.Load<Texture2D>("Button1"), TextureManager.Type.Button1);
+            texManager.AddFont(this.Content.Load<SpriteFont>("Font"), TextureManager.Font.Font1);
         }
 
         protected override void LoadContent()

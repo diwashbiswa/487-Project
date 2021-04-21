@@ -13,7 +13,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private GUIComponent component;
 
         private Sprite parent = null;
-        public AddGUIEventArgs(GUIComponent component, Sprite parent) { this.component = component; this.parent = parent; }
+        public AddGUIEventArgs(GUIComponent component, Sprite parent = null) { this.component = component; this.parent = parent; }
         public GUIComponent Component { get { return this.component; } }
 
         public Sprite Parent { get { return this.parent; } }

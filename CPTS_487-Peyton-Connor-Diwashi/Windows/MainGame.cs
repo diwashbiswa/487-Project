@@ -10,6 +10,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public partial class MainGame : Game
     {
+        /// <summary>
+        /// To be invoked on exit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Exit(object sender, EventArgs e)
+        {
+            base.Exit();
+        }
+
         protected override void Update(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -29,7 +39,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
 
-
             // Collide the range of Player Bullets with the range of Entities (entities are non-player)
             this.CollisionList.Clear();
             this.CollisionList.AddRange(EntityManager.PlayerBullets);
@@ -45,6 +54,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             this.EntityManager.Update(gameTime);
 
+
             base.Update(gameTime);
         }
 
@@ -55,45 +65,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Matrix.CreateScale(this.scaleFactor));
 
             this.EntityManager.Draw(gameTime, _spriteBatch);
-
-
-            // MAKE PART OF CLASS {
-            if (this.EntityManager.PlayerOne.Dead)
-            {
-                Exit();
-                //Show game over screen
-                GameOverPopUp(_spriteBatch, gameTime);
-            }
-            // }
-
-
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-
-        public void GameOverPopUp(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Gray);
-
-            // Game Over text
-            spriteBatch.DrawString(Content.Load<SpriteFont>("Font"), "Game Over", new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2 - 100), Color.DarkRed);
-
-            // Exit button
-            GUIButton button_exit = new GUIButton(new Vector2(Window.ClientBounds.Width / 2 - 300, Window.ClientBounds.Height/2 + 100), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Exit");
-
-            // Play again button
-            GUIButton button_playgame = new GUIButton(new Vector2(Window.ClientBounds.Width / 2 + 100, Window.ClientBounds.Height / 2 + 100), Content.Load<Texture2D>("Button1"), Content.Load<SpriteFont>("Font"), Color.Black, "Start");
-
-            gameOverButtons.Add(button_exit);
-            gameOverButtons.Add(button_playgame);
-
-            // Draw all exit and play buttons
-            foreach (GUIComponent gc in gameOverButtons)
-            {
-                gc.Draw(gameTime, _spriteBatch);
-            }
         }
     }
 }

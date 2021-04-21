@@ -27,9 +27,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet, Heart }
+        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet, Heart, Button1 }
+
+        public enum Font { Font1 }
 
         private Dictionary<Type, Texture2D> texDict = new Dictionary<Type, Texture2D>();
+
+        private Dictionary<Font, SpriteFont> fontDict = new Dictionary<Font, SpriteFont>();
 
         public void Add(Texture2D pixels, Type bind)
         {
@@ -47,6 +51,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 throw new Exception("Texture unbound");
             }
             return texDict[key];
+        }
+
+        public void AddFont(SpriteFont pixels, Font bind)
+        {
+            if (fontDict.ContainsKey(bind))
+            {
+                fontDict.Remove(bind);
+            }
+            fontDict.Add(bind, pixels);
+        }
+
+        public SpriteFont GetFont(Font key)
+        {
+            if (!fontDict.ContainsKey(key))
+            {
+                throw new Exception("Texture unbound");
+            }
+            return fontDict[key];
         }
     }
 }

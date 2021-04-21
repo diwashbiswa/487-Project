@@ -16,7 +16,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     public partial class EntityManager
     {
         Vector2 target = new Vector2(0, 0);
-
+        public event EventHandler Exit = delegate { };
         private EntityEventManager eventManager;
         private EntitiyFactory ef;
         private SpawnerFactory sf;
@@ -278,6 +278,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.BindToTarget(this.target);
             }
+        }
+
+        /// <summary>
+        /// Invokes an Exit event for the game application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ExitGame(object sender, EventArgs e)
+        {
+            this.Exit.Invoke(sender, e);
         }
     }
 }
