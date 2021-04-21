@@ -57,9 +57,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.Draw(gameTime, _spriteBatch);
 
 
-
-
-
             // MAKE PART OF CLASS {
             if (this.EntityManager.PlayerOne.Dead)
             {

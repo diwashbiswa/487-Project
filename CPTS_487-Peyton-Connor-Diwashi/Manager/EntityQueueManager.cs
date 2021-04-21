@@ -70,7 +70,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         LogConsole.Log("GUI component added.");
                         continue;
                     }
-                    throw new Exception("Warning: ReadReadyQueue(): Unrecognized EventArgs");
+
+                    throw new Exception("EntitiyQueueManager: ReadReadyQueue(): Unrecognized EventArgs");
                 }
             }
 
@@ -126,8 +127,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     if (this.entities.Contains(s))
                     {
                         this.entities.Remove((Entity)s);
-                        this.spawners.RemoveAll(x => x.parent == s);
-                        LogConsole.Log("Entitiy and Spawner Disposed.");
+                        LogConsole.Log("Entitiy Disposed");
+
+                        if( this.spawners.RemoveAll(x => x.parent == s) > 0)
+                            LogConsole.Log("Spawner(s) Disposed.");
                     }
 
                     if (this.players.Contains(s))

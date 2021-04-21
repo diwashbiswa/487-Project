@@ -103,15 +103,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     LogConsole.Log("Player has been hit");
                     return;
                 }
-                else
-                {
-                    throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
-                }
+
+                throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
             }
-            else
-            {
-                throw new NotImplementedException("EntityManager: Collided(): Non-Player Victim");
-            }
+
+            throw new NotImplementedException("EntityManager: Collided(): Non-Player Victim");
         }
     }
 }
