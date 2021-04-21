@@ -8,16 +8,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Content\Fonts\**" />
-    <Compile Remove="Content\GUI\**" />
-    <EmbeddedResource Remove="Content\Fonts\**" />
-    <EmbeddedResource Remove="Content\GUI\**" />
-    <None Remove="Content\Fonts\**" />
-    <None Remove="Content\GUI\**" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />

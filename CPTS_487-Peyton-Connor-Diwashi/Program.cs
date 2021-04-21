@@ -13,19 +13,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     /// </summary>
     public static class Program
     {
-        static Vector2 resolution;
+        static Vector2 resolution = new Vector2(1280, 720);
 
         static MainGame game;
 
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            resolution = new Vector2(1280, 720);
-
             game = new MainGame();
             game.currentWindowResolution = resolution;
             game.Run();
-
         }
     }
 }
