@@ -57,6 +57,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Enqueues an update event to the update queue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void UpdateEnqueue(object sender, EventArgs e)
+        {
+            this.updateQueue.Enqueue(e);
+        }
+
+        /// <summary>
         /// Enqueues an item to the Concurrent DisposeQueue
         /// </summary>
         /// <param name="sender"></param>
@@ -98,7 +108,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Player player = (Player)e.Victim;
                 if (e.Attacker is Bullet)
                 {
-                    player.TakeDamage(1); 
+                    player.TakeDamage(5); 
 
                     if(!player.Invincible)
                         this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));

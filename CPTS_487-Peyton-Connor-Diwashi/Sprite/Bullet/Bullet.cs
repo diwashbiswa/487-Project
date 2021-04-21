@@ -22,6 +22,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Texture fo the Bullet
         private Texture2D tex;
 
+        private Color col;
+
+        public Color Color
+        {
+            get
+            {
+                return this.col;
+            }
+            set
+            {
+                this.col = value;
+            }
+        }
+
         /// <summary>
         /// Creates a new instance of a bullet using targeted movement
         /// </summary>
@@ -35,6 +49,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.Position = position;
+            this.col = Color.White;
         }
 
         /// <summary>
@@ -44,7 +59,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spriteBatch"></param>
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.tex, this.body, Color.White);
+            spriteBatch.Draw(this.tex, this.body, this.col);
         }
 
         /// <summary>

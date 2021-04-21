@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 //
-namespace CPTS_487_Peyton_Connor_Diwashi
+namespace CPTS_487_Homescreen
 {
     public partial class HomeScreen : Game
     {

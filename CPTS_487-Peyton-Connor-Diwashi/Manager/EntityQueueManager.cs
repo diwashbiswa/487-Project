@@ -97,6 +97,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         LogConsole.Log("Enitiy Respawn Event.");
                         continue;
                     }
+                    if (e is GameOverEventArgs)
+                    {
+                        this.ReadGameOverEvent((GameOverEventArgs)e);
+                        LogConsole.Log("Game Over Event.");
+                        continue;
+                    }
 
                     throw new Exception("EntitiyManager: ReadUpdateQueue: Non-Recognized EventArgs");
                 }
@@ -121,6 +127,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     s = e.Sprite;
                     if (s == PlayerOne)
                     {
+                        this.ReadDisposePlayerOne(e);
                         return;
                     }
 
@@ -129,7 +136,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         this.entities.Remove((Entity)s);
                         LogConsole.Log("Entitiy Disposed");
 
-                        if( this.spawners.RemoveAll(x => x.parent == s) > 0)
+                        if(this.spawners.RemoveAll(x => x.parent == s) > 0)
                             LogConsole.Log("Spawner(s) Disposed.");
                     }
 
@@ -192,6 +199,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.GUIComponents.Add(p);
                 return;
             }
+            if (e.Component is GameOverComponent)
+            {
+                this.GUIComponents.Add(e.Component);
+                return;
+            }
 
             throw new NotImplementedException();
         }
@@ -212,6 +224,38 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Method called by ReadDisposeQueue when the EventManager disposes player1
+        /// </summary>
+        /// <param name="e"></param>
+        private void ReadDisposePlayerOne(DisposeEventArgs e)
+        {
+            bool win = false;
+            this.eventManager.UpdateEnqueue(this.PlayerOne, new GameOverEventArgs(win));
+        }
+
+        /// <summary>
+        /// Reads a GameOverEvent from the updatequeue, pushes a new GUI component
+        /// </summary>
+        /// <param name="e"></param>
+        private void ReadGameOverEvent(GameOverEventArgs e)
+        {
+            Random rand = new Random();
+            GameOverComponent g = new GameOverComponent();
+            g.Win = e.Win;
+            g.Exit += this.ExitGame;
+            eventManager.ReadyEnqueue(g, new AddGUIEventArgs(g));
+            
+            // Make all entities black, set lifespans so they dissapear.
+            foreach(Entity i in this.entities)
+            {
+                i.Color = Color.Black;
+                i.LifeSpan = (uint)rand.Next(1,4);
+            }
+
+            this.players.Clear();
         }
 
         #endregion
