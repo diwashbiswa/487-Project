@@ -108,8 +108,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Player player = (Player)e.Victim;
                 if (e.Attacker is Bullet)
                 {
-                    player.TakeDamage(5); 
-
                     if(!player.Invincible)
                         this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));
 

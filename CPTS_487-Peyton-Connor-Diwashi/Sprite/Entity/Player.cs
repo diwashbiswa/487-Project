@@ -48,6 +48,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Collide(Sprite sender, EventArgs e)
         {
+            this.TakeDamage(1);
             base.InvokeCollide(this, new EntityCollideEventArgs(this, (Bullet)sender));
         }
     }
