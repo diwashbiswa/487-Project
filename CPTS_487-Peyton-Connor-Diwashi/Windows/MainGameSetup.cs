@@ -56,7 +56,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // WAVE TESTING
             EntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
             SpawnerFactory sf = new StandardSpawnerFactory();
-            SpriteWave wave_one = new SpriteWave(0);
+            SpriteWave wave_one = new SpriteWave(0, 1);
             wave_one.Spawn += this.EventManager.ReadyEnqueue;
             for (int i = 0; i < 10; i++)
             {

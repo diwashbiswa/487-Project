@@ -15,6 +15,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private uint begin_time = 0;
         private uint max_run_seconds = 60 * 2;
+        private int waveID = 0;
         private bool done = false;
 
         /// <summary>
@@ -24,8 +25,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
 
-        public SpriteWave(uint t_begin)
+        public SpriteWave(uint t_begin, int wave_id = 0)
         {
+            this.waveID = wave_id;
             this.begin_time = t_begin;
         }
 
@@ -33,6 +35,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// The time this wave should start (seconds)
         /// </summary>
         public uint BeginTime { get { return this.begin_time; } }
+
+        /// <summary>
+        /// The ID for this wave
+        /// </summary>
+        public int WaveID { get { return this.waveID; } }
 
         /// <summary>
         /// Stop the spawning after this many seconds no matter what.
@@ -86,20 +93,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             stopwatch.Start();
             while(entities.Count > 0 || spawners.Count > 0)
             {
-                double elapse = stopwatch.Elapsed.TotalSeconds;
+                int TESTING_s_initial = this.entities.Count + this.spawners.Count;
 
+                double elapse = stopwatch.Elapsed.TotalSeconds;
                 entities.Where(x => x.WaveTimeSeconds <= elapse).ToList().ForEach(
                     x => this.Spawn.Invoke(x, new AddEnemyEventArgs(x)));
-
                 entities.RemoveAll(x => x.WaveTimeSeconds <= elapse);
-
                 spawners.Where(x => x.WaveTimeSeconds <= elapse).ToList().ForEach(
                     x => this.Spawn.Invoke(x, new AddSpawnerEventArgs(x.parent, x)));
-
                 spawners.RemoveAll(x => x.WaveTimeSeconds <= elapse);
 
+
+                int TESTING_s_final = (TESTING_s_initial - (this.spawners.Count + this.entities.Count));
+                if(TESTING_s_final > 0)
+                    LogConsole.Log(TESTING_s_final.ToString() + " sprites spawned from SpriteWave: " + this.waveID.ToString() + ".");
+
+
                 if (elapse > this.max_run_seconds)
-                    return;
+                    break;
             }
             this.done = true;
         }
