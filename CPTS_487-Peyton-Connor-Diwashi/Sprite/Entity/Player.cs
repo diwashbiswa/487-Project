@@ -10,9 +10,6 @@ using System.Windows.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    /// <summary>
-    /// All Sprite objects extend from here
-    /// </summary>
     public class Player : Entity
     {
         private float a_timer = 1.0f;

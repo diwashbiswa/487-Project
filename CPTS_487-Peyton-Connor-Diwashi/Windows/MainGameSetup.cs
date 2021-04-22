@@ -4,7 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
@@ -21,10 +22,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         EntityManager EntityManager = null;
         EntityEventManager EventManager = null;
         private List<Sprite> CollisionList = new List<Sprite>();
-
-        // TEMPORARY
-        private float timer = 0.0f;
-        private long frames = 0;
 
         public MainGame()
         {
@@ -53,6 +50,27 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
             // Add player with GUI component
             this.EntityManager.EnqueuePlayer(SpawnerFactory.SpawnerType.Keyboard);
+
+
+
+            // WAVE TESTING
+            EntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
+            SpawnerFactory sf = new StandardSpawnerFactory();
+            SpriteWave wave_one = new SpriteWave(0);
+            wave_one.Spawn += this.EventManager.ReadyEnqueue;
+            for (int i = 0; i < 10; i++)
+            {
+                Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Grunt1);
+                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted, e);
+                e.WaveTimeSeconds = i*2;
+                s.WaveTimeSeconds = i*2;
+                wave_one.AddEntitiy(e);
+                wave_one.AddSpawner(s);
+            }               
+            wave_one.StartConcurrent();
+            // ------
+
+
 
             base.Initialize();
         }

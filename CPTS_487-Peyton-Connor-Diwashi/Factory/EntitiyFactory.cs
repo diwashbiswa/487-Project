@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public abstract class EntitiyFactory
+    public abstract class EntityFactory
     {
         protected Rectangle spawnBounds;
 
@@ -62,7 +62,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Creates a new instance of the EnemyFactory Class
         /// </summary>
         /// <param name="spawn_bounds"> Bounds for enemies created with this Factory </param>
-        public EntitiyFactory(Rectangle spawn_bounds)
+        public EntityFactory(Rectangle spawn_bounds)
         {
             this.spawnBounds = spawn_bounds;
             this.LifeSpanSeconds = 0;

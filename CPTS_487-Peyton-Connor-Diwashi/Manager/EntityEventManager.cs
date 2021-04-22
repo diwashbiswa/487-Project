@@ -92,7 +92,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 return;
 
             Bullet b = (Bullet)sender;
-            b.Dispose += this.Dispose;
             readyQueue.Enqueue(e);
         }
 

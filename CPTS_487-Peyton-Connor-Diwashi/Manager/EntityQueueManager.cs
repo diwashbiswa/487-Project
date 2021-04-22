@@ -136,7 +136,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         this.entities.Remove((Entity)s);
                         LogConsole.Log("Entitiy Disposed");
 
-                        if(this.spawners.RemoveAll(x => x.parent == s) > 0)
+                        if (this.spawners.RemoveAll(x => x.parent == s) > 0)
                             LogConsole.Log("Spawner(s) Disposed.");
                     }
 
@@ -175,6 +175,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private void ReadBullet(AddBulletEventArgs e)
         {
             Bullet b = e.Bullet;
+            b.Dispose += this.eventManager.Dispose;
 
             if (e.Parent is Player)
             {
@@ -196,12 +197,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 PlayerLives p = (PlayerLives)e.Component;
                 p.Parent = (Player)e.Parent;
-                this.GUIComponents.Add(p);
+                this.gui_components.Add(p);
                 return;
             }
             if (e.Component is GameOverComponent)
             {
-                this.GUIComponents.Add(e.Component);
+                this.gui_components.Add(e.Component);
                 return;
             }
 
@@ -247,12 +248,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             g.Win = e.Win;
             g.Exit += this.ExitGame;
             eventManager.ReadyEnqueue(g, new AddGUIEventArgs(g));
-            
+
             // Make all entities black, set lifespans so they dissapear.
-            foreach(Entity i in this.entities)
+            foreach (Entity i in this.entities)
             {
                 i.Color = Color.Black;
-                i.LifeSpan = (uint)rand.Next(1,4);
+                i.LifeSpan = (uint)rand.Next(1, 4);
             }
 
             this.players.Clear();

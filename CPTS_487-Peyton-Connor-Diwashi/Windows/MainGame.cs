@@ -22,22 +22,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected override void Update(GameTime gameTime)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            frames++;
-
-            //Add Enemy
-            if (timer > 1 && timer < 1.03)
-            {
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
-            }
-
-            if (frames == 120)
-            {
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
-            }
-
 
             // Collide the range of Player Bullets with the range of Entities (entities are non-player)
             this.CollisionList.Clear();
@@ -79,7 +63,5 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  1. JSON script draft
  
  3. ScriptMovement : Movement
-
- 7. Bring More variables into maingame player creation to get ready for level scripts
 
  */

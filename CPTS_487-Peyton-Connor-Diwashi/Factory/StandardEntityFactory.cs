@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public class StandardEntityFactory : EntitiyFactory
+    public class StandardEntityFactory : EntityFactory
     {
         public StandardEntityFactory(Rectangle spawn_bounds) : base(spawn_bounds) { }
 

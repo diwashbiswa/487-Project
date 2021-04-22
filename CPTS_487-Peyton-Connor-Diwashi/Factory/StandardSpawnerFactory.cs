@@ -14,20 +14,20 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         public StandardSpawnerFactory() { }
 
-        protected override BulletSpawner createSpawner(SpawnerType type, Entity parent)
+        protected override BulletSpawner createSpawner(SpawnerType type, Entity parent, BulletType btype)
         {
-            TextureManager texManager = TextureManager.Textures;
+            Texture2D btex = BType2Tex(btype);
 
             Entity e = parent;
 
             switch (type)
             {
                 case (SpawnerType.CardinalSouth):
-                    return new CardinalBulletSpawner(e, texManager.Get(TextureManager.Type.BulletGreen), e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.South);
+                    return new CardinalBulletSpawner(e, btex, e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.South);
                 case (SpawnerType.Targeted):
-                    return new TargetedBulletSpawner(e, texManager.Get(TextureManager.Type.BossBullet), e.Position, e.Movement, e.Width, e.Height);
+                    return new TargetedBulletSpawner(e, btex, e.Position, e.Movement, e.Width, e.Height);
                 case (SpawnerType.Keyboard):
-                    return new KeyboardBulletSpawner(e, texManager.Get(TextureManager.Type.BulletPurple), e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.North);
+                    return new KeyboardBulletSpawner(e, btex, e.Position, e.Movement, e.Width, e.Height, Movement.CardinalDirection.North);
                 default:
                     throw new Exception("StandardSpawnerFactory type requested not yet implemented");
             }

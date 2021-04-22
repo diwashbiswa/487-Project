@@ -18,14 +18,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         Vector2 target = new Vector2(0, 0);
         public event EventHandler Exit = delegate { };
         private EntityEventManager eventManager;
-        private EntitiyFactory ef;
+        private EntityFactory ef;
         private SpawnerFactory sf;
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
-        private List<GUIComponent> GUIComponents = new List<GUIComponent>();
+        private List<GUIComponent> gui_components = new List<GUIComponent>();
 
         /// <summary>
         /// Returns true if player one is ready.
@@ -121,6 +121,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        /// <summary>
+        /// All dynamic gui components currently being drawn
+        /// </summary>
+        public List<GUIComponent> GUIComponents
+        {
+            get
+            {
+                return this.gui_components;
+            }
+        }
+
         public EntityManager()
         {
             this.ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
@@ -134,7 +145,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spawner"> Add a spawner as well? </param>
         public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
-            Entity player = ef.CreateEnemy(EntitiyFactory.EntitiyType.Player);
+            Entity player = ef.CreateEnemy(EntityFactory.EntitiyType.Player);
             player.MakeInvincible(3);
 
             // Add a GUI component for the first player
@@ -158,7 +169,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="type"> Type of sprite </param>
         /// <param name="spawner"> Add a spawner as well? </param>
-        public void EnqueueEntitiy(EntitiyFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
+        public void EnqueueEntitiy(EntityFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             Entity e = ef.CreateEnemy(type);
             eventManager.ReadyEnqueue(e, new AddEnemyEventArgs(e));
@@ -176,7 +187,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            // Read the queues for dynamic insertion, removal, updating of sprites
+            // Read the queues for insertion, removal, updating of sprites
             this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
             this.ReadUpdateQueue(this.eventManager.UpdateQueue);
@@ -204,7 +215,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 b.Update(gameTime);
             }
-            foreach (GUIComponent g in this.GUIComponents)
+            foreach (GUIComponent g in this.gui_components)
             {
                 g.Update(gameTime);
             }
@@ -237,7 +248,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 b.Draw(gameTime, spriteBatch);
             }
-            foreach (GUIComponent g in this.GUIComponents)
+            foreach (GUIComponent g in this.gui_components)
             {
                 g.Draw(gameTime, spriteBatch);
             }
@@ -247,7 +258,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// Subscribe the EventManager to all Sprite * Events
         /// </summary>
         /// <param name="e"></param>
-        private void SubscribeAll(Sprite e)
+        public void SubscribeAll(Sprite e)
         {
             // Every Sprite has Dispose
             e.Dispose += this.eventManager.Dispose;

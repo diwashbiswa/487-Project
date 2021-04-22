@@ -15,6 +15,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private int draw_order = 0;
 
+        private int wave_time = 0;
+
         protected Rectangle body = new Rectangle(0, 0, 0, 0);
 
         //To be invoked when the enemy is removed
@@ -66,6 +68,21 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             set
             {
                 this.draw_order = value;
+            }
+        }
+
+        /// <summary>
+        /// If this sprite is in a Wave, when should it spawn?
+        /// </summary>
+        public int WaveTimeSeconds
+        {
+            get
+            {
+                return this.wave_time;
+            }
+            set
+            {
+                this.wave_time = value;
             }
         }
 
