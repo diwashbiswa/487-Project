@@ -4,6 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Concurrent;
@@ -218,7 +224,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // We should only have 1 gameovercomponent
             if (this.gui_components.FindAll(x => x is GameOverComponent).Count > 0)
                 return;
-
+            // Stop the eventmanager form spawning enemies
+            eventManager.WaveManager.Spawn -= eventManager.ReadyEnqueue;
             Random rand = new Random();
             GameOverComponent g = new GameOverComponent();
             g.Win = e.Win;

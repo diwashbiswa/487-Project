@@ -59,6 +59,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 value.WaveFinished += this.WaveFinished;
                 value.FinalWaveFinished += this.FinalWaveFinished;
             }
+            get
+            {
+                return this.waveManager;
+            }
         }
 
         /// <summary>

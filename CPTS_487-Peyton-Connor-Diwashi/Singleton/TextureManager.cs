@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
     /// <summary>
-    /// UserInput Singleton class 
+    /// TextureManager Singleton class 
     /// </summary>
     public sealed class TextureManager
     {

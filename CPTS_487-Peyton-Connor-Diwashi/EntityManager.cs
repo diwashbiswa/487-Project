@@ -49,6 +49,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 this.eventManager = value;
             }
+            get
+            {
+                return this.eventManager;
+            }
         }
 
         /// <summary>
