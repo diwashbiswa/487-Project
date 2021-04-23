@@ -64,4 +64,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  
  3. ScriptMovement : Movement
 
+ 4. WaveScripts
+
  */

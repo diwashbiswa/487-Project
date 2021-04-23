@@ -215,6 +215,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="e"></param>
         private void ReadGameOverEvent(GameOverEventArgs e)
         {
+            // We should only have 1 gameovercomponent
+            if (this.gui_components.FindAll(x => x is GameOverComponent).Count > 0)
+                return;
+
             Random rand = new Random();
             GameOverComponent g = new GameOverComponent();
             g.Win = e.Win;
