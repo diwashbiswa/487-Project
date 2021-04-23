@@ -17,6 +17,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private EntityManager objectManager;
 
+        private WaveManager waveManager;
+
         public EntityEventManager() { }
 
         private ConcurrentQueue<EventArgs> readyQueue = new ConcurrentQueue<EventArgs>();
@@ -43,6 +45,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             set
             {
                 this.objectManager = value;
+            }
+        }
+
+        public WaveManager WaveManager
+        {
+            set
+            {
+                this.waveManager = value;
+                value.Spawn += this.ReadyEnqueue;
+                value.WaveSpawnFinished += this.WaveSpawnFinished;
+                value.FinalWaveSpawnFinished += this.FinalWaveSpawnFinished;
+                value.WaveFinished += this.WaveFinished;
+                value.FinalWaveFinished += this.FinalWaveFinished;
             }
         }
 
@@ -73,6 +88,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="e"></param>
         public void Dispose(object sender, DisposeEventArgs e)
         {
+            // PlayerOne being disposed.. game over.
+            if (e.Sprite == objectManager.PlayerOne)
+                this.updateQueue.Enqueue(new GameOverEventArgs(false));
+
              disposeQueue.Enqueue(e);
         }
 
@@ -88,6 +107,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 throw new Exception("Fire event Invoked with non-bullet sender");
             }
 
+            // Cant fire with invincibility
             if (e.Parent.Invincible == true)
                 return;
 
@@ -118,6 +138,50 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
             
             throw new NotImplementedException("EntityManager: Collided(): Non-Player Victim");
+        }
+
+        /// <summary>
+        /// Some wave has finished spawning
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void WaveSpawnFinished(object sender, SpawnFinishedEventArgs e)
+        {
+            LogConsole.Log("Wave: " + e.WaveID.ToString() + " finished spawning.");
+        }
+
+        /// <summary>
+        /// Final wave has finished spawning
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void FinalWaveSpawnFinished(object sender, SpawnFinishedEventArgs e)
+        {
+            LogConsole.Log("Final Wave spawn finished.");
+        }
+
+        /// <summary>
+        /// All enemies are dead in some wave
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void WaveFinished(object sender, WaveFinishedEventArgs e)
+        {
+            LogConsole.Log("Wave: " + e.WaveID.ToString() + " has been completed.");
+            // all enemies in current wave are dead.. start next wave.
+            this.waveManager.StartNextWave();
+        }
+
+        /// <summary>
+        /// All enemies are dead in the final wave
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void FinalWaveFinished(object sender, WaveFinishedEventArgs e)
+        {
+            LogConsole.Log("Final wave has been completed.");
+            // No more enemies in the final wave.. player wins.
+            this.updateQueue.Enqueue(new GameOverEventArgs(true));
         }
     }
 }

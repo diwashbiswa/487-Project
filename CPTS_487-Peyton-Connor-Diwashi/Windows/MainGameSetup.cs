@@ -11,16 +11,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public partial class MainGame : Game
     {
-        // SYSTEM
         public Vector2 currentWindowResolution = new Vector2(1280, 720);
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private float scaleFactor;
-        public event EventHandler Restart = delegate { };
-
-        // GOOD
         EntityManager EntityManager = null;
         EntityEventManager EventManager = null;
+        WaveManager WaveManager = null;
         private List<Sprite> CollisionList = new List<Sprite>();
 
         public MainGame()
@@ -31,47 +28,51 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         protected override void Initialize()
-        {
-            // Do this first so we have our textures bound
-            this.InitTextures();
-
-            // Set scale factor for all objects
+        {     
+            this.InitTextures(); // DO THIS FIRST
             this.scaleFactor = this.currentWindowResolution.Y / 720.0f;
             this._graphics.PreferredBackBufferHeight = (int)this.currentWindowResolution.Y;
             this._graphics.PreferredBackBufferWidth = (int)this.currentWindowResolution.X;
             this._graphics.ApplyChanges();
-
             this.EntityManager = new EntityManager();
             this.EventManager = new EntityEventManager();
+            this.WaveManager = new WaveManager();
             this.EntityManager.EventManager = EventManager;
             this.EventManager.ObjectManager = EntityManager;
-
+            this.EventManager.WaveManager = WaveManager;
             this.EntityManager.Exit += this.Exit;
-
-            // Add player with GUI component
-            this.EntityManager.EnqueuePlayer(SpawnerFactory.SpawnerType.Keyboard);
+            this.EntityManager.AddPlayerOne(SpawnerFactory.SpawnerType.Keyboard);
 
 
-
-            // WAVE TESTING
+            // WAVE TESTING: will be done from waveparser in the future --------------------------
             EntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
             SpawnerFactory sf = new StandardSpawnerFactory();
-            SpriteWave wave_one = new SpriteWave(0, 1);
-            wave_one.Spawn += this.EventManager.ReadyEnqueue;
-            for (int i = 0; i < 10; i++)
+            SpriteWave wave_one = new SpriteWave();
+            for (int i = 0; i < 3; i++)
             {
                 Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Grunt1);
-                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.Targeted, e);
+                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth, e);
                 e.WaveTimeSeconds = i*2;
                 s.WaveTimeSeconds = i*2;
                 wave_one.AddEntitiy(e);
                 wave_one.AddSpawner(s);
-            }               
-            wave_one.StartConcurrent();
-            // ------
+            }
+            this.WaveManager.Enqueue(wave_one);
+            SpriteWave wave_2 = new SpriteWave();
+            for (int i = 0; i < 3; i++)
+            {
+                Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Grunt2);
+                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth, e);
+                e.WaveTimeSeconds = (i * 2) + 5;
+                s.WaveTimeSeconds = (i * 2) + 5;
+                wave_2.AddEntitiy(e);
+                wave_2.AddSpawner(s);
+            }
+            this.WaveManager.Enqueue(wave_2);
+            // ----------------------------------------------------------------------------------
 
 
-
+            this.WaveManager.StartNextWave();
             base.Initialize();
         }
 

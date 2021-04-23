@@ -32,7 +32,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     if (e is AddBulletEventArgs) //add bullet
                     {
                         this.ReadBullet((AddBulletEventArgs)e);
-
                         TESTING_bullets++;
                         continue;
                     }
@@ -41,7 +40,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         var p = (AddPlayerEventArgs)e;
                         this.SubscribeAll(p.Player);
                         this.players.Add(p.Player);
-
                         LogConsole.Log("New Player added.");
                         continue;
                     }
@@ -50,7 +48,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         var p = (AddEnemyEventArgs)e;
                         this.SubscribeAll(p.Enemy);
                         this.entities.Add(p.Enemy);
-
                         LogConsole.Log("New Enemy added.");
                         continue;
                     }
@@ -60,7 +57,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         p.Spawner.parent = p.Parent;
                         this.SubscribeAll(p.Spawner);
                         this.spawners.Add(p.Spawner);
-
                         LogConsole.Log("New Spawner added.");
                         continue;
                     }
@@ -70,11 +66,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         LogConsole.Log("GUI component added.");
                         continue;
                     }
-
                     throw new Exception("EntitiyQueueManager: ReadReadyQueue(): Unrecognized EventArgs");
                 }
             }
-
             if (TESTING_bullets > 0)
                 LogConsole.Log(TESTING_bullets.ToString() + " Bullets were fired.");
         }
@@ -103,7 +97,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         LogConsole.Log("Game Over Event.");
                         continue;
                     }
-
                     throw new Exception("EntitiyManager: ReadUpdateQueue: Non-Recognized EventArgs");
                 }
             }
@@ -116,7 +109,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private void ReadDisposeQueue(ConcurrentQueue<DisposeEventArgs> queue)
         {
             int TESTING_bullets = 0;
-
             int count = queue.Count;
             for (int i = 0; i < count; i++)
             {
@@ -126,11 +118,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 {
                     s = e.Sprite;
                     if (s == PlayerOne)
-                    {
-                        this.ReadDisposePlayerOne(e);
                         return;
-                    }
-
                     if (this.entities.Contains(s))
                     {
                         this.entities.Remove((Entity)s);
@@ -139,13 +127,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         if (this.spawners.RemoveAll(x => x.parent == s) > 0)
                             LogConsole.Log("Spawner(s) Disposed.");
                     }
-
                     if (this.players.Contains(s))
                     {
                         this.players.Remove((Entity)s);
                         LogConsole.Log("Player Disposed.");
                     }
-
                     if (s is Bullet)
                     {
                         if (this.player_bullets.Contains(s))
@@ -161,7 +147,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     }
                 }
             }
-
             if (TESTING_bullets > 0)
                 LogConsole.Log(TESTING_bullets.ToString() + " Bullets Disposed.");
         }
@@ -176,7 +161,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             Bullet b = e.Bullet;
             b.Dispose += this.eventManager.Dispose;
-
             if (e.Parent is Player)
             {
                 this.player_bullets.Add(b);
@@ -205,7 +189,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.gui_components.Add(e.Component);
                 return;
             }
-
             throw new NotImplementedException();
         }
 
@@ -223,18 +206,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.spawners.Where(x => x.parent == p).ToList().ForEach(x => x.Position = e.NewPosition);
                 return;
             }
-
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Method called by ReadDisposeQueue when the EventManager disposes player1
-        /// </summary>
-        /// <param name="e"></param>
-        private void ReadDisposePlayerOne(DisposeEventArgs e)
-        {
-            bool win = false;
-            this.eventManager.UpdateEnqueue(this.PlayerOne, new GameOverEventArgs(win));
         }
 
         /// <summary>
@@ -248,14 +220,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             g.Win = e.Win;
             g.Exit += this.ExitGame;
             eventManager.ReadyEnqueue(g, new AddGUIEventArgs(g));
-
-            // Make all entities black, set lifespans so they dissapear.
             foreach (Entity i in this.entities)
             {
                 i.Color = Color.Black;
                 i.LifeSpan = (uint)rand.Next(1, 4);
             }
-
             this.players.Clear();
         }
 

@@ -135,49 +135,24 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public EntityManager()
         {
             this.ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
-            this.sf = new StandardSpawnerFactory();
-            
+            this.sf = new StandardSpawnerFactory();      
         }
 
         /// <summary>
         /// Add a player to this game through the queue
         /// </summary>
         /// <param name="spawner"> Add a spawner as well? </param>
-        public void EnqueuePlayer(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
+        public void AddPlayerOne(SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
         {
             Entity player = ef.CreateEnemy(EntityFactory.EntitiyType.Player);
             player.MakeInvincible(3);
-
-            // Add a GUI component for the first player
-            if (this.players.Count < 1)
-            {
-                var plComponent = new PlayerLives();
-                eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
-            }
-
+            GUIComponent plComponent = new PlayerLives();
+            eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
-
             if (spawner != SpawnerFactory.SpawnerType.None)
             {
                 BulletSpawner s = this.sf.CreateSpawner(spawner, player);
                 eventManager.ReadyEnqueue(s, new AddSpawnerEventArgs(player, s));
-            }
-        }
-
-        /// <summary>
-        /// Add an Entitiy to this game through the queue
-        /// </summary>
-        /// <param name="type"> Type of sprite </param>
-        /// <param name="spawner"> Add a spawner as well? </param>
-        public void EnqueueEntitiy(EntityFactory.EntitiyType type, SpawnerFactory.SpawnerType spawner = SpawnerFactory.SpawnerType.None)
-        {
-            Entity e = ef.CreateEnemy(type);
-            eventManager.ReadyEnqueue(e, new AddEnemyEventArgs(e));
-
-            if (spawner != SpawnerFactory.SpawnerType.None)
-            {
-                BulletSpawner s = this.sf.CreateSpawner(spawner, e);
-                eventManager.ReadyEnqueue(s, new AddSpawnerEventArgs(e, s));
             }
         }
 
