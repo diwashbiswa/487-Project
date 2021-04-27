@@ -51,7 +51,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 return this.movement;
             }
-            protected set
+            set
             {
                 this.movement = value;
             }

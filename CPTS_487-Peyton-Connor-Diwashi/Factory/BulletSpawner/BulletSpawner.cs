@@ -18,12 +18,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public event EventHandler<AddBulletEventArgs> Fire = delegate { };
 
+        protected double fireRateSeconds = 1.5;
+
         public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
         {
             this.bulletTexture = bulletTex;
             this.body = new Rectangle((int)position.X, (int)position.Y, width, height);
             this.movement = movement;
             this.parent = parent;
+        }
+
+        public double FireRateSeconds
+        {
+            get
+            {
+                return this.fireRateSeconds;
+            }
+            set
+            {
+                this.fireRateSeconds = value;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) { }
@@ -37,7 +51,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public override void Update(GameTime gameTime)
         {
             this.SpawnBullet(gameTime);
-
             this.Position += this.movement.Move();
         }
 
