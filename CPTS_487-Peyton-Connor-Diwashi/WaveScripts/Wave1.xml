@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<wave>
+  <entity>
+    <timeseconds>3</timeseconds>
+    <type>grunt1</type>
+    <spawner>cardinalsouth</spawner>
+    <movement>bounce</movement>
+    <lifespan>20</lifespan>
+    <speed>1</speed>
+    <firerate>3</firerate>
+    <health>3</health>
+    <position>70,70</position>
+  </entity>
+  <entity>
+    <timeseconds>3</timeseconds>
+    <type>grunt2</type>
+    <spawner>cardinalsouth</spawner>
+    <movement>bounce</movement>
+    <lifespan>20</lifespan>
+    <speed>1</speed>
+    <firerate>3</firerate>
+    <health>1</health>
+    <position>300,400</position>
+  </entity>
+  <entity>
+    <timeseconds>10</timeseconds>
+    <type>boss2</type>
+    <spawner>targeted</spawner>
+    <movement>none</movement>
+    <lifespan>20</lifespan>
+    <speed>1</speed>
+    <firerate>0.1</firerate>
+    <health>5</health>
+    <position>550,300</position>
+  </entity>
+</wave>

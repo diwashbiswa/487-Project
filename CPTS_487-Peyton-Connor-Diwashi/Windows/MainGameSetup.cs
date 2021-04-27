@@ -43,35 +43,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.Exit += this.Exit;
             this.EntityManager.AddPlayerOne(SpawnerFactory.SpawnerType.Keyboard);
 
+            // TEAM NOTE:
+            // ADD SOLUTION DIRECTORY MANUALLY (Non-Windows)
+            //    SpriteWave wave_one = WaveScriptParser.Load("Wave1.xml", " SOLUTION DIR PATH HERE ");
 
-            // WAVE TESTING: will be done from waveparser in the future --------------------------
-            EntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
-            SpawnerFactory sf = new StandardSpawnerFactory();
-            SpriteWave wave_one = new SpriteWave();
-            for (int i = 0; i < 3; i++)
-            {
-                Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Grunt1);
-                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth, e);
-                e.WaveTimeSeconds = i*2;
-                s.WaveTimeSeconds = i*2;
-                wave_one.AddEntitiy(e);
-                wave_one.AddSpawner(s);
-            }
+            // Windows only:
+            SpriteWave wave_one = WaveScriptParser.Load("Wave1.xml");
+
             this.WaveManager.Enqueue(wave_one);
-            SpriteWave wave_2 = new SpriteWave();
-            for (int i = 0; i < 3; i++)
-            {
-                Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Grunt2);
-                BulletSpawner s = sf.CreateSpawner(SpawnerFactory.SpawnerType.CardinalSouth, e);
-                e.WaveTimeSeconds = (i * 2) + 5;
-                s.WaveTimeSeconds = (i * 2) + 5;
-                wave_2.AddEntitiy(e);
-                wave_2.AddSpawner(s);
-            }
-            this.WaveManager.Enqueue(wave_2);
-            // ----------------------------------------------------------------------------------
-
-
             this.WaveManager.StartNextWave();
             base.Initialize();
         }

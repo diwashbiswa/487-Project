@@ -51,7 +51,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 return this.movement;
             }
-            protected set
+            set
             {
                 this.movement = value;
             }
@@ -120,6 +120,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.attackTarget = new Vector2(300, 500);
+            this.speed = 1;
+
+            StandardMovementFactory mf = new StandardMovementFactory();
+            this.movement = mf.CreateMovement(MovementFactory.MovementType.None, this);
         }
 
         /// <summary>
