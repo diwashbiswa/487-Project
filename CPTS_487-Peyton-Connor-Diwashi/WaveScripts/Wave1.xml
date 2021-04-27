@@ -13,16 +13,16 @@
       <spawner>
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
-        <bullettype>purple</bullettype>
+        <bullettype>boss</bullettype>
         <timeseconds>3</timeseconds>
         <firerate>3</firerate>
       </spawner>
       <spawner>
-        <spawnertype>cardinalsouth</spawnertype>
+        <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
-        <bullettype>green</bullettype>
-        <timeseconds>5</timeseconds>
-        <firerate>.5</firerate>
+        <bullettype>purple</bullettype>
+        <timeseconds>3</timeseconds>
+        <firerate>.8</firerate>
       </spawner>
     </spawners>  
   </entity>
