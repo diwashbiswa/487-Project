@@ -9,6 +9,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private float speed;
 
+        private Sprite thissprite = null;
+
         public enum CardinalDirection { North, South, East, West, NorthWest, SouthWest, NorthEast, SouthEast }
 
         public float Speed
@@ -20,6 +22,21 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             set
             {
                 this.speed = value;
+            }
+        }
+
+        /// <summary>
+        /// The Sprite Encapsulating this Movement
+        /// </summary>
+        public Sprite ThisSprite
+        {
+            set
+            {
+                this.thissprite = value;
+            }
+            get
+            {
+                return this.thissprite;
             }
         }
 

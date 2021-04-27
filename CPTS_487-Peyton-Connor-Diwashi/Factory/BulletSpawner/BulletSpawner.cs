@@ -28,6 +28,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.parent = parent;
         }
 
+        public Movement Movement
+        {
+            get
+            {
+                return this.movement;
+            }
+            set
+            {
+                this.movement = value;
+            }
+        }
+
         public double FireRateSeconds
         {
             get
