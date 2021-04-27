@@ -11,11 +11,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class Grunt2 : Entity
     {
-        public Grunt2(Vector2 position, Texture2D texture) : base(position, texture)
-        {
-            this.Speed = 1;
-            this.movement = new BounceMovement(this.Speed, new Rectangle(0, 0, 1280, 720), this.body);
-        }
+        public Grunt2(Vector2 position, Texture2D texture) : base(position, texture) { }
 
         public override void Update(GameTime gameTime)
         {

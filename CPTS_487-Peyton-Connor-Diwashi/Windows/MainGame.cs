@@ -60,10 +60,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 /*
  *      TODO:
  * 
- 1. JSON script draft
- 
- 3. ScriptMovement : Movement
+ 1. ScriptMovement
 
- 4. WaveScripts
+ 2. Make a bunch of int type doubles
+
+ 3. Add more custom variable to WaveScriptParser
 
  */
