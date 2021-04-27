@@ -25,6 +25,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private List<Entity> players = new List<Entity>();
         private List<Bullet> player_bullets = new List<Bullet>();
         private List<Bullet> enemy_bullets = new List<Bullet>();
+        private List<Reward> rewards = new List<Reward>();
         private List<GUIComponent> gui_components = new List<GUIComponent>();
 
         /// <summary>

@@ -4,12 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Concurrent;
@@ -64,6 +58,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         this.SubscribeAll(p.Spawner);
                         this.spawners.Add(p.Spawner);
                         LogConsole.Log("New Spawner added.");
+                        continue;
+                    }
+                    if (e is AddRewardEventArgs) //add reward
+                    {
+                        var p = (AddRewardEventArgs)e;
+                        this.SubscribeAll(p.Reward);
+                        this.rewards.Add(p.Reward);
+                        LogConsole.Log("New Reward added.");
                         continue;
                     }
                     if (e is AddGUIEventArgs)
