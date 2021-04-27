@@ -20,6 +20,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         static string[] acceptableEntityAttributes = { "spawners", "movement", "lifespan", "speed", "health", "position", "timeseconds", "type" };
         static string[] acceptableSpawnerAttributes = { "spawnertype", "spawnermovement", "bullettype", "timeseconds", "firerate" };
+
+        /// <summary>
+        /// Given a list of xml files, load all waves
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="solution_directory"></param>
+        /// <returns></returns>
+        public static List<SpriteWave> LoadAll(List<string> files, string solution_directory = null)
+        {
+            List<SpriteWave> waves = new List<SpriteWave>();
+            foreach(string file in files)
+            {
+                waves.Add(Load(file, solution_directory));
+            }
+            return waves;
+        }
+
         public static SpriteWave Load(string file, string solution_directory = null)
         {
             XmlDocument doc = new XmlDocument();
@@ -147,7 +164,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             SpawnerFactory.BulletType btype = SpawnerFactory.BulletType.Green;
             Movement spawnermovement = null;
             double firerate = 1.0d;
-            int timesec = 0;
+            int timesec = e.WaveTimeSeconds;
             BulletSpawner s = null;
 
             foreach (XmlNode att in spawners.ChildNodes)

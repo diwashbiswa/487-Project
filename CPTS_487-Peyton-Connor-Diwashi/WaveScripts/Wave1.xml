@@ -25,7 +25,8 @@
         <timeseconds>3</timeseconds>
         <firerate>.8</firerate>
       </spawner>
-    </spawners>  
+    </spawners>
+    
   </entity>
   
   <entity>
@@ -36,6 +37,7 @@
     <speed>2</speed>
     <health>3</health>
     <position>270,70</position>
+    
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
@@ -45,6 +47,7 @@
         <firerate>1</firerate>
       </spawner>
     </spawners>
+    
   </entity>
   
 </wave>
