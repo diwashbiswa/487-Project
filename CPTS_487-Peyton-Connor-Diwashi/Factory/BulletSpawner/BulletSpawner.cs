@@ -20,10 +20,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected double fireRateSeconds = 1.5;
 
-        public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height)
+        public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height) : base(position, width, height)
         {
             this.bulletTexture = bulletTex;
-            this.body = new Rectangle((int)position.X, (int)position.Y, width, height);
             this.movement = movement;
             this.parent = parent;
         }

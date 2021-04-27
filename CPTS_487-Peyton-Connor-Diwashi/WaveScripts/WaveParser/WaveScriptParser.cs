@@ -64,7 +64,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Spawners for this entity
             List<BulletSpawner> new_spawners = null;
             // Factories
-            StandardEntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
+            StandardEntityFactory ef = new StandardEntityFactory();
             StandardMovementFactory mf = new StandardMovementFactory();
             // Default Values
             int timesec = 0, lifespan = 0, speed = 0, health = 1;
@@ -73,7 +73,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             MovementFactory.MovementType mtype = MovementFactory.MovementType.None;
             // Sprites
             Entity e = null;
-            Movement m = null;
 
             foreach (XmlNode att in entity.ChildNodes)
             {

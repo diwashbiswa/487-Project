@@ -114,12 +114,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="position"> position of the enemy on the screen </param>
         /// <param name="texture"> texture to draw the enemy with </param>
-        public Entity(Vector2 position, Texture2D texture)
+        public Entity(Vector2 position, Texture2D texture) : base(position, texture.Width, texture.Height)
         {
             this.Color = Color.White;
             this.tex = texture;
-            this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.attackTarget = new Vector2(300, 500);
+            this.attackTarget = Vector2.Zero;
             this.speed = 1;
 
             StandardMovementFactory mf = new StandardMovementFactory();

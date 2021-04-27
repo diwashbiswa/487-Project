@@ -20,6 +20,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private EntityEventManager eventManager;
         private EntityFactory ef;
         private SpawnerFactory sf;
+        private MovementFactory mf;
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
@@ -138,8 +139,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public EntityManager()
         {
-            this.ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
-            this.sf = new StandardSpawnerFactory();      
+            this.ef = new StandardEntityFactory();
+            this.sf = new StandardSpawnerFactory();
+            this.mf = new StandardMovementFactory();
         }
 
         /// <summary>
@@ -150,12 +152,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             Entity player = ef.CreateEnemy(EntityFactory.EntitiyType.Player);
             player.MakeInvincible(3);
+            player.Position = new Vector2(600, 600);
             GUIComponent plComponent = new PlayerLives();
             eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
             if (spawner != SpawnerFactory.SpawnerType.None)
             {
                 BulletSpawner s = this.sf.CreateSpawner(spawner, player);
+                MirrorMovement m = (MirrorMovement)mf.CreateMovement(MovementFactory.MovementType.Mirror, player);
+                m.ThisSprite = s;
+                s.Movement = m;
                 eventManager.ReadyEnqueue(s, new AddSpawnerEventArgs(player, s));
             }
         }

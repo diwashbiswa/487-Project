@@ -35,6 +35,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.CollisionList.AddRange(EntityManager.Players);
             Collision.Collide(this.CollisionList);
 
+            // Collide Entities and players
+            this.CollisionList.Clear();
+            this.CollisionList.AddRange(EntityManager.Entities);
+            this.CollisionList.AddRange(EntityManager.Players);
+            Collision.Collide(this.CollisionList);
+
 
             this.EntityManager.Update(gameTime);
 
@@ -67,7 +73,5 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  3. Add more custom variable to WaveScriptParser
 
  4. LoadAllWaves() method. (Count root children) return List<T>
-
- 5. Support for parse multiple spawners.
 
  */
