@@ -138,6 +138,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return;
                 }
 
+                if (e.Attacker is Reward) // Player gains a new life
+                {
+                    // increment player health by 1
+                    player.Health += 1;
+
+                    LogConsole.Log("Player gained a new life!");
+                }
+
                 throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
             }
             

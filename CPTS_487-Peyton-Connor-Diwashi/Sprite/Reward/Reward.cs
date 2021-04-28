@@ -49,11 +49,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.tex = texture;
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.Position = position;
-            this.col = Color.White;
+            this.col = Color.Red;
         }
 
         /// <summary>
-        /// Draw the bullet on screen
+        /// Draw the reward lives on screen
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
@@ -63,7 +63,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Update the position of the bullet
+        /// Update the position of the reward
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
@@ -78,7 +78,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// When the bullet hits the player it is disposed
+        /// When the rewards hits the player it is disposed
         /// </summary>
         /// <param name="sender"></param>
         public override void Collide(Sprite sender, EventArgs e)
