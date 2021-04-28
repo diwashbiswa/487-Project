@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
     /// <summary>
-    /// UserInput Singleton class 
+    /// TextureManager Singleton class 
     /// </summary>
     public sealed class TextureManager
     {
@@ -27,7 +27,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet, Heart, Button1 }
+        public enum Type { SpaceshipPlayer, Grunt1, Grunt2, Boss1, Boss2, BulletPurple, BulletGreen, BossBullet, Heart, Button1, Reward }
 
         public enum Font { Font1 }
 

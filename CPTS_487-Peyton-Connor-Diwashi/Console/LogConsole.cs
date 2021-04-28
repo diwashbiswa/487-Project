@@ -10,6 +10,9 @@ using System.Windows.Input;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
+    /// <summary>
+    /// Writes to console for Debug
+    /// </summary>
     public static class LogConsole
     {
         public static void Log(string s)

@@ -22,22 +22,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected override void Update(GameTime gameTime)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            frames++;
-
-            //Add Enemy
-            if (timer > 1 && timer < 1.03)
-            {
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt1, SpawnerFactory.SpawnerType.CardinalSouth);
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Grunt2, SpawnerFactory.SpawnerType.CardinalSouth);
-            }
-
-            if (frames == 120)
-            {
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss1, SpawnerFactory.SpawnerType.Targeted);
-                this.EntityManager.EnqueueEntitiy(EntitiyFactory.EntitiyType.Boss2, SpawnerFactory.SpawnerType.Targeted);
-            }
-
 
             // Collide the range of Player Bullets with the range of Entities (entities are non-player)
             this.CollisionList.Clear();
@@ -48,6 +32,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Collide the range of Enemy Bullets with the range of Players (probably just 1)
             this.CollisionList.Clear();
             this.CollisionList.AddRange(EntityManager.EnemyBullets);
+            this.CollisionList.AddRange(EntityManager.Players);
+            Collision.Collide(this.CollisionList);
+
+            // Collide Entities and players
+            this.CollisionList.Clear();
+            this.CollisionList.AddRange(EntityManager.Entities);
             this.CollisionList.AddRange(EntityManager.Players);
             Collision.Collide(this.CollisionList);
 
@@ -76,10 +66,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 /*
  *      TODO:
  * 
- 1. JSON script draft
- 
- 3. ScriptMovement : Movement
+ 1. ScriptMovement
 
- 7. Bring More variables into maingame player creation to get ready for level scripts
+ 2. Make a bunch of int type doubles
 
+ 3. Add more custom variable to WaveScriptParser
+
+ 4. LoadAllWaves() method. (Count root children) return List<T>
  */

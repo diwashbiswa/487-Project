@@ -12,8 +12,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private TimeSpan previousFire = TimeSpan.Zero;
 
-        private double fireRateSeconds = 1.5;
-
         private Movement.CardinalDirection direction;
 
         public CardinalBulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height, Movement.CardinalDirection direction, double fireRateSeconds = 1.5) : base(parent, bulletTex, position, movement, width, height)

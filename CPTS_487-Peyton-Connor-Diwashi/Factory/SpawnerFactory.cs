@@ -15,6 +15,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public enum SpawnerType { None, CardinalSouth, Targeted, Keyboard };
 
+        public enum BulletType { Green, Purple, Boss }
+
         public SpawnerFactory() { }
 
         /// <summary>
@@ -22,11 +24,27 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="type"> EnemyFactory.EnemyType </param>
         /// <returns></returns>
-        public BulletSpawner CreateSpawner(SpawnerType type, Entity parent)
+        public BulletSpawner CreateSpawner(SpawnerType type, Entity parent, BulletType btype = BulletType.Green)
         {
-            return this.createSpawner(type, parent);
+            return this.createSpawner(type, parent, btype);
         }
 
-        protected abstract BulletSpawner createSpawner(SpawnerType type, Entity parent);
+        protected abstract BulletSpawner createSpawner(SpawnerType type, Entity parent, BulletType btype);
+
+        protected Texture2D BType2Tex(BulletType btype)
+        {
+            TextureManager state = TextureManager.Textures;
+            switch (btype)
+            {
+                case BulletType.Green:
+                    return state.Get(TextureManager.Type.BulletGreen);
+                case BulletType.Purple:
+                    return state.Get(TextureManager.Type.BulletPurple);
+                case BulletType.Boss:
+                    return state.Get(TextureManager.Type.BossBullet);
+                default:
+                    throw new NotImplementedException("BType2Tex: Bullet type 2 texture not implemented");
+            }
+        }
     }
 }

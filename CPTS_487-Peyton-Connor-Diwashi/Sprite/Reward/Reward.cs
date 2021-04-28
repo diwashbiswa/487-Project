@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public abstract class Bullet : Sprite
+    public abstract class Reward : Sprite
     {
         // Movement of this sprite (Linear Direction)
         protected Movement movement = null;
 
-        // How long will the Bullet last
+        // How long will the Reward last
         private float lifespanSeconds;
 
         // Incremental timer for how long the bullet has been alive
         private float timer;
 
-        // Texture fo the Bullet
+        // Texture fo the Reward
         private Texture2D tex;
 
         private Color col;
@@ -43,15 +43,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="texture"></param>
         /// <param name="speed"></param>
         /// <param name="lifespan_seconds"></param>
-        public Bullet(Vector2 position, Texture2D texture, float speed, float lifespan_seconds) : base(position, texture.Width, texture.Height)
+        public Reward(Vector2 position, Texture2D texture, float speed, float lifespan_seconds)
         {
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
-            this.col = Color.White;
+            this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            this.Position = position;
+            this.col = Color.Red;
         }
 
         /// <summary>
-        /// Draw the bullet on screen
+        /// Draw the reward lives on screen
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
@@ -61,7 +63,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// Update the position of the bullet
+        /// Update the position of the reward
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
@@ -76,7 +78,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
-        /// When the bullet hits the player it is disposed
+        /// When the rewards hits the player it is disposed
         /// </summary>
         /// <param name="sender"></param>
         public override void Collide(Sprite sender, EventArgs e)
