@@ -12,7 +12,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public abstract class MovementFactory
     {
-        public enum MovementType { None, Bounce, CardinalSouth, Keyboard };
+        public enum MovementType { None, Bounce, CardinalSouth, Keyboard, Mirror };
 
         public Movement CreateMovement(MovementType type, Entity parent)
         {

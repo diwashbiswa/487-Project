@@ -24,10 +24,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 case "timeseconds":
                     return Int32.Parse(value);
-                case "spawner":
-                    return GetSpawner(value);
+                case "spawnertype":
+                    return GetSpawnerEnum(value);
                 case "movement":
-                    return GetMovement(value);
+                    return GetMovementEnum(value);
                 case "lifespan":
                     return Int32.Parse(value);
                 case "speed":
@@ -37,15 +37,35 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 case "health":
                     return Int32.Parse(value);
                 case "position":
-                    return GetPosition(value);
+                    return GetPositionVector(value);
                 case "type":
-                    return GetEntityType(value);
+                    return GetEntityEnum(value);
+                case "bullettype":
+                    return GetBulletEnum(value);
+                case "spawnermovement":
+                    return GetMovementEnum(value);
                 default:
                     throw new Exception("TypeTable attribute: " + attribute + " could not be parsed.");
             }
         }
 
-        private static EntityFactory.EntitiyType GetEntityType(string value)
+        private static SpawnerFactory.BulletType GetBulletEnum(string value)
+        {
+            switch(value)
+            {
+                case "green":
+                    return SpawnerFactory.BulletType.Green;
+                case "purple":
+                    return SpawnerFactory.BulletType.Purple;
+                case "boss":
+                    return SpawnerFactory.BulletType.Boss;
+                default:
+                    throw new Exception("Bullet Type: " + value + " could not be parsed.");
+
+            }
+        }
+
+        private static EntityFactory.EntitiyType GetEntityEnum(string value)
         {
             switch(value)
             {
@@ -64,13 +84,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        private static Vector2 GetPosition(string value)
+        private static Vector2 GetPositionVector(string value)
         {
-            string[] xy = value.Split(',');
+            string[] xy;
+            try { xy = value.Split(','); }
+            catch { throw new Exception("Position: " + value + " could not be parsed."); }
             return new Vector2(Int32.Parse(xy[0]), Int32.Parse(xy[1]));
         }
 
-        private static MovementFactory.MovementType GetMovement(string value)
+        private static MovementFactory.MovementType GetMovementEnum(string value)
         {
             switch(value)
             {
@@ -82,12 +104,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return MovementFactory.MovementType.Keyboard;
                 case "none":
                     return MovementFactory.MovementType.None;
+                case "mirror":
+                    return MovementFactory.MovementType.Mirror;
                 default:
                     throw new Exception("Movement: " + value + " could not be parsed.");
             }
         }
 
-        private static SpawnerFactory.SpawnerType GetSpawner(string value)
+        private static SpawnerFactory.SpawnerType GetSpawnerEnum(string value)
         {
             switch(value)
             {

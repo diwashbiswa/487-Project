@@ -43,15 +43,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.Exit += this.Exit;
             this.EntityManager.AddPlayerOne(SpawnerFactory.SpawnerType.Keyboard);
 
+            List<string> wave_files = new List<string>();
+            wave_files.Add("Wave1.xml");
+            wave_files.Add("Wave2.xml");
+
             // TEAM NOTE:
             // ADD SOLUTION DIRECTORY MANUALLY (Non-Windows)
-            //    SpriteWave wave_one = WaveScriptParser.Load("Wave1.xml", " SOLUTION DIR PATH HERE ");
+            //    List<SpriteWave> waves = WaveScriptParser.LoadAll(wave_files, string SOLUTION DIR HERE);
 
             // Windows only:
-            SpriteWave wave_one = WaveScriptParser.Load("Wave1.xml");
+            List<SpriteWave> waves = WaveScriptParser.LoadAll(wave_files);
 
-            this.WaveManager.Enqueue(wave_one);
+            foreach (SpriteWave wave in waves)
+                this.WaveManager.Enqueue(wave);
+
             this.WaveManager.StartNextWave();
+
             base.Initialize();
         }
 

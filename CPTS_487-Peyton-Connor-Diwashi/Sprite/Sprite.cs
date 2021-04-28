@@ -19,8 +19,16 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected Rectangle body = new Rectangle(0, 0, 0, 0);
 
+        private Vector2 pvec = Vector2.Zero;
+
         //To be invoked when the enemy is removed
         public event EventHandler<DisposeEventArgs> Dispose = delegate { };
+
+        public Sprite(Vector2 pos, int width, int height)
+        {
+            this.body = new Rectangle(0, 0, width, height);
+            this.Position = pos;
+        }
 
         public Rectangle Body
         {
@@ -37,13 +45,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             get
             {
-                return new Vector2((float)this.body.X, (float)this.body.Y);
+                return pvec;
             }
             set
             {
-                Vector2 v = value;
-                this.body.X = (int)v.X;
-                this.body.Y = (int)v.Y;
+                pvec = value;
+                this.body.X = (int)pvec.X;
+                this.body.Y = (int)pvec.Y;
             }
         }
 

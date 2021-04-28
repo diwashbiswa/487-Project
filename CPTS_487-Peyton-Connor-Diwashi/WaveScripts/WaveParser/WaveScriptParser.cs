@@ -17,7 +17,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     public static class WaveScriptParser
     {
         static string exepath = "/CPTS_487-Peyton-Connor-Diwashi/WaveScripts/";
-        static string[] acceptableEntityAttributes = { "spawner", "movement", "lifespan", "speed", "firerate", "health", "position", "timeseconds", "type" };
+
+        static string[] acceptableEntityAttributes = { "spawners", "movement", "lifespan", "speed", "health", "position", "timeseconds", "type" };
+        static string[] acceptableSpawnerAttributes = { "spawnertype", "spawnermovement", "bullettype", "timeseconds", "firerate" };
+
+        /// <summary>
+        /// Given a list of xml files, load all waves
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="solution_directory"></param>
+        /// <returns></returns>
+        public static List<SpriteWave> LoadAll(List<string> files, string solution_directory = null)
+        {
+            List<SpriteWave> waves = new List<SpriteWave>();
+            foreach(string file in files)
+            {
+                waves.Add(Load(file, solution_directory));
+            }
+            return waves;
+        }
+
         public static SpriteWave Load(string file, string solution_directory = null)
         {
             XmlDocument doc = new XmlDocument();
@@ -58,34 +77,27 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="sf"></param>
         /// <param name="wave"></param>
         private static void ParseEntity(XmlNode entity, ref SpriteWave wave)
-        {
+        {   
+            // Spawners for this entity
+            List<BulletSpawner> new_spawners = null;
             // Factories
-            StandardEntityFactory ef = new StandardEntityFactory(new Rectangle(50, 50, 1180, 600));
-            StandardSpawnerFactory sf = new StandardSpawnerFactory();
+            StandardEntityFactory ef = new StandardEntityFactory();
             StandardMovementFactory mf = new StandardMovementFactory();
             // Default Values
             int timesec = 0, lifespan = 0, speed = 0, health = 1;
-            double firerate = 1.0d;
             Vector2 pos = Vector2.Zero;
-            SpawnerFactory.SpawnerType stype = SpawnerFactory.SpawnerType.None;
             EntityFactory.EntitiyType etype = EntityFactory.EntitiyType.Grunt1;
             MovementFactory.MovementType mtype = MovementFactory.MovementType.None;
             // Sprites
-            BulletSpawner s = null;
             Entity e = null;
-            Movement m = null;
 
             foreach (XmlNode att in entity.ChildNodes)
             {
-                switch(att.Name)
+                switch (att.Name)
                 {
                     case "timeseconds":
                         timesec = TypeTable.Get(att.Name, att.InnerText);
                         LogConsole.Log("Parse: Wave time seconds: " + timesec.ToString());
-                        break;
-                    case "spawner":
-                        stype = TypeTable.Get(att.Name, att.InnerText);
-                        LogConsole.Log("Parse: Spawner type: " + stype.ToString());
                         break;
                     case "movement":
                         mtype = TypeTable.Get(att.Name, att.InnerText);
@@ -99,10 +111,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         speed = TypeTable.Get(att.Name, att.InnerText);
                         LogConsole.Log("Parse: Speed: " + speed.ToString());
                         break;
-                    case "firerate":
-                        firerate = TypeTable.Get(att.Name, att.InnerText);
-                        LogConsole.Log("Parse: Firerate: " + firerate.ToString());
-                        break;
                     case "health":
                         health = TypeTable.Get(att.Name, att.InnerText);
                         LogConsole.Log("Parse: Health: " + health.ToString());
@@ -115,27 +123,96 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         etype = TypeTable.Get(att.Name, att.InnerText);
                         LogConsole.Log("Parse: Entity type: " + etype.ToString());
                         break;
+                    default:
+                        break;
                 }
             }
             e = ef.CreateEnemy(etype);
             e.Speed = (uint)speed;
             e.LifeSpan = (uint)lifespan;
             e.Health = health;
-            e.Position = pos;         
+            e.Position = pos;
             e.WaveTimeSeconds = timesec;
             e.Movement = mf.CreateMovement(mtype, e);
             wave.AddEntitiy(e);
-            if (stype != SpawnerFactory.SpawnerType.None)
+
+            foreach (XmlNode att in entity.ChildNodes)
             {
-                s = sf.CreateSpawner(stype, e, SpawnerFactory.BulletType.Green);
-                s.FireRateSeconds = firerate;
-                s.WaveTimeSeconds = timesec;
-                wave.AddSpawner(s);
+                if (att.Name == "spawners")
+                {
+                    new_spawners = ParseSpawners(att, e);
+                    break;
+                }
             }
+            foreach (BulletSpawner s in new_spawners)
+                wave.AddSpawner(s);
         }
 
         /// <summary>
-        /// Validate a waves structure
+        /// Parse the spawners attribute of a wave
+        /// </summary>
+        /// <param name="spawners"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private static List<BulletSpawner> ParseSpawners(XmlNode spawners, Entity e)
+        {
+            List<BulletSpawner> new_spawners = new List<BulletSpawner>();
+            StandardSpawnerFactory sf = new StandardSpawnerFactory();
+            StandardMovementFactory mf = new StandardMovementFactory();
+            SpawnerFactory.SpawnerType stype = SpawnerFactory.SpawnerType.None;
+            MovementFactory.MovementType spawner_mtype = MovementFactory.MovementType.Mirror;
+            SpawnerFactory.BulletType btype = SpawnerFactory.BulletType.Green;
+            Movement spawnermovement = null;
+            double firerate = 1.0d;
+            int timesec = e.WaveTimeSeconds;
+            BulletSpawner s = null;
+
+            foreach (XmlNode att in spawners.ChildNodes)
+            {
+                LogConsole.Log(Environment.NewLine);
+                foreach (XmlNode snode in att.ChildNodes)
+                {
+                    switch (snode.Name)
+                    {
+                        case "timeseconds":
+                            timesec = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Wave time seconds: " + timesec.ToString());
+                            break;
+                        case "spawnertype":
+                            stype = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Spawner type: " + stype.ToString());
+                            break;
+                        case "firerate":
+                            firerate = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Firerate: " + firerate.ToString());
+                            break;
+                        case "bullettype":
+                            btype = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Bullet type: " + btype.ToString());
+                            break;
+                        case "spawnermovement":
+                            spawner_mtype = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Spawner movement type: " + spawner_mtype.ToString());
+                            break;
+
+                    }
+                }
+                if (stype != SpawnerFactory.SpawnerType.None)
+                {
+                    s = sf.CreateSpawner(stype, e, btype);
+                    s.FireRateSeconds = firerate;
+                    s.WaveTimeSeconds = timesec;
+                    spawnermovement = mf.CreateMovement(spawner_mtype, e);
+                    spawnermovement.ThisSprite = s;
+                    s.Movement = spawnermovement;
+                    new_spawners.Add(s);
+                }
+            }
+            return new_spawners;
+        }
+
+        /// <summary>
+        /// Validate a waves external structure
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="message"></param>
@@ -144,7 +221,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             message = string.Empty;
             List<string> attributes = new List<string>();
+            List<string> spawnerAttrbutes = new List<string>();
             attributes.AddRange(acceptableEntityAttributes);
+            spawnerAttrbutes.AddRange(acceptableSpawnerAttributes);
             if (entity.Name != "entity")
             {
                 message = "Wave child name unrecognized: " + entity.Name;
@@ -158,6 +237,29 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return false;
                 }
             }
+            foreach(XmlNode att in entity.ChildNodes)
+            {
+                if(att.Name == "spawners")
+                {
+                    foreach(XmlNode snode in att.ChildNodes)
+                    {
+                        if(snode.Name != "spawner")
+                        {
+                            message = "Spawner Attribute: " + snode.Name + " unrecognized";
+                            return false;
+                        }
+                        foreach(XmlNode isnode in snode.ChildNodes)
+                        {
+                            if(!spawnerAttrbutes.Contains(isnode.Name))
+                            {
+                                message = "Spawner Attribute: " + isnode.Name + " unrecognized";
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
             return true;
         }
     }

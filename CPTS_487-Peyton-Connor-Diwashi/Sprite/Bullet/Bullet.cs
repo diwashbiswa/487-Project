@@ -43,12 +43,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="texture"></param>
         /// <param name="speed"></param>
         /// <param name="lifespan_seconds"></param>
-        public Bullet(Vector2 position, Texture2D texture, float speed, float lifespan_seconds)
+        public Bullet(Vector2 position, Texture2D texture, float speed, float lifespan_seconds) : base(position, texture.Width, texture.Height)
         {
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
-            this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            this.Position = position;
             this.col = Color.White;
         }
 
