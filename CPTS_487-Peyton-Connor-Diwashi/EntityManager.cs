@@ -127,6 +127,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+
+        public List<Reward> Rewards
+        {
+            get
+            {
+                return this.rewards;
+            }
+        }
         /// <summary>
         /// All dynamic gui components currently being drawn
         /// </summary>
@@ -201,6 +209,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 b.Update(gameTime);
             }
+            foreach (Reward r in this.rewards)
+            {
+                r.Update(gameTime);
+            }
             foreach (GUIComponent g in this.gui_components)
             {
                 g.Update(gameTime);
@@ -233,6 +245,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             foreach (Bullet b in this.enemy_bullets)
             {
                 b.Draw(gameTime, spriteBatch);
+            }
+            foreach (Reward r in this.rewards)
+            {
+                r.Draw(gameTime, spriteBatch);
             }
             foreach (GUIComponent g in this.gui_components)
             {

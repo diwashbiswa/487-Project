@@ -56,6 +56,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Entity k = (Entity)sender;
                 this.Position += ((k.Position - this.Position) * (float)(-0.5f * k.Speed));
             }
+
+            if(sender is Reward)
+            {
+                this.Health += 1;
+            }
         }
     }
 }
