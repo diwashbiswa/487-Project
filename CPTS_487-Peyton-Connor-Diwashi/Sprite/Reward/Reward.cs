@@ -83,7 +83,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="sender"></param>
         public override void Collide(Sprite sender, EventArgs e)
         {
-            if (sender is Entity)
+            if (sender is Player)
             {
                 base.InvokeDispose(this, new EventArgs());
             }

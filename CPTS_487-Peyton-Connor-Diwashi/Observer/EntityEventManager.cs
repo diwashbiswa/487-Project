@@ -131,6 +131,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 Player player = (Player)e.Victim;
                 TextureManager text = TextureManager.Textures;
                 Reward reward = new Reward(new Vector2(600, 650), text.Get(TextureManager.Type.Reward), 0, 2);
+                
                 if (e.Attacker is Bullet)
                 {
                     if(!player.Invincible)
@@ -140,6 +141,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                     LogConsole.Log("Player has been hit");
                     return;
+                }
+
+                if (e.Attacker is Reward)
+                {
+                    this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
+
+                    LogConsole.Log("Player gained a new life.");
                 }
 
                 throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
