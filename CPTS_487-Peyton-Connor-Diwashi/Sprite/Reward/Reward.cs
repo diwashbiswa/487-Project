@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CPTS_487_Peyton_Connor_Diwashi
 {
-    public abstract class Reward : Sprite
+    public class Reward : Sprite
     {
         // Movement of this sprite (Linear Direction)
         protected Movement movement = null;
@@ -43,7 +43,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="texture"></param>
         /// <param name="speed"></param>
         /// <param name="lifespan_seconds"></param>
-        public Reward(Vector2 position, Texture2D texture, float speed, float lifespan_seconds)
+        public Reward(Vector2 position, Texture2D texture, float speed, float lifespan_seconds) : base (position, texture.Width, texture.Height)
         {
             this.lifespanSeconds = lifespan_seconds;
             this.tex = texture;
@@ -74,7 +74,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (timer >= this.lifespanSeconds)
                 base.InvokeDispose(this, new EventArgs());
 
-            this.Position += this.movement.Move();
+            //this.Position += this.movement.Move();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="sender"></param>
         public override void Collide(Sprite sender, EventArgs e)
         {
-            if (sender is Entity)
+            if (sender is Player)
             {
                 base.InvokeDispose(this, new EventArgs());
             }
