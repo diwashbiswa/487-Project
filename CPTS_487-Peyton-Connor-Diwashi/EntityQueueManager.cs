@@ -48,6 +48,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         var p = (AddEnemyEventArgs)e;
                         this.SubscribeAll(p.Enemy);
                         this.entities.Add(p.Enemy);
+                        // Add the health bar
+                        HealthBarComponent hbc = new HealthBarComponent(p.Enemy);
+                        eventManager.ReadyEnqueue(hbc, new AddGUIEventArgs(hbc, p.Enemy));
+                        hbc.Dispose += this.eventManager.Dispose;
                         LogConsole.Log("New Enemy added.");
                         continue;
                     }
@@ -145,6 +149,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         }
                         TESTING_bullets++;
                     }
+                    if (s is HealthBar)
+                    {
+                        HealthBar h = (HealthBar)s;
+
+                        this.gui_components.Remove(h.Parent);
+                    }
                 }
             }
             if (TESTING_bullets > 0)
@@ -185,6 +195,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 return;
             }
             if (e.Component is GameOverComponent)
+            {
+                this.gui_components.Add(e.Component);
+                return;
+            }
+            if (e.Component is HealthBarComponent)
             {
                 this.gui_components.Add(e.Component);
                 return;

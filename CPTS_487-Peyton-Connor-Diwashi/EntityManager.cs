@@ -144,6 +144,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.mf = new StandardMovementFactory();
         }
 
+        //public void test_Add()
+        //{
+        //    Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Boss1);
+        //    e.Movement = mf.CreateMovement(MovementFactory.MovementType.Bounce, e);
+        //    e.Position = new Vector2(300, 300);
+        //    this.SubscribeAll(e);
+        //    this.entities.Add(e);
+        //}
+
         /// <summary>
         /// Add a player to this game through the queue
         /// </summary>
@@ -156,6 +165,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GUIComponent plComponent = new PlayerLives();
             eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
+
             if (spawner != SpawnerFactory.SpawnerType.None)
             {
                 BulletSpawner s = this.sf.CreateSpawner(spawner, player);

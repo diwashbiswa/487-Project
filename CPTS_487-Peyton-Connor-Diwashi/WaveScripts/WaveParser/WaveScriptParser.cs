@@ -58,6 +58,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 string e;
                 if(!ValidateWaveStructure(entity, out e)) { throw new Exception("WaveScriptParser: Wave structure invalid." + Environment.NewLine + e + Environment.NewLine); }
             }
+
             SpriteWave wave = new SpriteWave();
             LogConsole.Log("PARSER: --------------------------------");
             // Parse each entity and add to the Sprite Wave

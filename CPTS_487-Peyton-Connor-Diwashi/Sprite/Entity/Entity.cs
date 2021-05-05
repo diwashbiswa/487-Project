@@ -39,6 +39,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         // Enemy's health
         private int health = 1;
 
+        // Health this enemy was spawned with
+        private int initialHealth = 1;
+
         bool invincible = false;
         private float invincibleTimer = 0;
         private int invincibleSeconds = 0;
@@ -57,6 +60,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
+        public int InitialHealth
+        {
+            get { return this.initialHealth; }
+        }
+
+        bool fs = true;
         public int Health
         {
             get
@@ -66,6 +75,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             set
             {
                 this.health = value;
+                if(fs) { this.initialHealth = value; this.fs = false; }
             }
         }
 

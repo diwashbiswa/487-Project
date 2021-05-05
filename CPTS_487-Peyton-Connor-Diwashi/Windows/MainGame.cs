@@ -72,5 +72,4 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
  3. Add more custom variable to WaveScriptParser
 
- 4. LoadAllWaves() method. (Count root children) return List<T>
  */

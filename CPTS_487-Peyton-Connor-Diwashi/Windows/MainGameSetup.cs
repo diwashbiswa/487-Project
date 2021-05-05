@@ -43,6 +43,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.EntityManager.Exit += this.Exit;
             this.EntityManager.AddPlayerOne(SpawnerFactory.SpawnerType.Keyboard);
 
+
             List<string> wave_files = new List<string>();
             wave_files.Add("Wave1.xml");
             wave_files.Add("Wave2.xml");
@@ -75,6 +76,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             texManager.Add(this.Content.Load<Texture2D>("spaceship_player"), TextureManager.Type.SpaceshipPlayer);
             texManager.Add(this.Content.Load<Texture2D>("heart"), TextureManager.Type.Heart);
             texManager.Add(this.Content.Load<Texture2D>("Button1"), TextureManager.Type.Button1);
+            texManager.Add(this.Content.Load<Texture2D>("hb-100"), TextureManager.Type.HB100);
+            texManager.Add(this.Content.Load<Texture2D>("hb-75"), TextureManager.Type.HB75);
+            texManager.Add(this.Content.Load<Texture2D>("hb-50"), TextureManager.Type.HB50);
+            texManager.Add(this.Content.Load<Texture2D>("hb-25"), TextureManager.Type.HB25);
             texManager.AddFont(this.Content.Load<SpriteFont>("Font"), TextureManager.Font.Font1);
         }
 
