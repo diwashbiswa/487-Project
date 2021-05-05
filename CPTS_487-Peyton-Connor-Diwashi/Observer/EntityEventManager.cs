@@ -114,7 +114,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if(e.Parent is Player)
             {
                 Player p = (Player)e.Parent;
-
                 if (p.Invincible && !p.GodMode)
                     return;
             }

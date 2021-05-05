@@ -183,9 +183,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void Update(GameTime gameTime)
         {
             // Read the queues for insertion, removal, updating of sprites
-            this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
             this.ReadUpdateQueue(this.eventManager.UpdateQueue);
+            this.ReadDisposeQueue(this.eventManager.DisposeQueue);
 
             // Tell all entities to attack player by setting their attack target
             this.BindEntitiesToPlayer();

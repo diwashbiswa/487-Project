@@ -12,6 +12,8 @@
     
     <spawners>
       <spawner>
+        <bulletspeed>2.5</bulletspeed>
+        <bulletlifespan>20</bulletlifespan>
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>boss</bullettype>
@@ -19,6 +21,8 @@
         <firerate>4</firerate>
       </spawner>
       <spawner>
+        <bulletspeed>7</bulletspeed>
+        <bulletlifespan>3</bulletlifespan>
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>

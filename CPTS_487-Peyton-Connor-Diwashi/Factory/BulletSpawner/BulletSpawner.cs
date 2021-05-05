@@ -20,6 +20,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected double fireRateSeconds = 1.5;
 
+        protected float bulletSpeed = 9.0f;
+
+        protected float bulletLifeSpan = 3.0f;
+
         public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height) : base(position, width, height)
         {
             this.bulletTexture = bulletTex;
@@ -48,6 +52,30 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             set
             {
                 this.fireRateSeconds = value;
+            }
+        }
+
+        public float BulletSpeed
+        {
+            get
+            {
+                return this.bulletSpeed;
+            }
+            set
+            {
+                this.bulletSpeed = value;
+            }
+        }
+
+        public float BulletLifeSpan
+        {
+            get
+            {
+                return this.bulletLifeSpan;
+            }
+            set
+            {
+                this.bulletLifeSpan = value;
             }
         }
 

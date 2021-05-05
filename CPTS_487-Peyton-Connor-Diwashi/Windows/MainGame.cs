@@ -68,7 +68,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
  * 
     1. bullet speed to wavescripts
     2. fire from front not top left
-    3. god mode
     3. background
     4. music
 

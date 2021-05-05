@@ -19,7 +19,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         static string exepath = "/CPTS_487-Peyton-Connor-Diwashi/WaveScripts/";
 
         static string[] acceptableEntityAttributes = { "spawners", "movement", "lifespan", "speed", "health", "position", "timeseconds", "type" };
-        static string[] acceptableSpawnerAttributes = { "spawnertype", "spawnermovement", "bullettype", "timeseconds", "firerate" };
+        static string[] acceptableSpawnerAttributes = { "spawnertype", "spawnermovement", "bullettype", "timeseconds", "firerate", "bulletspeed", "bulletlifespan" };
 
         /// <summary>
         /// Given a list of xml files, load all waves
@@ -165,6 +165,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             SpawnerFactory.BulletType btype = SpawnerFactory.BulletType.Green;
             Movement spawnermovement = null;
             double firerate = 1.0d;
+            double bulletspeed = 7.0f;
+            double bulletlifespan = 10.0f;
             int timesec = e.WaveTimeSeconds;
             BulletSpawner s = null;
 
@@ -195,13 +197,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                             spawner_mtype = TypeTable.Get(snode.Name, snode.InnerText);
                             LogConsole.Log("    Parse:Spawner: Spawner movement type: " + spawner_mtype.ToString());
                             break;
+                        case "bulletspeed":
+                            bulletspeed = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Spawner bullet speed: " + bulletspeed.ToString());
+                            break;
+                        case "bulletlifespan":
+                            bulletlifespan = TypeTable.Get(snode.Name, snode.InnerText);
+                            LogConsole.Log("    Parse:Spawner: Spawner bullet lifespan: " + bulletlifespan.ToString());
+                            break;
 
                     }
                 }
                 if (stype != SpawnerFactory.SpawnerType.None)
                 {
                     s = sf.CreateSpawner(stype, e, btype);
+                    s.BulletLifeSpan = (float)bulletlifespan;
                     s.FireRateSeconds = firerate;
+                    s.BulletSpeed = (float)bulletspeed;
                     s.WaveTimeSeconds = timesec;
                     spawnermovement = mf.CreateMovement(spawner_mtype, e);
                     spawnermovement.ThisSprite = s;

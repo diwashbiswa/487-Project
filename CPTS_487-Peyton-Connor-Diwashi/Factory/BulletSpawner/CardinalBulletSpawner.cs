@@ -28,7 +28,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if ((gameTime.TotalGameTime.TotalSeconds - this.previousFire.TotalSeconds > this.fireRateSeconds))
             {
-                Bullet b = new CardinalBullet(this.Position, this.direction, this.bulletTexture, 9.0f, 3.0f);
+                Bullet b = new CardinalBullet(this.Position, this.direction, this.bulletTexture, this.bulletSpeed, this.bulletLifeSpan);
                 base.InvokeFire(b);
                 this.previousFire = gameTime.TotalGameTime;
             }
