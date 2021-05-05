@@ -284,9 +284,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 Player p = (Player)e;
                 p.Reward += EventManager.AddReward;
-                //Reward r = (Reward)e;
-                //r. += this.eventManager.AddReward;
-
             }
 
         }

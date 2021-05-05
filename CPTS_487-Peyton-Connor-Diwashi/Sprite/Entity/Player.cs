@@ -36,11 +36,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
-            //that should probably be in the player.Update() function. The player needs a
-            //public EventHandler<AddRewardEventArgs> Reward = delegate {};
-            //When the player is found to have 3 lives in player.Update(), you can do this.Reward.Invoke(this, new AddRewardEventArgs)
-
-
             // TEST Small animation for when player is hit by a bullet
             a_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (a_timer > 0.2f)

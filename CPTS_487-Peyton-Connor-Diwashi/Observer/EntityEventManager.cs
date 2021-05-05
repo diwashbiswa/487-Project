@@ -133,6 +133,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             e.Reward.Dispose += this.Dispose;
 
             //randomize position here - e.pos, etc.
+            Random random = new Random();
+
+            int x = random.Next(0, 720);
+            int y = random.Next(0, 400);
+
+            e.Reward.Position = new Vector2(x, y);
         }
 
         /// <summary>
