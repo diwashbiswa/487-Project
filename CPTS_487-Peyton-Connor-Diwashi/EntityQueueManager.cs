@@ -48,11 +48,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         var p = (AddEnemyEventArgs)e;
                         this.SubscribeAll(p.Enemy);
                         this.entities.Add(p.Enemy);
+                        LogConsole.Log("New Enemy added.");
+
                         // Add the health bar
                         HealthBarComponent hbc = new HealthBarComponent(p.Enemy);
                         eventManager.ReadyEnqueue(hbc, new AddGUIEventArgs(hbc, p.Enemy));
                         hbc.Dispose += this.eventManager.Dispose;
-                        LogConsole.Log("New Enemy added.");
+                        LogConsole.Log("New Health Bar Component added.");
                         continue;
                     }
                     if (e is AddSpawnerEventArgs) //add spawner

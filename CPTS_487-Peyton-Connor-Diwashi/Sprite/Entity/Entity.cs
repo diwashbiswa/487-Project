@@ -43,8 +43,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private int initialHealth = 1;
 
         bool invincible = false;
-        private float invincibleTimer = 0;
-        private int invincibleSeconds = 0;
+        protected float invincibleTimer = 0;
+        protected int invincibleSeconds = 0;
+        protected bool allowInvincible = true;
 
         public EventHandler<EntityCollideEventArgs> Collided = delegate { };
 
@@ -159,9 +160,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="seconds"></param>
         public void MakeInvincible(int seconds)
         {
-            this.invincible = true;
-            this.invincibleSeconds = seconds;
-            this.invincibleTimer = 0;
+            if (allowInvincible)
+            {
+                this.invincible = true;
+                this.invincibleSeconds = seconds;
+                this.invincibleTimer = 0;
+            }
         }
 
         /// <summary>
@@ -217,7 +221,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
 
             // invincibility
-            if (this.invincibleSeconds != 0)
+            if (this.invincibleSeconds != 0 && this.allowInvincible)
             {
                 this.col = Color.BlueViolet;
                 this.invincibleTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;

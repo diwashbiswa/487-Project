@@ -66,10 +66,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 /*
  *      TODO:
  * 
- 1. ScriptMovement
-
- 2. Make a bunch of int type doubles
-
- 3. Add more custom variable to WaveScriptParser
+    1. bullet speed to wavescripts
+    2. fire from front not top left
+    3. god mode
+    3. background
+    4. music
 
  */

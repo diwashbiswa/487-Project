@@ -111,9 +111,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 throw new Exception("Fire event Invoked with non-bullet sender");
             }
 
-            // Cant fire with invincibility
-            if (e.Parent.Invincible == true)
-                return;
+            if(e.Parent is Player)
+            {
+                Player p = (Player)e.Parent;
+
+                if (p.Invincible && !p.GodMode)
+                    return;
+            }
+            else
+            {
+                if (e.Parent.Invincible)
+                    return;
+            }
 
             Bullet b = (Bullet)sender;
             readyQueue.Enqueue(e);

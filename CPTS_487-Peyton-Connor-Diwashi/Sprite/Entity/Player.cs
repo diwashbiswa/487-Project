@@ -14,6 +14,19 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private float a_timer = 1.0f;
 
+        private bool god_mode = false;
+
+        /// <summary>
+        /// Is the player in GodMode
+        /// </summary>
+        public bool GodMode
+        {
+            get
+            {
+                return this.god_mode;
+            }
+        }
+
         /// <summary>
         /// Player constructor
         /// </summary>
@@ -33,14 +46,38 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
-            // TEST Small animation for when player is hit by a bullet
             a_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (a_timer > 0.2f)
                 this.col = Color.White;
             else
                 this.col = Color.Red;
-            // End animation TEST ------------------------------------
-            base.Update(gameTime);
+
+            // toggle invincibility
+            UserInput state = UserInput.Instance;
+            bool s = false;
+            if (state.IsKeyPressed(UserInput.KeyBinds.GodMode))
+            {
+                this.god_mode = !this.god_mode;
+                s = true;
+            }
+
+            if(this.god_mode)
+            {
+                base.Update(gameTime);
+                this.Invincible = true;
+                this.col = Color.Green;
+            }
+            else if(s && !god_mode)
+            {
+                this.Invincible = false;
+                this.allowInvincible = true;
+                this.col = Color.White;
+                base.Update(gameTime);
+            }
+            else
+            {
+                base.Update(gameTime);
+            }
         }
 
         public override void Collide(Sprite sender, EventArgs e)
