@@ -27,6 +27,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return new NoneMovement();
                 case MovementType.Mirror:
                     return new MirrorMovement(parent);
+                case MovementType.Boss:
+                    return new BossMovement(speed);
                 default:
                     throw new NotImplementedException("StandardMovementFactory: MovementType: " + type.ToString() + "not recognized");
             }

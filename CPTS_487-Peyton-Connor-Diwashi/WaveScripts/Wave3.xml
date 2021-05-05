@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<wave>
+
+<entity>
+    <timeseconds>0</timeseconds>
+    <type>boss2</type>
+    <movement>boss</movement>
+    <lifespan>60</lifespan>
+    <speed>2</speed>
+    <health>20</health>
+    <position>600,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>targeted</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>boss</bullettype>
+        <firerate>1</firerate>
+      </spawner>
+    </spawners>
+
+  </entity>
+
+</wave>

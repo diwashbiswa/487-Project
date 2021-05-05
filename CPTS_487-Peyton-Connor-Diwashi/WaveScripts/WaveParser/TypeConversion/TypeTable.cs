@@ -106,6 +106,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return MovementFactory.MovementType.None;
                 case "mirror":
                     return MovementFactory.MovementType.Mirror;
+                case "boss":
+                    return MovementFactory.MovementType.Boss;
                 default:
                     throw new Exception("Movement: " + value + " could not be parsed.");
             }

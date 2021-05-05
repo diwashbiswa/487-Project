@@ -11,10 +11,25 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 {
     public class Boss2 : Entity
     {
+        int lastspecial = 0;
+
         public Boss2(Vector2 position, Texture2D texture) : base(position, texture) { }
 
         public override void Update(GameTime gameTime)
         {
+            if ((int)gameTime.TotalGameTime.TotalSeconds % 5 == 0 && (int)gameTime.TotalGameTime.TotalSeconds != lastspecial)
+            {
+
+                lastspecial = (int)gameTime.TotalGameTime.TotalSeconds;
+                BulletSpawner clockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f), this.Width, this.Height, 3, 2, .05);
+                global.game.EntityManager.Spawners.Add(clockwise);
+                global.game.EntityManager.SubscribeAll(clockwise);
+
+                BulletSpawner cclockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f, true), this.Width, this.Height, 3, 2, .05);
+                global.game.EntityManager.Spawners.Add(cclockwise);
+                global.game.EntityManager.SubscribeAll(cclockwise);
+            }
+
             base.Update(gameTime);
         }
 

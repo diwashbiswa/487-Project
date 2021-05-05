@@ -15,7 +15,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private float scaleFactor;
-        EntityManager EntityManager = null;
+        public EntityManager EntityManager = null;
         EntityEventManager EventManager = null;
         WaveManager WaveManager = null;
         private List<Sprite> CollisionList = new List<Sprite>();
@@ -46,6 +46,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             List<string> wave_files = new List<string>();
             wave_files.Add("Wave1.xml");
             wave_files.Add("Wave2.xml");
+            wave_files.Add("Wave3.xml");
 
             // TEAM NOTE:
             // ADD SOLUTION DIRECTORY MANUALLY (Non-Windows)
