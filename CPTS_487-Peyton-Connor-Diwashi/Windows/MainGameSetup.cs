@@ -80,6 +80,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             texManager.Add(this.Content.Load<Texture2D>("hb-75"), TextureManager.Type.HB75);
             texManager.Add(this.Content.Load<Texture2D>("hb-50"), TextureManager.Type.HB50);
             texManager.Add(this.Content.Load<Texture2D>("hb-25"), TextureManager.Type.HB25);
+            texManager.Add(this.Content.Load<Texture2D>("space-background"), TextureManager.Type.Background);
             texManager.AddFont(this.Content.Load<SpriteFont>("Font"), TextureManager.Font.Font1);
         }
 

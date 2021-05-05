@@ -21,6 +21,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private EntityFactory ef;
         private SpawnerFactory sf;
         private MovementFactory mf;
+        private GUIComponent background;
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
@@ -142,6 +143,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.ef = new StandardEntityFactory();
             this.sf = new StandardSpawnerFactory();
             this.mf = new StandardMovementFactory();
+            this.background = new BackgroundComponent();
         }
 
         //public void test_Add()
@@ -190,6 +192,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             // Tell all entities to attack player by setting their attack target
             this.BindEntitiesToPlayer();
 
+            this.background.Update(gameTime);
             foreach (Player p in this.players)
             {
                 p.Update(gameTime);
@@ -223,6 +226,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            this.background.Draw(gameTime, spriteBatch);
+            foreach (Bullet b in this.player_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+            foreach (Bullet b in this.enemy_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
             foreach (Player p in this.players)
             {
                 p.Draw(gameTime, spriteBatch);
@@ -234,14 +246,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             foreach (BulletSpawner s in this.spawners)
             {
                 s.Draw(gameTime, spriteBatch);
-            }
-            foreach (Bullet b in this.player_bullets)
-            {
-                b.Draw(gameTime, spriteBatch);
-            }
-            foreach (Bullet b in this.enemy_bullets)
-            {
-                b.Draw(gameTime, spriteBatch);
             }
             foreach (GUIComponent g in this.gui_components)
             {

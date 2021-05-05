@@ -66,9 +66,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 /*
  *      TODO:
  * 
-    1. bullet speed to wavescripts
-    2. fire from front not top left
     3. background
     4. music
-
  */
