@@ -153,14 +153,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         }
                         TESTING_bullets++;
                     }
-                    //if (s is Reward)
-                    //{
-                    //    if (this.rewards.Contains(s))
-                    //    {
-                    //        this.rewards.Remove((Reward)s);
-                    //        LogConsole.Log("Reward live Disposed.");
-                    //    }
-                    //}
+                    if (s is Reward)
+                    {
+                        if (this.rewards.Contains(s))
+                        {
+                            this.rewards.Remove((Reward)s);
+                            LogConsole.Log("Reward live Disposed.");
+                        }
+                    }
                 }
             }
             if (TESTING_bullets > 0)

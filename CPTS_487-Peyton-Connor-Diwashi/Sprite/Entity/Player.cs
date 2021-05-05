@@ -14,6 +14,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private float a_timer = 1.0f;
 
+        public event EventHandler<AddRewardEventArgs> Reward = delegate { };
+
+
         /// <summary>
         /// Player constructor
         /// </summary>
@@ -33,6 +36,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         public override void Update(GameTime gameTime)
         {
+            //that should probably be in the player.Update() function. The player needs a
+            //public EventHandler<AddRewardEventArgs> Reward = delegate {};
+            //When the player is found to have 3 lives in player.Update(), you can do this.Reward.Invoke(this, new AddRewardEventArgs)
+
+
             // TEST Small animation for when player is hit by a bullet
             a_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (a_timer > 0.2f)
@@ -47,6 +55,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Bullet)
             {
+                if (this.Health == 3)
+                {
+                    TextureManager text = TextureManager.Textures;
+                    Reward reward = new Reward(new Vector2(500, 300), text.Get(TextureManager.Type.Reward), 5, 5);
+
+                    this.Reward.Invoke(this, new AddRewardEventArgs(reward));
+                    LogConsole.Log("New reward should spawn!");
+                }
+
                 this.TakeDamage(1);
                 base.InvokeCollide(this, new EntityCollideEventArgs(this, (Bullet)sender));
             }
@@ -57,9 +74,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.Position += ((k.Position - this.Position) * (float)(-0.5f * k.Speed));
             }
 
+
             if(sender is Reward)
             {
                 this.Health += 1;
+                LogConsole.Log("Player collided with reward - health + 1!");
+
+                Reward r = (Reward)sender;
+                r.InvokeDispose(r, new DisposeEventArgs(r));
             }
         }
     }

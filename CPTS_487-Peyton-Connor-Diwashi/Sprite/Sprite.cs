@@ -99,7 +99,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void InvokeDispose(object sender, EventArgs e)
+        public void InvokeDispose(object sender, EventArgs e)
         {
             this.Dispose.Invoke(sender, new DisposeEventArgs((Sprite)sender));
         }

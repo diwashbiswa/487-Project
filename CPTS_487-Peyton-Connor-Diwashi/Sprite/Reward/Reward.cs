@@ -50,6 +50,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.body = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             this.Position = position;
             this.col = Color.Red;
+
+            MovementFactory mf = new StandardMovementFactory();
+
+            StandardEntityFactory entity = new StandardEntityFactory();
+            entity.CreateEnemy(EntityFactory.EntitiyType.Boss1);
+
+            this.movement = mf.CreateMovement(MovementFactory.MovementType.Bounce, entity.CreateEnemy(EntityFactory.EntitiyType.Boss1));
         }
 
         /// <summary>
@@ -70,11 +77,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Trigger Dispose event to subscribers when timeer is done
+            // Trigger Dispose event to subscribers when timer is done
             if (timer >= this.lifespanSeconds)
                 base.InvokeDispose(this, new EventArgs());
 
-            //this.Position += this.movement.Move();
+            this.Position += this.movement.Move();
         }
 
         /// <summary>

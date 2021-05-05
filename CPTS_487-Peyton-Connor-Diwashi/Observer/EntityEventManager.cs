@@ -120,6 +120,22 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Add Reward lives during the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void AddReward(object sender, AddRewardEventArgs e)
+        {
+            //TextureManager text = TextureManager.Textures;
+            //Reward reward = new Reward(new Vector2(500, 300), text.Get(TextureManager.Type.Reward), 5, 5);
+
+            readyQueue.Enqueue(e);
+            e.Reward.Dispose += this.Dispose;
+
+            //randomize position here - e.pos, etc.
+        }
+
+        /// <summary>
         /// Handles Collision events invoked from Entitiy types
         /// </summary>
         /// <param name="sender"></param>
@@ -129,15 +145,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             if (e.Victim is Player)
             {
                 Player player = (Player)e.Victim;
-                TextureManager text = TextureManager.Textures;
-                Reward reward = new Reward(new Vector2(600, 650), text.Get(TextureManager.Type.Reward), 0, 2);
+               
                 
                 if (e.Attacker is Bullet)
                 {
                     if(!player.Invincible)
                         this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));
 
-                    this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
+                    //this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
 
                     LogConsole.Log("Player has been hit");
                     return;
@@ -145,7 +160,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                 if (e.Attacker is Reward)
                 {
-                    this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
+                    //this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
 
                     LogConsole.Log("Player gained a new life.");
                 }
