@@ -100,6 +100,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 entities.Where(x => x.WaveTimeSeconds <= elapse).ToList().ForEach(
                     x => this.Spawn.Invoke(x, new AddEnemyEventArgs(x)));
                 entities.RemoveAll(x => x.WaveTimeSeconds <= elapse);
+
                 spawners.Where(x => x.WaveTimeSeconds <= elapse).ToList().ForEach(
                     x => this.Spawn.Invoke(x, new AddSpawnerEventArgs(x.parent, x)));
                 spawners.RemoveAll(x => x.WaveTimeSeconds <= elapse);

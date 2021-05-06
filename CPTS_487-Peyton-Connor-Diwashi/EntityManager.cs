@@ -260,14 +260,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             {
                 s.Draw(gameTime, spriteBatch);
             }
-            foreach (Bullet b in this.player_bullets)
-            {
-                b.Draw(gameTime, spriteBatch);
-            }
-            foreach (Bullet b in this.enemy_bullets)
-            {
-                b.Draw(gameTime, spriteBatch);
-            }
             foreach (Reward r in this.rewards)
             {
                 r.Draw(gameTime, spriteBatch);

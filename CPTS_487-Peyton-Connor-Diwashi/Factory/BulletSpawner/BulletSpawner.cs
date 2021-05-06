@@ -24,8 +24,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         protected float bulletLifeSpan = 3.0f;
 
-        private Vector2 offset;
-
         public BulletSpawner(Entity parent, Texture2D bulletTex, Vector2 position, Movement movement, int width, int height) : base(position, width, height)
         {
             this.bulletTexture = bulletTex;

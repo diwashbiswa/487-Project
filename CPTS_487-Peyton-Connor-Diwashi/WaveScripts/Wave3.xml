@@ -21,7 +21,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>
@@ -48,7 +47,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>
@@ -75,7 +73,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>
@@ -102,7 +99,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>
@@ -129,7 +125,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>
@@ -155,7 +150,6 @@
         <spawnertype>targeted</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>green</bullettype>
-        <timeseconds>3</timeseconds>
         <firerate>4</firerate>
       </spawner>
     </spawners>

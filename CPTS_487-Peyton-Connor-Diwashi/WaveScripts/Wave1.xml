@@ -15,7 +15,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>
@@ -35,7 +34,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>
@@ -55,7 +53,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>
@@ -75,7 +72,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>
@@ -95,7 +91,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>
@@ -115,7 +110,6 @@
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <timeseconds>4</timeseconds>
         <firerate>1</firerate>
       </spawner>
     </spawners>

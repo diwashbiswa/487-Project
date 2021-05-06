@@ -167,6 +167,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                             LogConsole.Log("Reward live Disposed.");
                         }
                     }
+                    if (s is HealthBar)
+                    {
+                        HealthBar h = (HealthBar)s;
+                        this.gui_components.Remove(h.Parent);
+                    }
                 }
             }
             if (TESTING_bullets > 0)

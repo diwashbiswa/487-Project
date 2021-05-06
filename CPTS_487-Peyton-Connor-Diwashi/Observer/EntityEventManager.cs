@@ -158,25 +158,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (e.Victim is Player)
             {
-                Player player = (Player)e.Victim;
-               
+                Player player = (Player)e.Victim;           
                 
                 if (e.Attacker is Bullet)
                 {
                     if(!player.Invincible)
                         this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));
 
-                    //this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
-
                     LogConsole.Log("Player has been hit");
                     return;
-                }
-
-                if (e.Attacker is Reward)
-                {
-                    //this.readyQueue.Enqueue(new AddRewardEventArgs(reward));
-
-                    LogConsole.Log("Player gained a new life.");
                 }
 
                 throw new NotImplementedException("EntitiyManager: Collided(): Non-Bullet Attacker");
