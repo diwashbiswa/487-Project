@@ -132,21 +132,23 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void AddReward(object sender, AddRewardEventArgs e)
+        public void RewardEvent(Player invoker)
         {
-            //TextureManager text = TextureManager.Textures;
-            //Reward reward = new Reward(new Vector2(500, 300), text.Get(TextureManager.Type.Reward), 5, 5);
-
-            readyQueue.Enqueue(e);
-            e.Reward.Dispose += this.Dispose;
-
-            //randomize position here - e.pos, etc.
             Random random = new Random();
 
-            int x = random.Next(0, 720);
-            int y = random.Next(0, 400);
+            if (invoker.Health <= 4 && (1 % random.Next(1, 3) == 0))
+            {
+                TextureManager text = TextureManager.Textures;
+                Reward reward = new Reward(new Vector2(500, 300), text.Get(TextureManager.Type.Reward), 5, 5);
+                int x = random.Next(0, 720);
+                int y = random.Next(0, 400);
 
-            e.Reward.Position = new Vector2(x, y);
+                reward.Position = new Vector2(x, y);
+                reward.Dispose += this.Dispose;
+                this.ReadyEnqueue(reward, new AddRewardEventArgs(reward));
+
+                LogConsole.Log("Random Reward Event");
+            }
         }
 
         /// <summary>
@@ -162,8 +164,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 
                 if (e.Attacker is Bullet)
                 {
-                    if(!player.Invincible)
+                    if (!player.Invincible)
+                    {
                         this.updateQueue.Enqueue(new RespawnEventArgs(player, new Vector2(600, 600)));
+
+                        this.RewardEvent(player);
+                    }
 
                     LogConsole.Log("Player has been hit");
                     return;

@@ -292,14 +292,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 BulletSpawner b = (BulletSpawner)e;
                 b.Fire += this.eventManager.Fire;
             }
-
-            // Reward Events
-            if (e is Player)
-            {
-                Player p = (Player)e;
-                p.Reward += EventManager.AddReward;
-            }
-
         }
 
         /// <summary>

@@ -47,9 +47,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.CollisionList.AddRange(EntityManager.Players);
             Collision.Collide(this.CollisionList);
 
-
             this.EntityManager.Update(gameTime);
-
 
             base.Update(gameTime);
         }

@@ -78,7 +78,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             texManager.Add(this.Content.Load<Texture2D>("spaceship_player"), TextureManager.Type.SpaceshipPlayer);
             texManager.Add(this.Content.Load<Texture2D>("heart"), TextureManager.Type.Heart);
             texManager.Add(this.Content.Load<Texture2D>("Button1"), TextureManager.Type.Button1);
-            texManager.Add(this.Content.Load<Texture2D>("heart"), TextureManager.Type.Reward);
+            texManager.Add(this.Content.Load<Texture2D>("reward-1"), TextureManager.Type.Reward);
             texManager.Add(this.Content.Load<Texture2D>("hb-100"), TextureManager.Type.HB100);
             texManager.Add(this.Content.Load<Texture2D>("hb-75"), TextureManager.Type.HB75);
             texManager.Add(this.Content.Load<Texture2D>("hb-50"), TextureManager.Type.HB50);
