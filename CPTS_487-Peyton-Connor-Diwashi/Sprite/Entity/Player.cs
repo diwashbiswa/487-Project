@@ -52,7 +52,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             else
                 this.col = Color.Red;
 
-            // toggle invincibility
             UserInput state = UserInput.Instance;
             bool s = false;
             if (state.IsKeyPressed(UserInput.KeyBinds.GodMode))

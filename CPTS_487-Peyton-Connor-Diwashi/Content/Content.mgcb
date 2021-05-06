@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin bmusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:bmusic.mp3
+
 #begin Boss1.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -90,6 +91,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Song song = this.Content.Load<Song>("bmusic");
+            MediaPlayer.Play(song);
         }
     }
 }
