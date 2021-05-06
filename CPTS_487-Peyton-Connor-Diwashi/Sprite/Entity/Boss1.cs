@@ -12,6 +12,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
     public class Boss1 : Entity
     {
+        public event EventHandler<AddSpawnerEventArgs> NewSpawner = delegate { };
+
         public Boss1(Vector2 position, Texture2D texture) : base(position, texture) { }
 
         int lastspecial;
@@ -20,23 +22,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if((int)gameTime.TotalGameTime.TotalSeconds%5 == 0 && (int)gameTime.TotalGameTime.TotalSeconds != lastspecial)
             {
-                //lastspecial = (int)gameTime.TotalGameTime.TotalSeconds;
-                //BulletSpawner clockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f), this.Width, this.Height, 3, 2, .05);
-                //global.game.EntityManager.Spawners.Add(clockwise);
-                //global.game.EntityManager.SubscribeAll(clockwise);
-
-                //BulletSpawner cclockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f, true), this.Width, this.Height, 3, 2, .05);
-                //global.game.EntityManager.Spawners.Add(cclockwise);
-                //global.game.EntityManager.SubscribeAll(cclockwise);
-
                 lastspecial = (int)gameTime.TotalGameTime.TotalSeconds;
                 BulletSpawner westspawner = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new CardinalMovement(4.0f, Movement.CardinalDirection.West), this.Width, this.Height, 1, 1, .05);
-                global.game.EntityManager.Spawners.Add(westspawner);
-                global.game.EntityManager.SubscribeAll(westspawner);
-
+                this.NewSpawner.Invoke(westspawner, new AddSpawnerEventArgs(this, westspawner));
                 BulletSpawner eastspawner = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new CardinalMovement(4.0f, Movement.CardinalDirection.East), this.Width, this.Height, 1, 1, .05);
-                global.game.EntityManager.Spawners.Add(eastspawner);
-                global.game.EntityManager.SubscribeAll(eastspawner);
+                this.NewSpawner.Invoke(eastspawner, new AddSpawnerEventArgs(this, eastspawner));
             }
             base.Update(gameTime);
         }

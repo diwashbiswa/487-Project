@@ -292,6 +292,18 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 BulletSpawner b = (BulletSpawner)e;
                 b.Fire += this.eventManager.Fire;
             }
+
+            if(e is Boss2)
+            {
+                Boss2 b = (Boss2)e;
+                b.NewSpawner += this.eventManager.ReadyEnqueue;
+            }
+
+            if(e is Boss1)
+            {
+                Boss1 b = (Boss1)e;
+                b.NewSpawner += this.eventManager.ReadyEnqueue;
+            }
         }
 
         /// <summary>

@@ -13,6 +13,8 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         int lastspecial = 0;
 
+        public event EventHandler<AddSpawnerEventArgs> NewSpawner = delegate { };
+
         public Boss2(Vector2 position, Texture2D texture) : base(position, texture) { }
 
         public override void Update(GameTime gameTime)
@@ -22,12 +24,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
                 lastspecial = (int)gameTime.TotalGameTime.TotalSeconds;
                 BulletSpawner clockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f), this.Width, this.Height, 3, 2, .05);
-                global.game.EntityManager.Spawners.Add(clockwise);
-                global.game.EntityManager.SubscribeAll(clockwise);
-
+                this.NewSpawner.Invoke(clockwise, new AddSpawnerEventArgs(this, clockwise));
                 BulletSpawner cclockwise = new SpecialBulletSpawner(this, TextureManager.Textures.Get(TextureManager.Type.BulletGreen), this.Position, new SpiralMovement(3.5f, true), this.Width, this.Height, 3, 2, .05);
-                global.game.EntityManager.Spawners.Add(cclockwise);
-                global.game.EntityManager.SubscribeAll(cclockwise);
+                this.NewSpawner.Invoke(cclockwise, new AddSpawnerEventArgs(this, cclockwise));
             }
 
             base.Update(gameTime);
