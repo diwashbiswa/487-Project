@@ -44,6 +44,10 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     return GetBulletEnum(value);
                 case "spawnermovement":
                     return GetMovementEnum(value);
+                case "bulletspeed":
+                    return Double.Parse(value);
+                case "bulletlifespan":
+                    return Double.Parse(value);
                 default:
                     throw new Exception("TypeTable attribute: " + attribute + " could not be parsed.");
             }

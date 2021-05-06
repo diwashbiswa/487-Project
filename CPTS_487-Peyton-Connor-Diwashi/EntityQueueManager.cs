@@ -46,9 +46,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     if (e is AddEnemyEventArgs) //add enemy
                     {
                         var p = (AddEnemyEventArgs)e;
+                        // subscribe and add enemy
                         this.SubscribeAll(p.Enemy);
                         this.entities.Add(p.Enemy);
                         LogConsole.Log("New Enemy added.");
+                        // Add the health bar
+                        HealthBarComponent hbc = new HealthBarComponent(p.Enemy);
+                        eventManager.ReadyEnqueue(hbc, new AddGUIEventArgs(hbc, p.Enemy));
+                        hbc.Dispose += this.eventManager.Dispose;
+                        LogConsole.Log("New Health Bar Component added.");
                         continue;
                     }
                     if (e is AddSpawnerEventArgs) //add spawner
@@ -93,13 +99,13 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 EventArgs e;
                 if (queue.TryDequeue(out e))
                 {
-                    if (e is RespawnEventArgs)
+                    if (e is RespawnEventArgs) //respawn
                     {
                         this.ReadRespawnEvent((RespawnEventArgs)e);
                         LogConsole.Log("Enitiy Respawn Event.");
                         continue;
                     }
-                    if (e is GameOverEventArgs)
+                    if (e is GameOverEventArgs) //game over
                     {
                         this.ReadGameOverEvent((GameOverEventArgs)e);
                         LogConsole.Log("Game Over Event.");
@@ -127,7 +133,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                     s = e.Sprite;
                     if (s == PlayerOne)
                         return;
-                    if (this.entities.Contains(s))
+                    if (this.entities.Contains(s)) //entities
                     {
                         this.entities.Remove((Entity)s);
                         LogConsole.Log("Entitiy Disposed");
@@ -135,12 +141,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                         if (this.spawners.RemoveAll(x => x.parent == s) > 0)
                             LogConsole.Log("Spawner(s) Disposed.");
                     }
-                    if (this.players.Contains(s))
+                    if (this.players.Contains(s)) // players
                     {
                         this.players.Remove((Entity)s);
                         LogConsole.Log("Player Disposed.");
                     }
-                    if (s is Bullet)
+                    if (s is Bullet) // bullets
                     {
                         if (this.player_bullets.Contains(s))
                         {
@@ -201,6 +207,11 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 return;
             }
             if (e.Component is GameOverComponent)
+            {
+                this.gui_components.Add(e.Component);
+                return;
+            }
+            if (e.Component is HealthBarComponent)
             {
                 this.gui_components.Add(e.Component);
                 return;

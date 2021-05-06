@@ -66,11 +66,6 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 /*
  *      TODO:
  * 
- 1. ScriptMovement
-
- 2. Make a bunch of int type doubles
-
- 3. Add more custom variable to WaveScriptParser
-
- 4. LoadAllWaves() method. (Count root children) return List<T>
+    3. background
+    4. music
  */

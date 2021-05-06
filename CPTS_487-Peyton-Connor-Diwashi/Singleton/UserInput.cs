@@ -19,11 +19,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             keyDict.Add(KeyBinds.Right, Keys.D);
             keyDict.Add(KeyBinds.Fire, Keys.Space);
             keyDict.Add(KeyBinds.SlowMode, Keys.LeftShift);
+            keyDict.Add(KeyBinds.GodMode, Keys.G);
         }
 
         private static UserInput instance = null;
 
         private KeyboardState keyState;
+
+        private KeyboardState lastState = Keyboard.GetState();
 
         public static UserInput Instance
         {
@@ -37,7 +40,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             }
         }
 
-        public enum KeyBinds {Up, Down, Left, Right, Fire, SlowMode }
+        public enum KeyBinds {Up, Down, Left, Right, Fire, SlowMode, GodMode }
 
         private Dictionary<KeyBinds, Keys> keyDict = new Dictionary<KeyBinds, Keys>();
 
@@ -60,6 +63,26 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         }
 
         /// <summary>
+        /// Returns true if the key has been initially pressed
+        /// </summary>
+        /// <param name="bind"></param>
+        /// <returns></returns>
+        public bool IsKeyPressed(KeyBinds bind)
+        {
+            if (!(keyDict.ContainsKey(bind)))
+            {
+                return false;
+            }
+            getState();
+            Keys k = keyDict[bind];
+            if(!lastState.IsKeyDown(k) && keyState.IsKeyDown(k))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Associate a KeyBind with a KEy
         /// </summary>
         /// <param name="bind"></param>
@@ -75,6 +98,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private void getState()
         {
+            lastState = keyState;
             keyState = Keyboard.GetState();
         }
     }

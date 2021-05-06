@@ -21,6 +21,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private EntityFactory ef;
         private SpawnerFactory sf;
         private MovementFactory mf;
+        private GUIComponent background;
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
@@ -151,7 +152,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             this.ef = new StandardEntityFactory();
             this.sf = new StandardSpawnerFactory();
             this.mf = new StandardMovementFactory();
+            this.background = new BackgroundComponent();
         }
+
+        //public void test_Add()
+        //{
+        //    Entity e = ef.CreateEnemy(EntityFactory.EntitiyType.Boss1);
+        //    e.Movement = mf.CreateMovement(MovementFactory.MovementType.Bounce, e);
+        //    e.Position = new Vector2(300, 300);
+        //    this.SubscribeAll(e);
+        //    this.entities.Add(e);
+        //}
 
         /// <summary>
         /// Add a player to this game through the queue
@@ -165,6 +176,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             GUIComponent plComponent = new PlayerLives();
             eventManager.ReadyEnqueue(plComponent, new AddGUIEventArgs(plComponent, player));
             eventManager.ReadyEnqueue(player, new AddPlayerEventArgs((Player)player));
+
             if (spawner != SpawnerFactory.SpawnerType.None)
             {
                 BulletSpawner s = this.sf.CreateSpawner(spawner, player);
@@ -182,13 +194,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         public void Update(GameTime gameTime)
         {
             // Read the queues for insertion, removal, updating of sprites
-            this.ReadDisposeQueue(this.eventManager.DisposeQueue);
             this.ReadReadyQueue(this.eventManager.ReadyQueue);
             this.ReadUpdateQueue(this.eventManager.UpdateQueue);
+            this.ReadDisposeQueue(this.eventManager.DisposeQueue);
 
             // Tell all entities to attack player by setting their attack target
             this.BindEntitiesToPlayer();
 
+            this.background.Update(gameTime);
             foreach (Player p in this.players)
             {
                 p.Update(gameTime);
@@ -226,6 +239,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            this.background.Draw(gameTime, spriteBatch);
+            foreach (Bullet b in this.player_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+            foreach (Bullet b in this.enemy_bullets)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
             foreach (Player p in this.players)
             {
                 p.Draw(gameTime, spriteBatch);
