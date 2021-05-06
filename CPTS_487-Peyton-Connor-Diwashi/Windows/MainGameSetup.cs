@@ -47,6 +47,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             wave_files.Add("Wave1.xml");
             wave_files.Add("Wave2.xml");
             wave_files.Add("Wave3.xml");
+            wave_files.Add("Wave4.xml");
 
             // TEAM NOTE:
             // ADD SOLUTION DIRECTORY MANUALLY (Non-Windows)

@@ -1,14 +1,15 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
 <wave>
 
-  <entity>
+<entity>
 
     <timeseconds>2</timeseconds>
-    <type>boss1</type>
+    <type>boss2</type>
     <movement>boss</movement>
     <lifespan>60</lifespan>
     <speed>2</speed>
-    <health>10</health>
+    <health>20</health>
     <position>600,200</position>
 
     <spawners>
@@ -20,6 +21,6 @@
       </spawner>
     </spawners>
 
-  </entity>
+</entity>
 
 </wave>
