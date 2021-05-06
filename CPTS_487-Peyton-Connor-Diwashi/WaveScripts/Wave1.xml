@@ -5,112 +5,272 @@
     <timeseconds>2</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
     <health>1</health>
-    <position>600,200</position>
+    <position>1000,200</position>
     
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>
 
-    <entity>
+  <entity>
+    <timeseconds>2</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>1</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
     <timeseconds>4</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
     <health>1</health>
-    <position>600,200</position>
-    
+    <position>1000,200</position>
+
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>
 
-    <entity>
+  <entity>
+    <timeseconds>4</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>1</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
     <timeseconds>6</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
     <health>1</health>
-    <position>600,200</position>
-    
+    <position>1000,200</position>
+
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>
 
-    <entity>
+  <entity>
+    <timeseconds>6</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>1</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
+    <timeseconds>7</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>1</health>
+    <position>1000,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
+    <timeseconds>7</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>1</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
     <timeseconds>8</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
     <health>1</health>
-    <position>600,200</position>
-    
+    <position>1000,200</position>
+
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>
 
-    <entity>
-    <timeseconds>10</timeseconds>
+  <entity>
+    <timeseconds>8</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
     <health>1</health>
-    <position>600,200</position>
-    
+    <position>200,200</position>
+
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>2.2</firerate>
+        <bulletspeed>2.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>
 
-    <entity>
-    <timeseconds>12</timeseconds>
+
+  <entity>
+    <timeseconds>26</timeseconds>
     <type>grunt1</type>
     <movement>bounce</movement>
-    <lifespan>20</lifespan>
-    <speed>2</speed>
-    <health>1</health>
-    <position>600,200</position>
-    
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>5</health>
+    <position>1000,200</position>
+
     <spawners>
       <spawner>
         <spawnertype>cardinalsouth</spawnertype>
         <spawnermovement>mirror</spawnermovement>
         <bullettype>purple</bullettype>
-        <firerate>1</firerate>
+        <firerate>1.2</firerate>
+        <bulletspeed>4.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
+    <timeseconds>26</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>5</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>1.2</firerate>
+        <bulletspeed>4.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
+      </spawner>
+    </spawners>
+  </entity>
+
+  <entity>
+    <timeseconds>26</timeseconds>
+    <type>grunt1</type>
+    <movement>bounce</movement>
+    <lifespan>30</lifespan>
+    <speed>1</speed>
+    <health>5</health>
+    <position>600,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>1.2</firerate>
+        <bulletspeed>4.2</bulletspeed>
+        <bulletlifespan>15</bulletlifespan>
       </spawner>
     </spawners>
   </entity>

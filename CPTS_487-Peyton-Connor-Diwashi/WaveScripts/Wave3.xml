@@ -156,4 +156,59 @@
 
   </entity>
 
+
+  <entity>
+    <timeseconds>28</timeseconds>
+    <type>grunt2</type>
+    <movement>bounce</movement>
+    <lifespan>20</lifespan>
+    <speed>2</speed>
+    <health>4</health>
+    <position>200,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>1</firerate>
+      </spawner>
+      <spawner>
+        <spawnertype>targeted</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>green</bullettype>
+        <firerate>4</firerate>
+        <bulletspeed>12</bulletspeed>
+      </spawner>
+    </spawners>
+
+  </entity>
+
+  <entity>
+    <timeseconds>28</timeseconds>
+    <type>grunt2</type>
+    <movement>bounce</movement>
+    <lifespan>20</lifespan>
+    <speed>2</speed>
+    <health>4</health>
+    <position>1000,200</position>
+
+    <spawners>
+      <spawner>
+        <spawnertype>cardinalsouth</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>purple</bullettype>
+        <firerate>1</firerate>
+      </spawner>
+      <spawner>
+        <spawnertype>targeted</spawnertype>
+        <spawnermovement>mirror</spawnermovement>
+        <bullettype>green</bullettype>
+        <firerate>4</firerate>
+        <bulletspeed>12</bulletspeed>
+      </spawner>
+    </spawners>
+
+  </entity>
+
 </wave>

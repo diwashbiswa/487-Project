@@ -9,7 +9,7 @@
     <movement>boss</movement>
     <lifespan>60</lifespan>
     <speed>2</speed>
-    <health>20</health>
+    <health>50</health>
     <position>600,200</position>
 
     <spawners>
