@@ -13,6 +13,12 @@ namespace CPTS_487_Peyton_Connor_Diwashi
     {
         private Texture2D tex;
         private Rectangle box;
+
+        public Rectangle Rectangle
+        {
+            get { return this.box; }
+        }
+
         public BackgroundComponent()
         {
             TextureManager state = TextureManager.Textures;

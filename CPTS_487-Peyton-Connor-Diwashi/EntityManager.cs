@@ -21,7 +21,7 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         private EntityFactory ef;
         private SpawnerFactory sf;
         private MovementFactory mf;
-        private GUIComponent background;
+        private BackgroundComponent background;
         private List<Entity> entities = new List<Entity>();
         private List<BulletSpawner> spawners = new List<BulletSpawner>();
         private List<Entity> players = new List<Entity>();
@@ -135,6 +135,17 @@ namespace CPTS_487_Peyton_Connor_Diwashi
             get
             {
                 return this.gui_components;
+            }
+        }
+
+        /// <summary>
+        /// Returns the backgroundcomponent of this game
+        /// </summary>
+        public Rectangle Bounds
+        {
+            get
+            {
+                return this.background.Rectangle;
             }
         }
 
