@@ -16,6 +16,9 @@ namespace CPTS_487_Peyton_Connor_Diwashi
 
         private bool god_mode = false;
 
+        public event EventHandler<AddRewardEventArgs> Reward = delegate { };
+
+
         /// <summary>
         /// Is the player in GodMode
         /// </summary>
@@ -84,6 +87,15 @@ namespace CPTS_487_Peyton_Connor_Diwashi
         {
             if (sender is Bullet)
             {
+                if (this.Health == 3)
+                {
+                    TextureManager text = TextureManager.Textures;
+                    Reward reward = new Reward(new Vector2(500, 300), text.Get(TextureManager.Type.Reward), 5, 5);
+
+                    this.Reward.Invoke(this, new AddRewardEventArgs(reward));
+                    LogConsole.Log("New reward should spawn!");
+                }
+
                 this.TakeDamage(1);
                 base.InvokeCollide(this, new EntityCollideEventArgs(this, (Bullet)sender));
             }
@@ -94,9 +106,14 @@ namespace CPTS_487_Peyton_Connor_Diwashi
                 this.Position += ((k.Position - this.Position) * (float)(-0.5f * k.Speed));
             }
 
+
             if(sender is Reward)
             {
                 this.Health += 1;
+                LogConsole.Log("Player collided with reward - health + 1!");
+
+                Reward r = (Reward)sender;
+                r.InvokeDispose(r, new DisposeEventArgs(r));
             }
         }
     }
